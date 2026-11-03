@@ -6,10 +6,10 @@
   <title>Secure-Centric | CMMC Compliance for Defense Contractors</title>
   
   <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=2.5.0" />
-  <link rel="stylesheet" href="assets/css/components.css?v=2.5.0" />
-  <link rel="stylesheet" href="assets/css/pages.css?v=2.5.0" />
-  <link rel="stylesheet" href="assets/css/gutenberg-inspector.css?v=2.5.0" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=2.6.0" />
+  <link rel="stylesheet" href="assets/css/components.css?v=2.6.0" />
+  <link rel="stylesheet" href="assets/css/pages.css?v=2.6.0" />
+  <link rel="stylesheet" href="assets/css/gutenberg-inspector.css?v=2.6.0" />
 
   <!-- Favicon Mock -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232F5BFF'/><text y='70' x='20' font-size='60' fill='%23FFFFFF' font-family='sans-serif' font-weight='bold'>S</text></svg>" />
@@ -45,106 +45,109 @@
        ========================================================================== -->
   <div class="site-wrapper" id="site-wrapper">
 
-    <!-- Global Top Bar -->
-    <div class="site-top-bar wp-block-inspect" data-wp-block="wp:template-part {slug:'header-top-bar'}">
-      <div class="site-container">
-        <div class="inner">
-          <div class="top-bar-badge-row">
-            <span style="font-weight: 700; color: #fff;">NIST SP 800-171 / CMMC Compliance Consultants</span>
-            <span class="top-bar-divider" style="color: var(--color-slate);">|</span>
-            <span style="color: var(--color-cyber-cyan); font-weight: 600;">Cyber AB Registered Provider Organization</span>
-          </div>
-          <div class="top-bar-contact-row">
-            <a href="mailto:info@secure-centric.com">info@secure-centric.com</a>
-            <span class="top-bar-divider" style="color: var(--color-slate);">|</span>
-            <a href="tel:323-410-5941">(323) 410-5941</a>
+    <!-- Global Sticky Unified Header (Top Bar + Navigation Menu) -->
+    <header class="site-header-sticky-wrapper wp-block-inspect" id="site-header-wrapper" data-wp-block="wp:template-part {slug:'header-sticky-group'}">
+      <!-- Global Top Bar -->
+      <div class="site-top-bar wp-block-inspect" data-wp-block="wp:template-part {slug:'header-top-bar'}">
+        <div class="site-container">
+          <div class="inner">
+            <div class="top-bar-badge-row">
+              <span style="font-weight: 700; color: #fff;">NIST SP 800-171 / CMMC Compliance Consultants</span>
+              <span class="top-bar-divider" style="color: var(--color-slate);">|</span>
+              <span style="color: var(--color-cyber-cyan); font-weight: 600;">Cyber AB Registered Provider Organization</span>
+            </div>
+            <div class="top-bar-contact-row">
+              <a href="mailto:info@secure-centric.com">info@secure-centric.com</a>
+              <span class="top-bar-divider" style="color: var(--color-slate);">|</span>
+              <a href="tel:323-410-5941">(323) 410-5941</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Global Sticky Navigation Header -->
-    <header class="site-header wp-block-inspect" data-wp-block="wp:template-part {slug:'header'}">
-      <div class="site-container">
-        <div class="header-inner">
-          <a href="#page-1" class="site-logo">
-            <span class="logo-icon">SC</span>
-            <span>Secure-Centric</span>
-          </a>
+      <!-- Navigation Header -->
+      <div class="site-header wp-block-inspect" data-wp-block="wp:template-part {slug:'header'}">
+        <div class="site-container">
+          <div class="header-inner">
+            <a href="#page-1" class="site-logo">
+              <span class="logo-icon">SC</span>
+              <span>Secure-Centric</span>
+            </a>
 
-          <nav class="site-nav" aria-label="Main Navigation">
-            <ul class="nav-links">
-              <!-- Services Dropdown (Strictly 3 pages per decision log) -->
-              <li class="nav-item">
-                <a href="#page-2" class="nav-link">
-                  Services <span style="font-size: 0.7rem;">▾</span>
-                </a>
-                <div class="dropdown-menu">
-                  <a href="#page-2" class="dropdown-item">
-                    <b>CMMC Compliance Services</b>
-                    <small>Full on-site scoping to annual affirmation</small>
+            <nav class="site-nav" aria-label="Main Navigation">
+              <ul class="nav-links">
+                <!-- Services Dropdown (Strictly 3 pages per decision log) -->
+                <li class="nav-item">
+                  <a href="#page-2" class="nav-link">
+                    Services <span style="font-size: 0.7rem;">▾</span>
                   </a>
-                  <a href="#page-3" class="dropdown-item">
-                    <b>CMMC Consulting</b>
-                    <small>Tailored by ICP role & supply chain tier</small>
-                  </a>
-                  <a href="#page-6" class="dropdown-item">
-                    <b>NIST SP 800-171 Compliance</b>
-                    <small>DFARS 7012 remediation & SPRS score</small>
-                  </a>
-                </div>
-              </li>
+                  <div class="dropdown-menu">
+                    <a href="#page-2" class="dropdown-item">
+                      <b>CMMC Compliance Services</b>
+                      <small>Full on-site scoping to annual affirmation</small>
+                    </a>
+                    <a href="#page-3" class="dropdown-item">
+                      <b>CMMC Consulting</b>
+                      <small>Tailored by ICP role & supply chain tier</small>
+                    </a>
+                    <a href="#page-6" class="dropdown-item">
+                      <b>NIST SP 800-171 Compliance</b>
+                      <small>DFARS 7012 remediation & SPRS score</small>
+                    </a>
+                  </div>
+                </li>
 
-              <li class="nav-item">
-                <a href="#page-19" class="nav-link">CMMC Process</a>
-              </li>
+                <li class="nav-item">
+                  <a href="#page-19" class="nav-link">CMMC Process</a>
+                </li>
 
-              <!-- Resources Dropdown -->
-              <li class="nav-item">
-                <a href="#page-12" class="nav-link">
-                  Resources <span style="font-size: 0.7rem;">▾</span>
-                </a>
-                <div class="dropdown-menu">
-                  <a href="#page-12" class="dropdown-item">
-                    <b>CMMC: The Complete Guide</b>
-                    <small>CMMC 2.0 requirements and levels</small>
+                <!-- Resources Dropdown -->
+                <li class="nav-item">
+                  <a href="#page-12" class="nav-link">
+                    Resources <span style="font-size: 0.7rem;">▾</span>
                   </a>
-                  <a href="#page-13" class="dropdown-item">
-                    <b>CMMC Level 2 Guide</b>
-                    <small>110 controls across 14 families</small>
-                  </a>
-                  <a href="#page-14" class="dropdown-item">
-                    <b>NIST SP 800-171 Guide</b>
-                    <small>The standard behind Level 2</small>
-                  </a>
-                  <a href="#page-15" class="dropdown-item">
-                    <b>Controlled Unclassified Info (CUI)</b>
-                    <small>Scoping and boundary definitions</small>
-                  </a>
-                  <a href="#page-20" class="dropdown-item">
-                    <b>What is a CMMC RPO?</b>
-                    <small>Accreditation and role guidelines</small>
-                  </a>
-                  <a href="#page-21" class="dropdown-item">
-                    <b>Level 2 Compliance Checklist</b>
-                    <small>Excel and PDF download</small>
-                  </a>
-                </div>
-              </li>
+                  <div class="dropdown-menu">
+                    <a href="#page-12" class="dropdown-item">
+                      <b>CMMC: The Complete Guide</b>
+                      <small>CMMC 2.0 requirements and levels</small>
+                    </a>
+                    <a href="#page-13" class="dropdown-item">
+                      <b>CMMC Level 2 Guide</b>
+                      <small>110 controls across 14 families</small>
+                    </a>
+                    <a href="#page-14" class="dropdown-item">
+                      <b>NIST SP 800-171 Guide</b>
+                      <small>The standard behind Level 2</small>
+                    </a>
+                    <a href="#page-15" class="dropdown-item">
+                      <b>Controlled Unclassified Info (CUI)</b>
+                      <small>Scoping and boundary definitions</small>
+                    </a>
+                    <a href="#page-20" class="dropdown-item">
+                      <b>What is a CMMC RPO?</b>
+                      <small>Accreditation and role guidelines</small>
+                    </a>
+                    <a href="#page-21" class="dropdown-item">
+                      <b>Level 2 Compliance Checklist</b>
+                      <small>Excel and PDF download</small>
+                    </a>
+                  </div>
+                </li>
 
-              <li class="nav-item">
-                <a href="#page-N1" class="nav-link">About</a>
-              </li>
+                <li class="nav-item">
+                  <a href="#page-N1" class="nav-link">About</a>
+                </li>
 
-              <li class="nav-item">
-                <a href="#contact" class="nav-link">Contact</a>
-              </li>
-            </ul>
-          </nav>
+                <li class="nav-item">
+                  <a href="#contact" class="nav-link">Contact</a>
+                </li>
+              </ul>
+            </nav>
 
-          <div style="display: flex; align-items: center; gap: 14px;">
-            <a href="#contact" class="btn btn-primary">Talk to an Expert &rarr;</a>
-            <button type="button" class="nav-mobile-toggle" onclick="window.openMobileDrawer()" aria-label="Toggle navigation">☰</button>
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <a href="#contact" class="btn btn-primary">Talk to an Expert &rarr;</a>
+              <button type="button" class="nav-mobile-toggle" onclick="window.openMobileDrawer()" aria-label="Toggle navigation">☰</button>
+            </div>
           </div>
         </div>
       </div>
@@ -310,7 +313,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="assets/js/data.js?v=2.5.0"></script>
-  <script src="assets/js/app.js?v=2.5.0"></script>
+  <script src="assets/js/data.js?v=2.6.0"></script>
+  <script src="assets/js/app.js?v=2.6.0"></script>
 </body>
 </html>

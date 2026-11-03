@@ -168,14 +168,40 @@
   background-color: var(--color-cyber-cyan);
 }
 
-/* ---------- Top Bar & Header Navigation ---------- */
+/* ---------- Top Bar & Header Navigation (Unified Sticky Group) ---------- */
+.site-header-sticky-wrapper {
+  position: sticky;
+  top: 48px; /* Sticks flush under the presentation HUD */
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  background-color: var(--color-midnight);
+  border-bottom: 1px solid var(--color-dark-line);
+  box-shadow: 0 4px 20px rgba(3, 6, 18, 0.45);
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 860px) {
+  .site-header-sticky-wrapper {
+    top: 42px; /* Sticks flush under the mobile presentation HUD */
+  }
+}
+
+body.mobile-preview-mode .site-header-sticky-wrapper {
+  position: sticky !important;
+  top: 0 !important;
+}
+
 .site-top-bar {
   background-color: #030612;
   color: var(--color-text-on-dark);
   font-size: 0.75rem;
   font-family: var(--font-primary);
-  border-bottom: 1px solid rgba(30, 42, 90, 0.5);
-  padding: 8px 0;
+  border-bottom: 1px solid rgba(30, 42, 90, 0.4);
+  padding: 6px 0;
+  margin: 0;
 }
 .site-top-bar .inner {
   display: flex;
@@ -198,13 +224,15 @@
 }
 
 .site-header {
-  position: sticky;
-  top: 48px; /* Offset for presentation HUD */
+  position: relative;
+  top: 0;
   z-index: 1000;
-  background-color: rgba(6, 11, 36, 0.96);
+  background-color: rgba(6, 11, 36, 0.98);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-dark-line);
+  border-bottom: none;
+  margin: 0;
+  padding: 0;
   transition: all 0.25s ease;
 }
 
@@ -1307,9 +1335,6 @@
 }
 
 @media (max-width: 768px) {
-  .site-header {
-    top: 42px;
-  }
   .site-top-bar {
     font-size: 0.6875rem;
   }
@@ -1381,9 +1406,6 @@ body.mobile-preview-mode .nav-links {
 }
 body.mobile-preview-mode .nav-mobile-toggle {
   display: flex !important;
-}
-body.mobile-preview-mode .site-header {
-  top: 42px !important;
 }
 body.mobile-preview-mode .site-header .header-inner {
   height: 60px !important;
