@@ -706,57 +706,39 @@
   flex: 1;
 }
 
-/* Mathematically centered + and x icon */
+/* Mathematically centered + and x SVG icon */
 .accordion-icon {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  max-width: 32px;
   border-radius: 50%;
   background-color: var(--color-soft-blue);
   color: var(--color-electric-blue);
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease;
+  box-sizing: border-box;
 }
 
-.accordion-icon::before,
-.accordion-icon::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background-color: currentColor;
-  border-radius: 2px;
-  transition: transform 0.25s ease, background-color 0.2s ease;
+.accordion-icon svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center center;
 }
 
-/* Horizontal bar */
-.accordion-icon::before {
-  width: 12px;
-  height: 2px;
-  transform: translate(-50%, -50%);
-}
-
-/* Vertical bar */
-.accordion-icon::after {
-  width: 2px;
-  height: 12px;
-  transform: translate(-50%, -50%);
-}
-
-/* Active State: Rotates 45deg to create a 100% centered X */
+/* Active State: Rotates 45deg to create an exact X */
 .accordion-item.active .accordion-icon {
   transform: rotate(45deg);
   background-color: var(--color-electric-blue);
   color: var(--color-white);
-}
-
-.accordion-item.active .accordion-icon::before,
-.accordion-item.active .accordion-icon::after {
-  background-color: #FFFFFF;
 }
 
 .accordion-content {

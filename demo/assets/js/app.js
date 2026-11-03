@@ -888,14 +888,37 @@
             </div>
 
             <div class="accordion-group">
-              ${block.items.map((faq, i) => {
-                const qText = typeof faq === 'object' ? faq.q : faq;
-                const aText = typeof faq === 'object' ? faq.a : 'Please speak with our Lead Registered Practitioner for customized advisory regarding your contract requirements.';
+              ${(block.items || []).map((faq, i) => {
+                let qText = '';
+                let aText = '';
+                if (typeof faq === 'string') {
+                  qText = faq;
+                  if (faq.toLowerCase().includes('nda')) {
+                    aText = 'Yes, absolutely. We sign your company\'s bilateral NDA or provide our standard defense-grade mutual NDA within 2 business hours before any discovery call or review of contract clauses.';
+                  } else if (faq.toLowerCase().includes('certify')) {
+                    aText = 'No RPO can certify a defense contractor. Under Cyber AB rules, only accredited C3PAOs can issue official Level 2 certifications. As an RPO, Secure-Centric prepares you to pass your assessment with a 100% C3PAO first-time pass rate guarantee.';
+                  } else if (faq.toLowerCase().includes('ready') || faq.toLowerCase().includes('information')) {
+                    aText = 'Having your prime contract\'s Section I DFARS clauses (e.g. 252.204-7012, 7019, 7020), your high-level network topology, and whether you handle CUI or FCI will make the call most productive.';
+                  } else if (faq.toLowerCase().includes('quickly') || faq.toLowerCase().includes('start')) {
+                    aText = 'Our lead Registered Practitioners typically conduct on-site discovery walkthroughs within 2 to 3 weeks of signed scope engagement.';
+                  } else {
+                    aText = 'Please speak with our Lead Registered Practitioner for customized advisory regarding your contract requirements.';
+                  }
+                } else if (typeof faq === 'object' && faq !== null) {
+                  qText = faq.q || faq.question || faq.title || '';
+                  aText = faq.a || faq.answer || faq.text || faq.desc || 'Please speak with our Lead Registered Practitioner for customized advisory regarding your contract requirements.';
+                }
+                if (!qText) qText = 'Defense Contractor Advisory Consultation';
                 return `
                   <div class="accordion-item ${i === 0 ? 'active' : ''}">
                     <div class="accordion-header" onclick="window.toggleAccordion(this)">
                       <span class="accordion-title">${esc(qText)}</span>
-                      <span class="accordion-icon" aria-hidden="true"></span>
+                      <span class="accordion-icon" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                      </span>
                     </div>
                     <div class="accordion-content">
                       ${esc(aText)}
