@@ -1,0 +1,17 @@
+/*
+Theme Name: Secure-Centric Block Theme
+Theme URI: https://secure-centric.com
+Author: Secure-Centric Development Team
+Author URI: https://secure-centric.com
+Description: High-performance, flexible Full Site Editing (FSE) Gutenberg block-based theme for Secure-Centric. Built strictly to brand color guide and wireframe specifications.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 7.1
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: secure-centric
+Tags: block-patterns, full-site-editing, custom-colors, custom-typography, responsive-layout
+*/
+
+/* Core theme styles and overrides are managed primarily via theme.json and block patterns */

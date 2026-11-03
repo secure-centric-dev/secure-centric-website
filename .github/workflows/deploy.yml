@@ -1,0 +1,83 @@
+name: Secure-Centric CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Allow GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 1. Quality & Lint Checks
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Lint Theme PHP Files
+        run: |
+          find wp-content/themes/secure-centric -name "*.php" -exec php -l {} \;
+
+      - name: Validate theme.json Syntax
+        run: |
+          php -r 'json_decode(file_get_contents("wp-content/themes/secure-centric/theme.json")) !== null or exit(1);'
+
+  # 2. Deploy Interactive Client Demo to GitHub Pages
+  deploy-demo:
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Demo Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Serves the prototype directly from the demo/ folder
+          path: 'demo'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # 3. Future Server Deployment (Staging / Production)
+  # Uncomment and configure secrets when your WordPress host is ready:
+  #
+  # deploy-server:
+  #   needs: validate
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v4
+  #     - name: Deploy Theme to Server via SSH/RSync
+  #       uses: easingthemes/ssh-deploy@main
+  #       with:
+  #         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  #         ARGS: "-avzr --delete"
+  #         SOURCE: "wp-content/themes/secure-centric/"
+  #         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
+  #         REMOTE_USER: ${{ secrets.SERVER_USER }}
+  #         TARGET: "/var/www/html/wp-content/themes/secure-centric/"
