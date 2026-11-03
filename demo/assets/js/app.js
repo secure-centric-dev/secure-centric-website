@@ -742,7 +742,7 @@
             </div>
             <div class="testimonials-control-hint">
               <span class="pulse-indicator"></span>
-              <span>5 Defense Client Reviews &bull; Moving Right &rarr; Left &bull; Hover or Tap to Pause</span>
+              <span>5 Defense Client Reviews &bull; Moving Left &rarr; Right &bull; Hover or Tap to Pause</span>
             </div>
           </div>
         </div>
