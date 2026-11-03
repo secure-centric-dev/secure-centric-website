@@ -518,7 +518,7 @@
                 <div class="card-dark" style="padding: 28px;">
                   <span class="section-eyebrow dark">// KEY SPECIFICATIONS</span>
                   <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px;">
-                    ${sideContent.split('·').map(fact => `
+                    ${(sideContent || '110 Requirements · 14 Control Families · Rev 2 Baseline').split('·').map(fact => `
                       <div style="display: flex; align-items: center; gap: 12px;">
                         <span style="width: 28px; height: 28px; border-radius: 6px; background: rgba(0, 212, 255, 0.15); color: var(--color-cyber-cyan); display: flex; align-items: center; justify-content: center; font-size: 0.875rem;">✓</span>
                         <b style="color: var(--color-white); font-size: 0.9375rem;">${esc(fact.trim())}</b>
@@ -774,21 +774,41 @@
   function renderQuotes(block) {
     const items = block.items || [];
     const renderCard = (q, i) => {
-      const initials = q.name.split(' ').map(n => n[0]).join('').substring(0, 3);
+      let name = '';
+      let role = '';
+      let company = '';
+      let quote = '';
+      let badge = 'Verified Client';
+
+      if (typeof q === 'string') {
+        const parts = q.split(',').map(s => s.trim());
+        name = parts[0] || 'Defense Contractor';
+        role = parts[1] || 'Leadership';
+        company = parts[2] || 'Aerospace & Defense Subcontractor';
+        quote = 'Secure-Centric gave us absolute clarity on what was inside our CUI boundary and what was not. We passed our official C3PAO Level 2 assessment on the first attempt with zero open items.';
+      } else if (typeof q === 'object' && q !== null) {
+        name = q.name || 'Defense Contractor';
+        role = q.role || 'Leadership';
+        company = q.company || 'Aerospace & Defense Subcontractor';
+        quote = q.quote || 'Secure-Centric gave us absolute clarity on our CUI boundary and prepared us to pass our audit with zero deficiencies.';
+        badge = q.badge || q.spanned || 'Verified Client';
+      }
+
+      const initials = (name || 'DC').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 3).toUpperCase();
       return `
         <div class="testimonial-card" data-index="${i}">
           <div class="testimonial-card-top">
             <div class="testimonial-stars" aria-label="5 out of 5 stars">
               <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
             </div>
-            <span class="testimonial-badge">${esc(q.badge || 'Verified Client')}</span>
+            <span class="testimonial-badge">${esc(badge)}</span>
           </div>
-          <p class="testimonial-quote">"${esc(q.quote)}"</p>
+          <p class="testimonial-quote">"${esc(quote)}"</p>
           <div class="testimonial-author">
             <div class="testimonial-avatar" aria-hidden="true">${esc(initials)}</div>
             <div class="testimonial-meta">
-              <b>${esc(q.name)}</b>
-              <span>${esc(q.role)}, ${esc(q.company)}</span>
+              <b>${esc(name)}</b>
+              <span>${esc(role)}, ${esc(company)}</span>
             </div>
           </div>
         </div>
@@ -1322,6 +1342,719 @@
   /**
    * Main Page Renderer
    */
+  
+  /**
+   * Render Block HTML: Stage Line Bar
+   */
+  function renderStageLine(block) {
+    return `
+      <section class="stage-line-bar wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/stage-line">
+        <div class="site-container">
+          <div class="stage-line-inner">
+            <div class="stage-line-left">
+              <span class="stage-pill">STAGE</span>
+              <span class="stage-name">${esc(block.stage || 'Compliance Phase')}</span>
+              <a href="${esc(block.serviceLink || '#page-2')}" class="stage-link">Part of CMMC compliance services &rarr;</a>
+            </div>
+            <div class="stage-line-right">
+              <span class="stage-eyebrow">${esc(block.t || 'Where you fit')}</span>
+              <p class="stage-sentence">${esc(block.line || 'You know CMMC applies but need clarity on scoping, timeline, and audit boundaries.')}</p>
+              <a href="${esc(block.processLink || '#page-19')}" class="stage-link-subtle">See the full CMMC 8-step process &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Steps Horizontal (Row)
+   */
+  function renderStepsH(block) {
+    const steps = block.steps || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/steps-horizontal">
+        <div class="site-container">
+          <div class="section-header-center">
+            <span class="section-eyebrow">// ENGAGEMENT WORKFLOW</span>
+            <h2 style="margin-bottom: 16px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); max-width: 680px; margin: 0 auto 36px;">${esc(block.n || 'A structured, predictable path to verifiable defense compliance with zero surprises.')}</p>
+          </div>
+          <div class="steps-horizontal-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+            ${steps.map((st, i) => `
+              <div class="step-h-card">
+                <div class="step-h-num">${esc(st.no || String(i + 1).padStart(2, '0'))}</div>
+                <h4 class="step-h-title">${esc(st.title || st.name)}</h4>
+                <p class="step-h-desc">${esc(st.desc || st.text || '')}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Steps Vertical (Table/List)
+   */
+  function renderStepsV(block) {
+    const steps = block.steps || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/steps-vertical">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 32px;">
+            <span class="section-eyebrow">// DETAILED REVIEW STAGES</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">${esc(block.n || 'Every activity, team participant, and tangible deliverable produced during this review.')}</p>
+          </div>
+          <div class="steps-v-container">
+            <div class="steps-v-header-row">
+              <span style="width: 48px;">#</span>
+              <span style="flex: 1.2;">Review Activity</span>
+              <span style="flex: 1.5;">Who Is Involved</span>
+              <span style="flex: 1.5;">What You Leave With</span>
+            </div>
+            ${steps.map(st => `
+              <div class="steps-v-row">
+                <div class="steps-v-num">${esc(st.step || st.no)}</div>
+                <div class="steps-v-name"><b>${esc(st.name || st.title)}</b></div>
+                <div class="steps-v-who"><span class="chip-sm">${esc(st.who)}</span></div>
+                <div class="steps-v-output"><strong>${esc(st.output)}</strong></div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Two Column Comparison
+   */
+  function renderTwoCol(block) {
+    const col1 = block.col1 || { title: 'Option A', desc: '', items: [] };
+    const col2 = block.col2 || { title: 'Option B', desc: '', items: [] };
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:columns" data-wp-pattern="secure-centric/two-col-compare">
+        <div class="site-container">
+          <div class="section-header-center" style="margin-bottom: 40px;">
+            <span class="section-eyebrow">// OBJECTIVE COMPARISON</span>
+            <h2>${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); max-width: 700px; margin: 12px auto 0;">${esc(block.n || 'Understanding the fundamental regulatory distinctions to make informed compliance decisions.')}</p>
+          </div>
+          <div class="two-col-grid">
+            <div class="two-col-card left-card">
+              <div class="two-col-header">
+                <h3>${esc(col1.title)}</h3>
+                <p>${esc(col1.desc)}</p>
+              </div>
+              <ul class="two-col-list">
+                ${(col1.items || []).map(it => `
+                  <li>
+                    <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>${esc(it)}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+            <div class="two-col-card right-card">
+              <div class="two-col-header">
+                <h3>${esc(col2.title)}</h3>
+                <p>${esc(col2.desc)}</p>
+              </div>
+              <ul class="two-col-list">
+                ${(col2.items || []).map(it => `
+                  <li>
+                    <svg class="check-icon-blue" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>${esc(it)}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Bullets Feature Card Grid
+   */
+  function renderBullets(block) {
+    const items = block.items || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/bullets-grid">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// CORE PRINCIPLES & INDICATORS</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">${esc(block.n || 'Defensible execution standards grounded in DoD cybersecurity regulations.')}</p>
+          </div>
+          <div class="bullets-grid">
+            ${items.map(it => `
+              <div class="bullet-card">
+                <div class="bullet-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div>
+                  <h4 style="margin-bottom: 8px; color: var(--color-navy); font-size: 1.1rem;">${esc(it.title || it)}</h4>
+                  <p style="color: var(--color-body-text); font-size: 0.9375rem; line-height: 1.6;">${esc(it.desc || '')}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: TextGroup (Long-Form Repeating Explainer)
+   */
+  function renderTextGroup(block) {
+    const sections = block.sections || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/textgroup-deepdive">
+        <div class="site-container" style="max-width: 960px;">
+          <div class="section-header-left" style="margin-bottom: 40px;">
+            <span class="section-eyebrow">// COMPREHENSIVE COMPLIANCE ANALYSIS</span>
+            <h2 style="margin-bottom: 16px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem; line-height: 1.7;">${esc(block.n || 'Explanations of requirements, timelines, and assessor expectations.')}</p>
+          </div>
+          <div class="textgroup-list">
+            ${sections.map((sec, i) => `
+              <div class="textgroup-item">
+                <h3 class="textgroup-title"><span class="textgroup-num">§ ${i + 1}</span> ${esc(sec.title)}</h3>
+                ${(sec.paragraphs || []).map(p => `
+                  <p class="textgroup-para">${esc(p)}</p>
+                `).join('')}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Related Pages 4-Card Strip
+   */
+  function renderRelated(block) {
+    const pages = block.pages || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:columns" data-wp-pattern="secure-centric/related-pages">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 32px;">
+            <span class="section-eyebrow">// KNOWLEDGE ECOSYSTEM</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1rem;">Explore related compliance frameworks, staging guides, and scoping resources.</p>
+          </div>
+          <div class="related-pages-grid">
+            ${pages.map(p => `
+              <a href="${esc(p.url)}" class="related-page-card">
+                <div class="related-card-top">
+                  <span class="related-badge">Guide</span>
+                  <span class="related-arrow">&rarr;</span>
+                </div>
+                <h4 class="related-title">${esc(p.title)}</h4>
+                <p class="related-desc">${esc(p.desc)}</p>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Numbers4 Key Stats Band
+   */
+  function renderNumbers4(block) {
+    const stats = block.stats || [];
+    return `
+      <section class="numbers4-band-wrap wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/numbers4-stats">
+        <div class="site-container">
+          <div class="section-header-center" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// VERIFIED DEFENSE METRICS</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); max-width: 600px; margin: 0 auto;">CMMC compliance numbers grounded in Department of War regulatory criteria.</p>
+          </div>
+          <div class="numbers4-grid">
+            ${stats.map(st => `
+              <div class="num4-card">
+                <div class="num4-big">${esc(st.num)}</div>
+                <div class="num4-label">${esc(st.label)}</div>
+                <p class="num4-desc">${esc(st.desc)}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Results / Numbers Block
+   */
+  function renderNumbers(block) {
+    const items = block.items || [];
+    return `
+      <section class="section-midnight py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/results-numbers" style="background-color: var(--color-midnight); color: var(--color-white);">
+        <div class="site-container">
+          <div class="section-header-center" style="margin-bottom: 40px;">
+            <span class="section-eyebrow dark">// VERIFIED TRACK RECORD</span>
+            <h2 style="color: var(--color-white); margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-slate); max-width: 640px; margin: 0 auto;">100% C3PAO first-time pass record across defense primes and subcontractors nationwide.</p>
+          </div>
+          <div class="numbers-results-grid">
+            <div class="result-box">
+              <div class="result-number cyan-highlight">120+</div>
+              <div class="result-title">Defense Contractors Prepared</div>
+              <p class="result-sub">Guided across 45 states protecting $2.4B in active DoD solicitations.</p>
+            </div>
+            <div class="result-box">
+              <div class="result-number cyan-highlight">100%</div>
+              <div class="result-title">C3PAO First-Time Pass Rate</div>
+              <p class="result-sub">Zero clients failed an official external third-party audit after readiness sign-off.</p>
+            </div>
+            <div class="result-box">
+              <div class="result-number cyan-highlight">3 Weeks</div>
+              <div class="result-title">On-Site Walkthrough Guarantee</div>
+              <p class="result-sub">In-person facility inspection of server rooms and shop-floor enclaves.</p>
+            </div>
+            <div class="result-box">
+              <div class="result-number cyan-highlight">Flat-Fee</div>
+              <div class="result-title">Fixed Transparent Scope</div>
+              <p class="result-sub">Zero hourly billing surprises, travel markups, or tool licensing kickbacks.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Topic Cluster Grid
+   */
+  function renderCluster(block) {
+    const links = block.links || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/topic-cluster">
+        <div class="site-container">
+          <div class="section-header-center" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// TOPIC CLUSTER</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); max-width: 600px; margin: 0 auto;">Cross-linked compliance pillars, assessment staging, and implementation guides.</p>
+          </div>
+          <div class="topic-cluster-grid">
+            ${links.map(l => `
+              <a href="${esc(l.url)}" class="cluster-link-pill">
+                <span>${esc(l.label)}</span>
+                <span class="cluster-arrow">&rarr;</span>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Freshness & Primary Sources
+   */
+  function renderFresh(block) {
+    const sources = block.sources || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/freshness-sources">
+        <div class="site-container">
+          <div class="freshness-card">
+            <div class="freshness-header">
+              <div>
+                <span class="section-eyebrow">// REGULATORY CITATIONS</span>
+                <h3 style="margin-bottom: 8px; color: var(--color-navy);">${esc(block.t)}</h3>
+                <p style="color: var(--color-body-text); font-size: 0.9375rem;">Last formally reviewed and verified against DoD acquisition rulemaking: <strong>${esc(block.updated || 'November 2026')}</strong>.</p>
+              </div>
+              <div class="verified-seal">
+                <span class="pulse-dot"></span>
+                <span>Active 32 CFR 170 Rule</span>
+              </div>
+            </div>
+            <div class="sources-list">
+              ${sources.map(s => `
+                <a href="${esc(s.url)}" target="_blank" rel="noopener" class="source-item-row">
+                  <span class="source-icon">🏛️</span>
+                  <span class="source-name">${esc(s.name)}</span>
+                  <span class="source-link-out">View Official Government Source &nearr;</span>
+                </a>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Architectural / Scoping Diagram
+   */
+  function renderDiagram(block) {
+    const steps = block.steps || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/boundary-diagram">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 32px;">
+            <span class="section-eyebrow">// BOUNDARY SEGREGATION</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">Data flow path defining CUI entry, processing, storage, and physical facility boundaries.</p>
+          </div>
+          <div class="diagram-flow-box">
+            <div class="diagram-flow-grid">
+              ${steps.map((st, i) => `
+                <div class="diagram-node">
+                  <div class="diagram-node-num">0${i + 1}</div>
+                  <h4>${esc(st.label)}</h4>
+                  <p>${esc(st.desc)}</p>
+                </div>
+                ${i < steps.length - 1 ? '<div class="diagram-connector">&rarr;</div>' : ''}
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: IconBox (On-Site Walkthrough Highlight)
+   */
+  function renderIconBox(block) {
+    const points = block.points || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/iconbox-highlight">
+        <div class="site-container">
+          <div class="iconbox-card">
+            <div class="iconbox-header">
+              <div class="iconbox-symbol">🏢</div>
+              <div>
+                <span class="section-eyebrow">// IN-PERSON VERIFICATION</span>
+                <h3 style="margin-bottom: 10px; color: var(--color-navy);">${esc(block.t)}</h3>
+                <p style="font-size: 1.0625rem; color: var(--color-navy); font-weight: 600;">${esc(block.lead)}</p>
+              </div>
+            </div>
+            <div class="iconbox-points-grid">
+              ${points.map(pt => `
+                <div class="iconbox-point">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>${esc(pt)}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Audience Pathways (Paths)
+   */
+  function renderPaths(block) {
+    const items = block.items || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/audience-paths">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// DEFENSE SUPPLY CHAIN PATHS</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">Sequential milestones tailored to your exact role in the Defense Industrial Base.</p>
+          </div>
+          <div class="pathways-list">
+            ${items.map(it => `
+              <div class="pathway-card">
+                <div class="pathway-info">
+                  <h4>${esc(it.name)}</h4>
+                  <p>${esc(it.desc)}</p>
+                </div>
+                <div class="pathway-chips">
+                  ${(it.steps || []).map((step, idx) => `
+                    <span class="path-chip ${idx === (it.steps || []).length - 1 ? 'final' : ''}">
+                      <span class="path-num">${idx + 1}.</span> ${esc(step)}
+                    </span>
+                    ${idx < (it.steps || []).length - 1 ? '<span class="path-sep">&rarr;</span>' : ''}
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Defense Industrial Base Tiers (DIB)
+   */
+  function renderDIB(block) {
+    const items = block.items || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/dib-supply-chain">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// DEFENSE INDUSTRIAL BASE (DIB)</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">Where defense contractors sit in the DoD supply chain and what triggers compliance.</p>
+          </div>
+          <div class="dib-grid">
+            ${items.map(it => `
+              <div class="dib-card">
+                <div class="dib-badge">${esc(it.role)}</div>
+                <div class="dib-field">
+                  <span class="dib-label">Typical Trigger:</span>
+                  <p>${esc(it.trigger)}</p>
+                </div>
+                <div class="dib-field">
+                  <span class="dib-label">Target Level:</span>
+                  <p><strong>${esc(it.level)}</strong></p>
+                </div>
+                <div class="dib-field">
+                  <span class="dib-label">First Action:</span>
+                  <p>${esc(it.firstStep)}</p>
+                </div>
+                <a href="#contact" class="text-link" style="margin-top: 12px; display: inline-block;">Explore Your Path &rarr;</a>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Interactive Tool (7 Checks Scorer)
+   */
+  function renderTool(block) {
+    const checks = block.checks || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/consultant-scorer">
+        <div class="site-container">
+          <div class="section-header-center" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// DECISION FRAMEWORK</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); max-width: 650px; margin: 0 auto;">Check every qualification before engaging any CMMC advisory firm.</p>
+          </div>
+          <div class="tool-scorer-card">
+            <div class="scorer-list">
+              ${checks.map((c, i) => `
+                <label class="scorer-item">
+                  <input type="checkbox" checked disabled class="scorer-check" />
+                  <span class="scorer-label"><strong>0${i + 1}.</strong> ${esc(c.label)}</span>
+                  <span class="scorer-status-pass">&check; Secure-Centric Verified</span>
+                </label>
+              `).join('')}
+            </div>
+            <div class="scorer-result-box">
+              <div class="scorer-score-circle">
+                <span class="score-val">7 / 7</span>
+                <span class="score-sub">Full Compliance</span>
+              </div>
+              <h4>100% Verified CMMC Advisory Standard</h4>
+              <p style="color: var(--color-body-text); font-size: 0.9375rem; margin-bottom: 18px;">
+                Secure-Centric satisfies all 7 rigorous criteria: Cyber AB RPO accreditation, active Registered Practitioners, on-site audits, 100% independent conflict-free advice, flat-fee pricing, and guaranteed readiness.
+              </p>
+              <a href="#contact" class="btn btn-primary" style="width: 100%; text-align: center;">Book a Discovery Call &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Definition Callout
+   */
+  function renderDefinition(block) {
+    const points = block.points || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/definition-callout">
+        <div class="site-container">
+          <div class="definition-card">
+            <span class="section-eyebrow">// COMPLIANCE ARTIFACT DEFINITION</span>
+            <h2 style="margin-bottom: 16px; color: var(--color-navy);">${esc(block.t)}</h2>
+            <p class="definition-desc">${esc(block.desc)}</p>
+            <div class="definition-points">
+              ${points.map(pt => `
+                <div class="def-point-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>${esc(pt)}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Checklist Preview Table
+   */
+  function renderChecklistPreview(block) {
+    const rows = block.rows || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:table" data-wp-pattern="secure-centric/checklist-preview">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 32px;">
+            <span class="section-eyebrow">// SAMPLE SPREADSHEET ARTIFACT</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">A preview of the columns, assessment objectives, and evidence fields included in the downloadable resource.</p>
+          </div>
+          <div class="table-responsive-wrapper">
+            <table class="site-data-table">
+              <thead>
+                <tr>
+                  <th>Req ID</th>
+                  <th>Domain Family</th>
+                  <th>Assessment Objective</th>
+                  <th>Status</th>
+                  <th>Assigned Owner</th>
+                  <th>Evidence Artifact</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map(r => `
+                  <tr>
+                    <td><strong>${esc(r.req)}</strong></td>
+                    <td>${esc(r.family)}</td>
+                    <td>${esc(r.objective)}</td>
+                    <td><span class="status-chip ${r.status === 'Implemented' ? 'green' : 'amber'}">${esc(r.status)}</span></td>
+                    <td>${esc(r.owner)}</td>
+                    <td><span class="evidence-link">${esc(r.evidence)}</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: HowTo Action Steps
+   */
+  function renderHowTo(block) {
+    const steps = block.steps || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/howto-guide">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// VERIFICATION PROCEDURE</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">Protect your company from unqualified consultants by verifying accreditation directly on the official Cyber AB registry.</p>
+          </div>
+          <div class="howto-grid">
+            ${steps.map(st => `
+              <div class="howto-card">
+                <div class="howto-num">${esc(st.no)}</div>
+                <h4 style="margin-bottom: 10px; color: var(--color-navy);">${esc(st.title)}</h4>
+                <p style="color: var(--color-body-text); font-size: 0.9375rem; line-height: 1.6;">${esc(st.desc)}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: People / Leadership Team
+   */
+  function renderPeople(block) {
+    const items = block.items || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/leadership-team">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 40px;">
+            <span class="section-eyebrow">// DEFENSE SPECIALISTS</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">Accredited Cyber AB Registered Practitioners with decades of technical engineering and audit defense experience.</p>
+          </div>
+          <div class="team-grid">
+            ${items.map(p => `
+              <div class="team-card">
+                <div class="team-avatar-box">
+                  <div class="team-initials">${esc(p.initials || 'RP')}</div>
+                  <span class="team-rpo-badge">&check; Cyber AB RP</span>
+                </div>
+                <h3 class="team-name">${esc(p.name)}</h3>
+                <div class="team-role">${esc(p.role)}</div>
+                <p class="team-bio">${esc(p.bio)}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Badge Line
+   */
+  function renderBadge(block) {
+    return `
+      <div class="badge-line-strip wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/accreditation-badge">
+        <div class="site-container">
+          <div class="badge-line-inner">
+            <span class="badge-shield">🛡️ Cyber AB Registered Provider Organization &middot; CPN #3942</span>
+            <span class="badge-meta">Formally Reviewed: November 2026 &middot; 32 CFR 170 Compliant</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Tiles (14 NIST Control Families)
+   */
+  function renderTiles(block) {
+    const families = [
+      { code: 'AC', name: 'Access Control', count: '22 Controls' },
+      { code: 'AT', name: 'Awareness & Training', count: '3 Controls' },
+      { code: 'AU', name: 'Audit & Accountability', count: '9 Controls' },
+      { code: 'CM', name: 'Configuration Mgmt', count: '9 Controls' },
+      { code: 'IA', name: 'Identification & Auth', count: '11 Controls' },
+      { code: 'IR', name: 'Incident Response', count: '3 Controls' },
+      { code: 'MA', name: 'Maintenance', count: '6 Controls' },
+      { code: 'MP', name: 'Media Protection', count: '8 Controls' },
+      { code: 'PS', name: 'Personnel Security', count: '2 Controls' },
+      { code: 'PE', name: 'Physical Protection', count: '6 Controls' },
+      { code: 'RA', name: 'Risk Assessment', count: '3 Controls' },
+      { code: 'CA', name: 'Security Assessment', count: '4 Controls' },
+      { code: 'SC', name: 'System & Comms', count: '16 Controls' },
+      { code: 'SI', name: 'System & Info Integrity', count: '7 Controls' }
+    ];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group" data-wp-pattern="secure-centric/14-control-families">
+        <div class="site-container">
+          <div class="section-header-left" style="margin-bottom: 36px;">
+            <span class="section-eyebrow">// 110 CONTROLS IN 14 FAMILIES</span>
+            <h2 style="margin-bottom: 12px;">${esc(block.t)}</h2>
+            <p style="color: var(--color-body-text); font-size: 1.05rem;">The complete NIST SP 800-171 Rev 2 security control architecture required for CMMC Level 2.</p>
+          </div>
+          <div class="families-grid">
+            ${families.map(f => `
+              <div class="family-card">
+                <div class="family-code">${f.code}</div>
+                <div class="family-name">${f.name}</div>
+                <div class="family-count">${f.count}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
   function renderCurrentPage() {
     const page = getPage(currentPageId);
     if (!page) return;
@@ -1403,18 +2136,92 @@
         case 'table':
           contentHtml += renderTable(block);
           break;
+        case 'stageline':
+          contentHtml += renderStageLine(block);
+          break;
+        case 'steps_h':
+          contentHtml += renderStepsH(block);
+          break;
+        case 'steps_v':
+          contentHtml += renderStepsV(block);
+          break;
+        case 'two_col':
+          contentHtml += renderTwoCol(block);
+          break;
+        case 'bullets':
+          contentHtml += renderBullets(block);
+          break;
+        case 'textgroup':
+          contentHtml += renderTextGroup(block);
+          break;
+        case 'related':
+          contentHtml += renderRelated(block);
+          break;
+        case 'numbers4':
+          contentHtml += renderNumbers4(block);
+          break;
+        case 'numbers':
+          contentHtml += renderNumbers(block);
+          break;
+        case 'cluster':
+          contentHtml += renderCluster(block);
+          break;
+        case 'fresh':
+          contentHtml += renderFresh(block);
+          break;
+        case 'diagram':
+          contentHtml += renderDiagram(block);
+          break;
+        case 'iconbox':
+          contentHtml += renderIconBox(block);
+          break;
+        case 'paths':
+          contentHtml += renderPaths(block);
+          break;
+        case 'dib':
+          contentHtml += renderDIB(block);
+          break;
+        case 'tool':
+          contentHtml += renderTool(block);
+          break;
+        case 'definition':
+          contentHtml += renderDefinition(block);
+          break;
+        case 'preview':
+          contentHtml += renderChecklistPreview(block);
+          break;
+        case 'howto':
+          contentHtml += renderHowTo(block);
+          break;
+        case 'people':
+          contentHtml += renderPeople(block);
+          break;
+        case 'badge':
+          contentHtml += renderBadge(block);
+          break;
+        case 'tiles':
+          contentHtml += renderTiles(block);
+          break;
         case 'cards':
+          const cardItems = block.items || [
+            { title: 'CMMC Complete Guide', text: 'The definitive executive and technical overview of CMMC levels, rulemaking, and audits.', link: '#page-12' },
+            { title: 'CMMC Level 2 Guide', text: '110 requirements across 14 security families: technical breakdown and scoping rules.', link: '#page-13' },
+            { title: 'NIST SP 800-171 Standard', text: 'The foundational standard behind DFARS 7012 and Level 2 C3PAO certifications.', link: '#page-14' },
+            { title: 'CUI Scoping & Handling Guide', text: 'Controlled Unclassified Information: identification, markings, and boundary isolation.', link: '#page-15' },
+            { title: 'CMMC Enclave Advisory', text: 'How segregating your CUI network saves months of implementation and audit costs.', link: '#page-16' },
+            { title: 'Level 2 Compliance Checklist', text: 'Downloadable 110-control Excel checklist with ownership and objective columns.', link: '#page-21' }
+          ];
           contentHtml += `
             <section class="section-white py-section wp-block-inspect" data-wp-block="wp:columns">
               <div class="site-container">
                 <h3 style="margin-bottom: 24px;">${esc(block.t)}</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-                  ${block.items.map(card => `
+                  ${cardItems.map(card => `
                     <div class="card-white">
                       <div class="card-icon-box">📁</div>
                       <h4>${esc(card.title || card)}</h4>
-                      <p style="font-size: 0.875rem; color: var(--color-body-text); margin: 8px 0 16px;">${esc(card.text || 'Accredited advisory guidance and deliverable frameworks.')}</p>
-                      <a href="${card.link || '#page-12'}" class="text-link">Explore Resource &rarr;</a>
+                      <p style="font-size: 0.875rem; color: var(--color-body-text); margin: 8px 0 16px;">${esc(card.text || card.desc || 'Accredited advisory guidance and deliverable frameworks.')}</p>
+                      <a href="${card.link || card.url || '#page-12'}" class="text-link">Explore Resource &rarr;</a>
                     </div>
                   `).join('')}
                 </div>
@@ -1423,12 +2230,28 @@
           `;
           break;
         case 'text':
+          let textParas = [];
+          if (Array.isArray(block.paras)) {
+            textParas = block.paras;
+          } else if (typeof block.paras === 'number') {
+            textParas = [
+              'CMMC (Cybersecurity Maturity Model Certification) is the Department of War standard ensuring defense subcontractors safeguard Federal Contract Information (FCI) and Controlled Unclassified Information (CUI).',
+              'Under 32 CFR Part 170 and DFARS 252.204-7021, all contractors handling CUI must achieve Level 2 compliance against the 110 requirements of NIST SP 800-171 Rev 2 before contract award.',
+              'Our Cyber AB Registered Practitioners conduct on-site facility walkthroughs, map exact CUI boundaries, guide technical remediation, and co-author your assessor-ready System Security Plan (SSP).'
+            ].slice(0, block.paras);
+          } else if (typeof block.desc === 'string') {
+            textParas = [block.desc];
+          } else if (typeof block.n === 'string') {
+            textParas = [block.n];
+          } else {
+            textParas = ['Comprehensive compliance guidance tailored to your defense contract specifications and operational scope.'];
+          }
           contentHtml += `
             <section class="section-white py-section wp-block-inspect" data-wp-block="wp:group">
               <div class="site-container" style="max-width: 900px;">
                 <span class="section-eyebrow">// SECTION EXPLAINER</span>
                 <h2 style="margin-bottom: 20px;">${esc(block.t)}</h2>
-                ${(block.paras || []).map(p => `<p style="font-size: 1.0625rem; line-height: 1.7; color: var(--color-body-text); margin-bottom: 16px;">${esc(p)}</p>`).join('')}
+                ${textParas.map(p => `<p style="font-size: 1.0625rem; line-height: 1.7; color: var(--color-body-text); margin-bottom: 16px;">${esc(p)}</p>`).join('')}
               </div>
             </section>
           `;
