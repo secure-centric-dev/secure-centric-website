@@ -608,24 +608,31 @@
   }
 
   /**
-   * Render Block HTML: Scrolling Client Logos
+   * Render Block HTML: Scrolling Client Logos (One-Line Infinite Carousel)
    */
   function renderLogos(block) {
+    const logos = block.logos || [];
+    const itemsHtml = logos.map(logo => `
+      <div class="logo-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="color: var(--color-electric-blue);">
+          <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16h2v2h-2zm0-6h2v4h-2z"/>
+        </svg>
+        <span>${esc(logo)}</span>
+      </div>
+    `).join('');
+
     return `
       <section class="logos-band-wrap wp-block-inspect wp-pattern-inspect" 
                data-wp-block="wp:group {align:'full', backgroundColor:'white'}" 
                data-wp-pattern="secure-centric/client-logos-marquee">
         <div class="site-container">
           <div class="logos-band-title">${esc(block.t)}</div>
-          <div class="logos-marquee">
-            ${block.logos.map(logo => `
-              <div class="logo-item">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; color: var(--color-electric-blue);">
-                  <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16h2v2h-2zm0-6h2v4h-2z"/>
-                </svg>
-                <span>${esc(logo)}</span>
-              </div>
-            `).join('')}
+        </div>
+        <div class="logos-carousel-container">
+          <div class="logos-carousel-track">
+            ${itemsHtml}
+            ${itemsHtml}
+            ${itemsHtml}
           </div>
         </div>
       </section>

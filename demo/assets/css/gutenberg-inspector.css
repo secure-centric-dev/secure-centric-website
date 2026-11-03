@@ -124,6 +124,12 @@ body.has-demo-hud {
   padding-top: 48px;
 }
 
+@media (max-width: 860px) {
+  body.has-demo-hud {
+    padding-top: 42px;
+  }
+}
+
 /* ---------- Gutenberg Block Inspector Overlay ---------- */
 body.gutenberg-inspector-active .wp-block-inspect {
   position: relative;

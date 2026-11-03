@@ -19,12 +19,15 @@
   position: absolute;
   inset: 0;
   background-image: 
-    radial-gradient(circle at 85% 15%, rgba(0, 212, 255, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 15% 85%, rgba(47, 91, 255, 0.15) 0%, transparent 50%),
-    linear-gradient(rgba(30, 42, 90, 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30, 42, 90, 0.2) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    radial-gradient(circle at 85% 20%, rgba(0, 212, 255, 0.18) 0%, transparent 40%),
+    radial-gradient(circle at 15% 85%, rgba(47, 91, 255, 0.22) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 800' fill='none'%3E%3Cpath d='M0 400C300 280 600 520 900 400C1200 280 1350 480 1440 400' stroke='%232F5BFF' stroke-width='1.5' stroke-opacity='0.25'/%3E%3Cpath d='M0 500C350 380 650 620 950 500C1250 380 1380 580 1440 500' stroke='%2300D4FF' stroke-width='1' stroke-opacity='0.2'/%3E%3Ccircle cx='900' cy='400' r='6' fill='%2300D4FF' fill-opacity='0.7'/%3E%3Ccircle cx='900' cy='400' r='18' stroke='%2300D4FF' stroke-width='1' stroke-opacity='0.3' stroke-dasharray='4 4'/%3E%3Ccircle cx='600' cy='520' r='5' fill='%232F5BFF' fill-opacity='0.8'/%3E%3Ccircle cx='300' cy='280' r='6' fill='%2300D4FF' fill-opacity='0.6'/%3E%3Ccircle cx='1200' cy='280' r='5' fill='%237B5CFF' fill-opacity='0.7'/%3E%3Ccircle cx='1150' cy='220' r='120' stroke='%231E2A5A' stroke-width='1.5' stroke-dasharray='6 6' stroke-opacity='0.6'/%3E%3Ccircle cx='1150' cy='220' r='200' stroke='%231E2A5A' stroke-width='1' stroke-opacity='0.4'/%3E%3Cpath d='M1150 20v400M950 220h400' stroke='%231E2A5A' stroke-width='1' stroke-opacity='0.35'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(30, 42, 90, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 42, 90, 0.22) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, cover, 48px 48px, 48px 48px;
+  background-position: center, center, center right, 0 0, 0 0;
   pointer-events: none;
+  opacity: 0.85;
 }
 
 .hero-home-grid {
@@ -126,43 +129,79 @@
   text-align: center;
 }
 
+.logos-band-wrap {
+  background-color: var(--color-white);
+  padding: 32px 0 28px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+  position: relative;
+}
+
 .logos-band-title {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--color-slate);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
-.logos-marquee {
+.logos-carousel-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.logos-carousel-track {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 24px;
+  gap: 52px;
+  width: max-content;
+  white-space: nowrap;
+  animation: logoScroll 24s linear infinite;
+}
+
+.logos-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes logoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 3));
+  }
 }
 
 .logo-item {
-  height: 36px;
-  display: flex;
+  height: 38px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   filter: grayscale(100%);
   opacity: 0.75;
   transition: all 0.25s ease;
+  flex-shrink: 0;
+  user-select: none;
 }
 
 .logo-item:hover {
   filter: grayscale(0%);
   opacity: 1;
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }
 
 .logo-item svg,
 .logo-item span {
   font-weight: 800;
   font-size: 1.05rem;
+  color: var(--color-navy);
+}
   letter-spacing: -0.02em;
   color: var(--color-navy);
 }
