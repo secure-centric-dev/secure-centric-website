@@ -181,6 +181,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.top-bar-badge-row, .top-bar-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 .site-top-bar a {
   color: var(--color-text-on-dark);
@@ -1132,8 +1140,98 @@
   line-height: 1.5;
 }
 
+/* ---------- CONTACT / TALK TO AN EXPERT PAGE STYLES ---------- */
+.contact-grid-split {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.contact-info-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-card-box {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(6, 11, 36, 0.04);
+}
+
+.contact-step-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-body-text);
+}
+
+.contact-step-num {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 50%;
+  background: var(--color-electric-blue);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-form-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(6, 11, 36, 0.06);
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-bottom: 6px;
+}
+
+.form-select, .form-textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  background-color: var(--color-white);
+  color: var(--color-navy);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--color-electric-blue);
+  box-shadow: 0 0 0 3px rgba(47, 91, 255, 0.15);
+}
+
 /* ==========================================================================
-   MOBILE & RESPONSIVE RULES (ALL VIEWPORTS)
+   MOBILE & RESPONSIVE RULES (ALL VIEWPORTS & SIMULATED MOBILE MODE)
    ========================================================================== */
 
 @media (max-width: 1040px) {
@@ -1157,8 +1255,9 @@
   .nav-mobile-toggle {
     display: flex;
   }
-  .comparison-grid {
+  .comparison-grid, .contact-grid-split, .form-row-2 {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -1170,7 +1269,7 @@
 
 @media (max-width: 768px) {
   .site-header {
-    top: 40px;
+    top: 42px;
   }
   .site-top-bar {
     font-size: 0.6875rem;
@@ -1179,6 +1278,14 @@
     flex-direction: column;
     gap: 4px;
     text-align: center;
+  }
+  .top-bar-divider {
+    display: none;
+  }
+  .top-bar-badge-row, .top-bar-contact-row {
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
   .phase-step-card {
     grid-template-columns: 1fr;
@@ -1204,6 +1311,9 @@
     bottom: 16px;
     right: 16px;
   }
+  .contact-form-card {
+    padding: 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1222,4 +1332,86 @@
     height: 28px;
     font-size: 0.95rem;
   }
+}
+
+/* ==========================================================================
+   SIMULATED MOBILE MODE OVERRIDES (Applied when Desktop/Mobile HUD button is clicked)
+   ========================================================================== */
+body.mobile-preview-mode .nav-links {
+  display: none !important;
+}
+body.mobile-preview-mode .nav-mobile-toggle {
+  display: flex !important;
+}
+body.mobile-preview-mode .site-header {
+  top: 42px !important;
+}
+body.mobile-preview-mode .site-header .header-inner {
+  height: 60px !important;
+}
+body.mobile-preview-mode .site-logo {
+  font-size: 1.1rem !important;
+}
+body.mobile-preview-mode .site-logo .logo-icon {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 0.95rem !important;
+}
+body.mobile-preview-mode .site-top-bar {
+  font-size: 0.6875rem !important;
+}
+body.mobile-preview-mode .site-top-bar .inner {
+  flex-direction: column !important;
+  gap: 4px !important;
+  text-align: center !important;
+}
+body.mobile-preview-mode .top-bar-divider {
+  display: none !important;
+}
+body.mobile-preview-mode .top-bar-badge-row,
+body.mobile-preview-mode .top-bar-contact-row {
+  justify-content: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+body.mobile-preview-mode .comparison-grid,
+body.mobile-preview-mode .contact-grid-split,
+body.mobile-preview-mode .form-row-2,
+body.mobile-preview-mode .phase-step-card,
+body.mobile-preview-mode .compare-table-grid,
+body.mobile-preview-mode .lead-magnet-grid,
+body.mobile-preview-mode .footer-grid {
+  grid-template-columns: 1fr !important;
+  gap: 20px !important;
+}
+body.mobile-preview-mode .phase-badge-number {
+  width: 42px !important;
+  height: 42px !important;
+  font-size: 1rem !important;
+}
+body.mobile-preview-mode .contact-form-card {
+  padding: 20px !important;
+}
+body.mobile-preview-mode .floating-lead-popup {
+  bottom: 16px !important;
+  right: 16px !important;
+  left: 16px !important;
+  width: auto !important;
+  position: absolute !important;
+}
+body.mobile-preview-mode .floating-min-trigger {
+  bottom: 16px !important;
+  right: 16px !important;
+  position: absolute !important;
+}
+body.mobile-preview-mode .mobile-nav-drawer {
+  position: absolute !important;
+  width: 310px !important;
+}
+body.mobile-preview-mode .mobile-nav-backdrop {
+  position: absolute !important;
+}
+body.mobile-preview-mode .btn {
+  padding: 10px 18px !important;
+  font-size: 0.875rem !important;
 }

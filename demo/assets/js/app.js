@@ -92,7 +92,7 @@
               <h1>CMMC compliance for defense subcontractors, guided by a <span class="cyan-highlight">Cyber AB RPO</span></h1>
               <p class="hero-lead">${esc(block.sub)}</p>
               <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
-                <a href="#page-2" class="btn btn-primary btn-lg">Book a Discovery Call &rarr;</a>
+                <a href="#contact" class="btn btn-primary btn-lg">Book a Discovery Call &rarr;</a>
                 <span style="font-size: 0.8125rem; color: var(--color-slate); font-family: var(--font-mono);">30 min · No sales pitch · Signed NDA</span>
               </div>
               <div class="hero-topic-cards">
@@ -553,7 +553,7 @@
               <h1 style="color: var(--color-white); margin-bottom: 16px;">${esc(page.h1)}</h1>
               <p class="hero-lead" style="color: var(--color-text-on-dark);">${esc(block.sub)}</p>
               <div style="display: flex; gap: 16px; align-items: center; margin-top: 24px; flex-wrap: wrap;">
-                <a href="#page-2" class="btn btn-primary btn-lg">Book a Discovery Call &rarr;</a>
+                <a href="#contact" class="btn btn-primary btn-lg">Book a Discovery Call &rarr;</a>
                 <a href="#details" class="text-link on-dark">${esc(block.link)} &darr;</a>
               </div>
             </div>
@@ -578,7 +578,7 @@
                   <span>A concrete, written first step before committing budget</span>
                 </div>
               </div>
-              <a href="#page-2" class="btn btn-primary" style="width: 100%;">Book Discovery Call &rarr;</a>
+              <a href="#contact" class="btn btn-primary" style="width: 100%;">Book Discovery Call &rarr;</a>
             </div>
           </div>
         </div>
@@ -884,7 +884,7 @@
               <p style="color: var(--color-body-text); font-size: 0.9375rem; margin-bottom: 24px;">
                 Still have questions regarding your specific CMMC clauses or audit dates? Speak directly with our lead Registered Practitioner.
               </p>
-              <a href="#page-2" class="btn btn-secondary-outline">Book a Discovery Call &rarr;</a>
+              <a href="#contact" class="btn btn-secondary-outline">Book a Discovery Call &rarr;</a>
             </div>
 
             <div class="accordion-group">
@@ -954,6 +954,192 @@
   }
 
   /**
+   * Render Block HTML: Contact Hero
+   */
+  function renderContactHero(block, page) {
+    return `
+      <section class="section-midnight py-section wp-block-inspect wp-pattern-inspect" 
+               data-wp-block="wp:cover {align:'full', backgroundColor:'midnight'}" 
+               data-wp-pattern="secure-centric/contact-hero"
+               style="border-bottom: 1px solid var(--color-dark-line); position: relative;">
+        <div class="site-container">
+          <div style="max-width: 860px; margin: 0 auto; text-align: center;">
+            <span class="badge-chip dark" style="margin-bottom: 16px;">
+              <i class="dot"></i> ${esc(block.eyebrow || 'CYBER AB REGISTERED PROVIDER ORGANIZATION')}
+            </span>
+            <h1 style="color: var(--color-white); font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: 20px; line-height: 1.2;">
+              ${esc(block.h1 || 'Schedule Your Confidential CMMC Discovery Call')}
+            </h1>
+            <p style="font-size: 1.125rem; color: var(--color-text-on-dark); line-height: 1.7; margin-bottom: 28px;">
+              ${esc(block.sub)}
+            </p>
+            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge-chip dark">⏱ 30-Min Scoping Assessment</span>
+              <span class="badge-chip dark">🔒 Mutual NDA Signed First</span>
+              <span class="badge-chip dark">🏛 Cyber AB RPO #3942</span>
+              <span class="badge-chip dark">🚫 Zero Sales Pressure</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Contact Form Section
+   */
+  function renderContactSection(block) {
+    return `
+      <section class="section-ice py-section wp-block-inspect wp-pattern-inspect" 
+               data-wp-block="wp:columns" 
+               data-wp-pattern="secure-centric/contact-form-split">
+        <div class="site-container">
+          <div class="contact-grid-split">
+            <!-- Left Info Column -->
+            <div class="contact-info-panel">
+              <span class="section-eyebrow">// DIRECT ENGAGEMENT</span>
+              <h2 style="margin-bottom: 16px; font-size: 1.85rem;">Direct Access to Registered Practitioners</h2>
+              <p style="color: var(--color-body-text); margin-bottom: 24px; line-height: 1.6;">
+                Every discovery call is led directly by an accredited Cyber AB Registered Practitioner (RP), not a generalist salesperson. We review your contract's DFARS 252.204-7012 clauses and help determine your exact scoping boundaries.
+              </p>
+
+              <div class="contact-card-box">
+                <h4 style="margin-bottom: 14px; font-size: 1.05rem;">Direct Contractor Inquiries</h4>
+                <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.9375rem;">
+                  <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-size: 1.25rem;">📞</span>
+                    <div>
+                      <b style="color: var(--color-navy);">Phone:</b>
+                      <div><a href="tel:323-410-5941" style="color: var(--color-electric-blue); font-weight: 600;">(323) 410-5941</a></div>
+                      <small style="color: var(--color-slate);">Mon – Fri: 8:00 AM – 6:00 PM PT</small>
+                    </div>
+                  </div>
+                  <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-size: 1.25rem;">✉️</span>
+                    <div>
+                      <b style="color: var(--color-navy);">Confidential Email:</b>
+                      <div><a href="mailto:info@secure-centric.com" style="color: var(--color-electric-blue); font-weight: 600;">info@secure-centric.com</a></div>
+                      <small style="color: var(--color-slate);">PGP encryption available upon request</small>
+                    </div>
+                  </div>
+                  <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-size: 1.25rem;">📍</span>
+                    <div>
+                      <b style="color: var(--color-navy);">Location & Coverage:</b>
+                      <div>Los Angeles, California</div>
+                      <small style="color: var(--color-slate);">On-site facility assessments delivered nationwide</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3-Step Process -->
+              <div style="margin-top: 28px;">
+                <h4 style="font-size: 1rem; margin-bottom: 14px; color: var(--color-navy);">What Happens After You Request a Call:</h4>
+                <div class="contact-step-item">
+                  <div class="contact-step-num">1</div>
+                  <div>
+                    <b>Mutual NDA Execution:</b> We sign a standard bilateral NDA within 2 business hours before discussing any contract details.
+                  </div>
+                </div>
+                <div class="contact-step-item">
+                  <div class="contact-step-num">2</div>
+                  <div>
+                    <b>30-Min Scoping Assessment:</b> We review CUI boundary requirements, your target level (Level 1 vs 2), and existing SPRS scores.
+                  </div>
+                </div>
+                <div class="contact-step-item">
+                  <div class="contact-step-num">3</div>
+                  <div>
+                    <b>Clear Fixed-Scope Roadmap:</b> You receive a written action plan detailing exact deliverables, milestones, and timeline.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Interactive Form Column -->
+            <div class="contact-form-panel">
+              <div class="contact-form-card" id="contact-form-container">
+                <h3 style="margin-bottom: 8px; font-size: 1.4rem;">Request a Discovery Call</h3>
+                <p style="font-size: 0.875rem; color: var(--color-slate); margin-bottom: 20px;">
+                  Fields marked with * are required. We strictly respect your privacy.
+                </p>
+
+                <form id="expert-contact-form" onsubmit="window.handleContactSubmit(event)">
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label class="form-label" for="contact-name">First & Last Name*</label>
+                      <input type="text" id="contact-name" class="form-input" placeholder="e.g. John Miller" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="contact-email">Work Email (Corporate Domain)*</label>
+                      <input type="email" id="contact-email" class="form-input" placeholder="john@defensecontractor.com" required />
+                    </div>
+                  </div>
+
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label class="form-label" for="contact-phone">Phone Number*</label>
+                      <input type="tel" id="contact-phone" class="form-input" placeholder="(555) 000-0000" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="contact-company">Company / Organization*</label>
+                      <input type="text" id="contact-company" class="form-input" placeholder="e.g. Precision Aerospace LLC" required />
+                    </div>
+                  </div>
+
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label class="form-label" for="contact-role">Supply Chain Role*</label>
+                      <select id="contact-role" class="form-select" required>
+                        <option value="">Select your role...</option>
+                        <option value="Prime Contractor">Prime Contractor</option>
+                        <option value="Subcontractor Tier 1">Subcontractor (Tier 1)</option>
+                        <option value="Subcontractor Tier 2+">Subcontractor (Tier 2 or Lower)</option>
+                        <option value="Commercial Item Supplier">Commercial Item Supplier</option>
+                        <option value="Managed Service Provider">MSP / IT Provider</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="contact-level">Target CMMC Level*</label>
+                      <select id="contact-level" class="form-select" required>
+                        <option value="Level 2">CMMC Level 2 (110 Controls · CUI)</option>
+                        <option value="Level 1">CMMC Level 1 (15 Controls · FCI)</option>
+                        <option value="Not Sure">Not Sure — Need Boundary Scoping</option>
+                        <option value="NIST 800-171">NIST SP 800-171 / DFARS 7012 Only</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="contact-sprs">Current SPRS Score (Optional)</label>
+                    <input type="text" id="contact-sprs" class="form-input" placeholder="e.g. -35, +60, or 'Never Calculated'" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="contact-message">How can our Registered Practitioners help you?*</label>
+                    <textarea id="contact-message" class="form-textarea" rows="3" placeholder="Tell us about your upcoming contract renewals, DoD deadlines, or primary challenges with NIST SP 800-171." required></textarea>
+                  </div>
+
+                  <div style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">
+                      Submit Discovery Call Request &rarr;
+                    </button>
+                  </div>
+
+                  <div style="margin-top: 14px; font-size: 0.75rem; color: var(--color-slate); text-align: center; line-height: 1.4;">
+                    🔒 All communications are held under strict confidentiality. We do not sell or share contractor data.
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
    * Render Block HTML: Final Global CTA Band
    */
   function renderFinalCTA(block) {
@@ -965,7 +1151,7 @@
           <h2>${esc(block.t || 'Planning to get started on CMMC?')}</h2>
           <p>${esc(block.sub || 'Talk with an accredited Cyber AB Registered Provider Organization. Get an actionable first step in writing within 30 minutes.')}</p>
           <div class="final-cta-buttons">
-            <a href="#page-2" class="btn btn-primary-dark btn-lg">Book a Discovery Call &rarr;</a>
+            <a href="#contact" class="btn btn-primary-dark btn-lg">Book a Discovery Call &rarr;</a>
             <a href="tel:323-410-5941" class="btn btn-ghost-dark btn-lg">Call (323) 410-5941</a>
           </div>
         </div>
@@ -1078,6 +1264,12 @@
           break;
         case 'cta':
           contentHtml += renderFinalCTA(block);
+          break;
+        case 'contact_hero':
+          contentHtml += renderContactHero(block, page);
+          break;
+        case 'contact_section':
+          contentHtml += renderContactSection(block);
           break;
         case 'table':
           contentHtml += renderTable(block);
@@ -1237,6 +1429,32 @@
     alert("CMMC Readiness Calculator: Based on your selections, your organization has a 78% baseline readiness score. Complete findings roadmap has been sent to your work email.");
   };
 
+  window.handleContactSubmit = function (e) {
+    e.preventDefault();
+    const container = document.getElementById('contact-form-container');
+    if (!container) return;
+    const name = document.getElementById('contact-name')?.value || 'Contractor';
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px 20px;">
+        <div style="width: 60px; height: 60px; background: rgba(0, 212, 255, 0.15); border: 2px solid var(--color-cyber-cyan); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.75rem; color: var(--color-cyber-cyan);">
+          ✓
+        </div>
+        <h3 style="color: var(--color-navy); margin-bottom: 12px; font-size: 1.5rem;">Discovery Call Requested!</h3>
+        <p style="color: var(--color-body-text); font-size: 0.9375rem; line-height: 1.6; max-width: 440px; margin: 0 auto 20px;">
+          Thank you, <b>${esc(name)}</b>. Your consultation request has been securely routed to a Lead Cyber AB Registered Practitioner.
+        </p>
+        <div style="background: var(--color-soft-blue); border: 1px solid var(--color-border); border-radius: 8px; padding: 16px; max-width: 440px; margin: 0 auto 24px; text-align: left; font-size: 0.8125rem;">
+          <b style="color: var(--color-navy);">What Happens Next:</b>
+          <ul style="margin: 8px 0 0 18px; color: var(--color-body-text); line-height: 1.5;">
+            <li>Our team will email you calendar scheduling slots within 2 business hours.</li>
+            <li>We will attach our standard mutual NDA for digital review prior to your call.</li>
+          </ul>
+        </div>
+        <a href="#page-1" class="btn btn-primary" style="display: inline-flex;">Return to Home &rarr;</a>
+      </div>
+    `;
+  };
+
   /**
    * Scroll listener to reveal bottom-right popup
    */
@@ -1259,7 +1477,8 @@
    * Hash Route Listener
    */
   function handleRoute() {
-    const hash = window.location.hash.replace('#', '');
+    let hash = window.location.hash.replace('#', '');
+    if (hash === 'contact') hash = 'page-contact';
     if (hash && PAGES.some(p => p.id === hash)) {
       currentPageId = hash;
     } else {

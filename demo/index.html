@@ -49,14 +49,14 @@
     <div class="site-top-bar wp-block-inspect" data-wp-block="wp:template-part {slug:'header-top-bar'}">
       <div class="site-container">
         <div class="inner">
-          <div style="display: flex; gap: 12px; align-items: center;">
+          <div class="top-bar-badge-row">
             <span style="font-weight: 700; color: #fff;">NIST SP 800-171 / CMMC Compliance Consultants</span>
-            <span style="color: var(--color-slate);">|</span>
+            <span class="top-bar-divider" style="color: var(--color-slate);">|</span>
             <span style="color: var(--color-cyber-cyan); font-weight: 600;">Cyber AB Registered Provider Organization</span>
           </div>
-          <div style="display: flex; gap: 18px; align-items: center;">
+          <div class="top-bar-contact-row">
             <a href="mailto:info@secure-centric.com">info@secure-centric.com</a>
-            <span style="color: var(--color-slate);">|</span>
+            <span class="top-bar-divider" style="color: var(--color-slate);">|</span>
             <a href="tel:323-410-5941">(323) 410-5941</a>
           </div>
         </div>
@@ -135,11 +135,15 @@
               <li class="nav-item">
                 <a href="#page-N1" class="nav-link">About</a>
               </li>
+
+              <li class="nav-item">
+                <a href="#contact" class="nav-link">Contact</a>
+              </li>
             </ul>
           </nav>
 
           <div style="display: flex; align-items: center; gap: 14px;">
-            <a href="#page-2" class="btn btn-primary">Talk to an Expert &rarr;</a>
+            <a href="#contact" class="btn btn-primary">Talk to an Expert &rarr;</a>
             <button type="button" class="nav-mobile-toggle" onclick="window.openMobileDrawer()" aria-label="Toggle navigation">☰</button>
           </div>
         </div>
@@ -209,7 +213,7 @@
               <li><a href="#page-22">Unmarked CUI Checklist</a></li>
               <li><a href="#page-23">Level 1 Readiness Checklist</a></li>
               <li><a href="#page-N1">About Secure-Centric</a></li>
-              <li><a href="#page-N1">Why Defense Suppliers Choose Us</a></li>
+              <li><a href="#contact">Talk to an Expert</a></li>
             </ul>
           </div>
 
@@ -274,9 +278,10 @@
         </ul>
       </li>
       <li><a href="#page-N1" onclick="window.closeMobileDrawer()">About Secure-Centric</a></li>
+      <li><a href="#contact" onclick="window.closeMobileDrawer()">Talk to an Expert</a></li>
     </ul>
     <div style="margin-top: 28px;">
-      <a href="#page-2" class="btn btn-primary" onclick="window.closeMobileDrawer()" style="width: 100%; text-align: center;">Talk to an Expert &rarr;</a>
+      <a href="#contact" class="btn btn-primary" onclick="window.closeMobileDrawer()" style="width: 100%; text-align: center;">Talk to an Expert &rarr;</a>
     </div>
   </div>
 

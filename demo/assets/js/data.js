@@ -1418,5 +1418,54 @@ window.SITE_PAGES_DATA = [
         sub: "Book a discovery call with Secure-Centric."
       }
     ]
+  },
+  {
+    id: "page-contact",
+    no: 24,
+    name: "Talk to an Expert (Contact)",
+    url: "/contact/",
+    type: "Contact & Discovery Call",
+    group: "Core",
+    kw: "cmmc compliance consultation · talk to cmmc expert",
+    kw2: "cmmc rpo consultation · cmmc discovery call · defense contractor cmmc advisor",
+    h1: "Schedule a Confidential Discovery Call with a CMMC Specialist",
+    title: "Talk to a CMMC Expert | Secure-Centric",
+    meta: "Schedule a confidential 30-minute discovery call with a Cyber AB Registered Practitioner. Get clear answers on scoping, DFARS 7012/7021 clauses, and certification timelines.",
+    angle: "Direct conversion hub: tailored defense contractor form, bilateral NDA, direct Los Angeles contact details.",
+    decisions: [
+      "Tailored defense contractor form (SPRS score, CMMC target level, supplier tier).",
+      "Strict trust signals: Cyber AB RPO #3942, bilateral NDA guarantee, direct phone and email."
+    ],
+    blocks: [
+      {
+        k: "contact_hero",
+        s: 1,
+        wpBlock: "core/cover (alignfull)",
+        wpPattern: "secure-centric/contact-hero",
+        eyebrow: "CYBER AB REGISTERED PROVIDER ORGANIZATION",
+        h1: "Schedule Your Confidential CMMC Discovery Call",
+        sub: "Direct access to accredited Cyber AB Registered Practitioners. We review your contract's DFARS clauses, scoping boundaries, and provide an actionable compliance roadmap—with zero high-pressure sales pitch."
+      },
+      {
+        k: "contact_section",
+        s: 2,
+        wpBlock: "core/columns",
+        wpPattern: "secure-centric/contact-form-split",
+        t: "Speak with Our Registered Practitioners"
+      },
+      {
+        k: "faq",
+        s: 3,
+        wpBlock: "core/group",
+        wpPattern: "secure-centric/contact-faq",
+        t: "Frequently Asked Questions About Discovery Calls",
+        items: [
+          "Will you sign our bilateral Non-Disclosure Agreement (NDA) before we discuss contracts?",
+          "Can an RPO officially certify our company for CMMC Level 2?",
+          "What information should I have ready for our 30-minute discovery call?",
+          "How quickly can Secure-Centric begin an on-site scoping assessment?"
+        ]
+      }
+    ]
   }
 ];

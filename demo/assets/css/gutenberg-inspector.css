@@ -20,6 +20,36 @@
   padding: 0 16px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+@media (max-width: 860px) {
+  .demo-presentation-hud {
+    height: 42px;
+    padding: 0 8px;
+    gap: 6px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .demo-presentation-hud::-webkit-scrollbar {
+    display: none;
+  }
+  .hud-brand-pill {
+    display: none;
+  }
+  .hud-page-select {
+    max-width: 155px;
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+  .hud-btn {
+    padding: 3px 6px;
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
 }
 
 .hud-left {
@@ -188,16 +218,21 @@ body.gutenberg-inspector-active .wp-pattern-inspect::after {
 body.mobile-preview-mode {
   background-color: #030612;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
 body.mobile-preview-mode .site-wrapper {
-  max-width: 390px;
-  margin: 20px auto;
+  width: 390px;
+  max-width: calc(100vw - 24px);
+  margin: 20px auto 40px auto;
   border: 12px solid #1E2A5A;
   border-radius: 40px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: #fff;
   min-height: 844px;
+  position: relative;
 }

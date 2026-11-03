@@ -517,3 +517,34 @@
     display: none;
   }
 }
+
+/* Simulated Mobile Overrides */
+body.mobile-preview-mode .hero-home-grid,
+body.mobile-preview-mode .step-detail-card,
+body.mobile-preview-mode .testimonials-grid,
+body.mobile-preview-mode .pillar-page-layout,
+body.mobile-preview-mode .hero-topic-cards {
+  grid-template-columns: 1fr !important;
+  gap: 20px !important;
+}
+body.mobile-preview-mode .pillar-sidebar-toc {
+  display: none !important;
+}
+body.mobile-preview-mode .roadmap-timeline-nav::before {
+  display: none !important;
+}
+body.mobile-preview-mode .hero-home-content h1,
+body.mobile-preview-mode h1 {
+  font-size: 1.75rem !important;
+  line-height: 1.25 !important;
+}
+body.mobile-preview-mode h2 {
+  font-size: 1.45rem !important;
+}
+body.mobile-preview-mode .hero-lead {
+  font-size: 0.95rem !important;
+}
+body.mobile-preview-mode .roadmap-timeline-nav {
+  overflow-x: auto !important;
+  padding-bottom: 10px !important;
+}
