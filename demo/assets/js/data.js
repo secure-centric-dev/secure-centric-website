@@ -80,14 +80,70 @@ window.SITE_PAGES_DATA = [
         "len": "short",
         "n": "Road graphic + 8 numbered steps; one step panel at a time (what happens, who does it, how Secure-Centric helps, you come away with) with arrows and a 1/8 counter. Step 8 in violet.",
         "items": [
-          "Site visit",
-          "Scoping",
-          "Gap assessment",
-          "Remediation",
-          "Documentation",
-          "Readiness review",
-          "Assessment",
-          "Maintain"
+          {
+            "no": "01",
+            "name": "Site visit",
+            "who": "You + Secure-Centric",
+            "help": "In-person physical & technical walkthrough of facilities, server rooms, and shop-floor enclaves.",
+            "output": "Asset discovery baseline & boundary notes",
+            "link": "#page-2"
+          },
+          {
+            "no": "02",
+            "name": "Scoping",
+            "who": "Secure-Centric + IT Leads",
+            "help": "Map CUI/FCI flows, identify people, systems, and network storage touching DoD contracts.",
+            "output": "Formal Scope Document & Data-Flow Architecture",
+            "link": "#page-16"
+          },
+          {
+            "no": "03",
+            "name": "Gap assessment",
+            "who": "Secure-Centric",
+            "help": "Audit all 110 NIST SP 800-171 controls against actual day-to-day operations.",
+            "output": "Defensible SPRS Score estimate & findings register",
+            "link": "#page-5"
+          },
+          {
+            "no": "04",
+            "name": "Remediation",
+            "who": "Your IT/MSP (guided by us)",
+            "help": "Prioritize fixes by risk weight; guide MFA, encryption, logging, and enclave deployments.",
+            "output": "Remediation Roadmap with owners and completion targets",
+            "link": "#page-7"
+          },
+          {
+            "no": "05",
+            "name": "Documentation",
+            "who": "Secure-Centric + You",
+            "help": "Co-write your System Security Plan (SSP), POA&M, and all required operational policies.",
+            "output": "Assessor-ready SSP and comprehensive policy suite",
+            "link": "#page-8"
+          },
+          {
+            "no": "06",
+            "name": "Readiness review",
+            "who": "Secure-Centric RPs",
+            "help": "Full rehearsal mock audit simulating C3PAO interview techniques and evidence requests.",
+            "output": "Readiness sign-off report & Evidence Binder index",
+            "link": "#page-4"
+          },
+          {
+            "no": "07",
+            "name": "Assessment",
+            "who": "Independent C3PAO",
+            "help": "We stand alongside your team during official DIBCAC or Authorized C3PAO evaluation.",
+            "output": "Level 2 CMMC Certification recommendation",
+            "link": "#page-19"
+          },
+          {
+            "no": "08",
+            "name": "Maintain",
+            "who": "Virtual CISO / You",
+            "help": "Continuous compliance, annual SPRS reaffirmation, change management, and evidence refreshes.",
+            "output": "Annual Affirmation pack & ongoing compliance posture",
+            "link": "#page-11"
+          }
         ],
         "wpBlock": "core/journey",
         "wpPattern": "secure-centric/journey"
@@ -4726,14 +4782,70 @@ window.SITE_PAGES_DATA = [
         "len": "medium",
         "n": "Road graphic + 8 steps (one at a time, arrows, 1/8 counter, step 8 violet). Each step names the Secure-Centric service that helps.",
         "items": [
-          "Site visit",
-          "Scoping",
-          "Gap assessment",
-          "Remediation",
-          "Documentation",
-          "Readiness review",
-          "Assessment",
-          "Maintain"
+          {
+            "no": "01",
+            "name": "Site visit",
+            "who": "You + Secure-Centric",
+            "help": "In-person physical & technical walkthrough of facilities, server rooms, and shop-floor enclaves.",
+            "output": "Asset discovery baseline & boundary notes",
+            "link": "#page-2"
+          },
+          {
+            "no": "02",
+            "name": "Scoping",
+            "who": "Secure-Centric + IT Leads",
+            "help": "Map CUI/FCI flows, identify people, systems, and network storage touching DoD contracts.",
+            "output": "Formal Scope Document & Data-Flow Architecture",
+            "link": "#page-16"
+          },
+          {
+            "no": "03",
+            "name": "Gap assessment",
+            "who": "Secure-Centric",
+            "help": "Audit all 110 NIST SP 800-171 controls against actual day-to-day operations.",
+            "output": "Defensible SPRS Score estimate & findings register",
+            "link": "#page-5"
+          },
+          {
+            "no": "04",
+            "name": "Remediation",
+            "who": "Your IT/MSP (guided by us)",
+            "help": "Prioritize fixes by risk weight; guide MFA, encryption, logging, and enclave deployments.",
+            "output": "Remediation Roadmap with owners and completion targets",
+            "link": "#page-7"
+          },
+          {
+            "no": "05",
+            "name": "Documentation",
+            "who": "Secure-Centric + You",
+            "help": "Co-write your System Security Plan (SSP), POA&M, and all required operational policies.",
+            "output": "Assessor-ready SSP and comprehensive policy suite",
+            "link": "#page-8"
+          },
+          {
+            "no": "06",
+            "name": "Readiness review",
+            "who": "Secure-Centric RPs",
+            "help": "Full rehearsal mock audit simulating C3PAO interview techniques and evidence requests.",
+            "output": "Readiness sign-off report & Evidence Binder index",
+            "link": "#page-4"
+          },
+          {
+            "no": "07",
+            "name": "Assessment",
+            "who": "Independent C3PAO",
+            "help": "We stand alongside your team during official DIBCAC or Authorized C3PAO evaluation.",
+            "output": "Level 2 CMMC Certification recommendation",
+            "link": "#page-19"
+          },
+          {
+            "no": "08",
+            "name": "Maintain",
+            "who": "Virtual CISO / You",
+            "help": "Continuous compliance, annual SPRS reaffirmation, change management, and evidence refreshes.",
+            "output": "Annual Affirmation pack & ongoing compliance posture",
+            "link": "#page-11"
+          }
         ],
         "wpBlock": "core/journey",
         "wpPattern": "secure-centric/journey"

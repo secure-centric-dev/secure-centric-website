@@ -639,11 +639,35 @@
     `;
   }
 
+  const DEFAULT_JOURNEY_STEPS = [
+    { no: "01", name: "Site visit", who: "You + Secure-Centric", help: "In-person physical & technical walkthrough of facilities, server rooms, and shop-floor enclaves.", output: "Asset discovery baseline & boundary notes", link: "#page-2" },
+    { no: "02", name: "Scoping", who: "Secure-Centric + IT Leads", help: "Map CUI/FCI flows, identify people, systems, and network storage touching DoD contracts.", output: "Formal Scope Document & Data-Flow Architecture", link: "#page-16" },
+    { no: "03", name: "Gap assessment", who: "Secure-Centric", help: "Audit all 110 NIST SP 800-171 controls against actual day-to-day operations.", output: "Defensible SPRS Score estimate & findings register", link: "#page-5" },
+    { no: "04", name: "Remediation", who: "Your IT/MSP (guided by us)", help: "Prioritize fixes by risk weight; guide MFA, encryption, logging, and enclave deployments.", output: "Remediation Roadmap with owners and completion targets", link: "#page-7" },
+    { no: "05", name: "Documentation", who: "Secure-Centric + You", help: "Co-write your System Security Plan (SSP), POA&M, and all required operational policies.", output: "Assessor-ready SSP and comprehensive policy suite", link: "#page-8" },
+    { no: "06", name: "Readiness review", who: "Secure-Centric RPs", help: "Full rehearsal mock audit simulating C3PAO interview techniques and evidence requests.", output: "Readiness sign-off report & Evidence Binder index", link: "#page-4" },
+    { no: "07", name: "Assessment", who: "Independent C3PAO", help: "We stand alongside your team during official DIBCAC or Authorized C3PAO evaluation.", output: "Level 2 CMMC Certification recommendation", link: "#page-19" },
+    { no: "08", name: "Maintain", who: "Virtual CISO / You", help: "Continuous compliance, annual SPRS reaffirmation, change management, and evidence refreshes.", output: "Annual Affirmation pack & ongoing compliance posture", link: "#page-11" }
+  ];
+
   /**
    * Render Block HTML: 8-Step CMMC Journey Roadmap
    */
   function renderJourney(block) {
-    const items = block.items || [];
+    const rawItems = (block && block.items && block.items.length) ? block.items : DEFAULT_JOURNEY_STEPS;
+    const items = DEFAULT_JOURNEY_STEPS.map((defStep, i) => {
+      const raw = rawItems[i];
+      if (typeof raw === 'object' && raw !== null && raw.name) {
+        return { ...defStep, ...raw };
+      } else if (typeof raw === 'string') {
+        return { ...defStep, name: raw };
+      }
+      return defStep;
+    });
+
+    if (activeRoadmapStep < 0) activeRoadmapStep = 0;
+    if (activeRoadmapStep >= items.length) activeRoadmapStep = items.length - 1;
+
     const activeStep = items[activeRoadmapStep] || items[0];
     const totalSteps = items.length;
     const progressPercent = Math.round(((activeRoadmapStep) / (totalSteps - 1)) * 100);
