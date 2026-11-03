@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Secure-Centric | CMMC Compliance for Defense Contractors</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/variables.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/pages.css" />
+  <link rel="stylesheet" href="assets/css/gutenberg-inspector.css" />
+
+  <!-- Favicon Mock -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232F5BFF'/><text y='70' x='20' font-size='60' fill='%23FFFFFF' font-family='sans-serif' font-weight='bold'>S</text></svg>" />
+</head>
+<body class="has-demo-hud">
+
+  <!-- ==========================================================================
+       DEMO PRESENTATION HUD (Top Bar for Client & Developer Review)
+       ========================================================================== -->
+  <header class="demo-presentation-hud" id="demo-hud" aria-label="Demo Navigation">
+    <div class="hud-left">
+      <span class="hud-brand-pill">SECURE-CENTRIC</span>
+      <select class="hud-page-select" id="hud-page-select" aria-label="Select Wireframe Page to View">
+        <!-- Injected dynamically by app.js -->
+      </select>
+    </div>
+
+    <div class="hud-center">
+      <button type="button" class="hud-btn" id="hud-viewport-toggle" title="Toggle Desktop / Mobile Screen Width">
+        💻 Desktop (1440px)
+      </button>
+      <button type="button" class="hud-btn" id="hud-gutenberg-toggle" title="Inspect WordPress Block & Pattern Mapping">
+        🔍 Inspect Gutenberg Blocks
+      </button>
+      <button type="button" class="hud-btn" id="hud-meta-toggle" title="View Page Spec & SEO Keywords">
+        📊 Page Specs
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN WEBSITE WRAPPER (Renders live site inside container)
+       ========================================================================== -->
+  <div class="site-wrapper" id="site-wrapper">
+
+    <!-- Global Top Bar -->
+    <div class="site-top-bar wp-block-inspect" data-wp-block="wp:template-part {slug:'header-top-bar'}">
+      <div class="site-container">
+        <div class="inner">
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span style="font-weight: 700; color: #fff;">NIST SP 800-171 / CMMC Compliance Consultants</span>
+            <span style="color: var(--color-slate);">|</span>
+            <span style="color: var(--color-cyber-cyan); font-weight: 600;">Cyber AB Registered Provider Organization</span>
+          </div>
+          <div style="display: flex; gap: 18px; align-items: center;">
+            <a href="mailto:info@secure-centric.com">info@secure-centric.com</a>
+            <span style="color: var(--color-slate);">|</span>
+            <a href="tel:323-410-5941">(323) 410-5941</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Sticky Navigation Header -->
+    <header class="site-header wp-block-inspect" data-wp-block="wp:template-part {slug:'header'}">
+      <div class="site-container">
+        <div class="header-inner">
+          <a href="#page-1" class="site-logo">
+            <span class="logo-icon">SC</span>
+            <span>Secure-Centric</span>
+          </a>
+
+          <nav class="site-nav" aria-label="Main Navigation">
+            <ul class="nav-links">
+              <!-- Services Dropdown (Strictly 3 pages per decision log) -->
+              <li class="nav-item">
+                <a href="#page-2" class="nav-link">
+                  Services <span style="font-size: 0.7rem;">▾</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a href="#page-2" class="dropdown-item">
+                    <b>CMMC Compliance Services</b>
+                    <small>Full on-site scoping to annual affirmation</small>
+                  </a>
+                  <a href="#page-3" class="dropdown-item">
+                    <b>CMMC Consulting</b>
+                    <small>Tailored by ICP role & supply chain tier</small>
+                  </a>
+                  <a href="#page-6" class="dropdown-item">
+                    <b>NIST SP 800-171 Compliance</b>
+                    <small>DFARS 7012 remediation & SPRS score</small>
+                  </a>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a href="#page-19" class="nav-link">CMMC Process</a>
+              </li>
+
+              <!-- Resources Dropdown -->
+              <li class="nav-item">
+                <a href="#page-12" class="nav-link">
+                  Resources <span style="font-size: 0.7rem;">▾</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a href="#page-12" class="dropdown-item">
+                    <b>CMMC: The Complete Guide</b>
+                    <small>CMMC 2.0 requirements and levels</small>
+                  </a>
+                  <a href="#page-13" class="dropdown-item">
+                    <b>CMMC Level 2 Guide</b>
+                    <small>110 controls across 14 families</small>
+                  </a>
+                  <a href="#page-14" class="dropdown-item">
+                    <b>NIST SP 800-171 Guide</b>
+                    <small>The standard behind Level 2</small>
+                  </a>
+                  <a href="#page-15" class="dropdown-item">
+                    <b>Controlled Unclassified Info (CUI)</b>
+                    <small>Scoping and boundary definitions</small>
+                  </a>
+                  <a href="#page-20" class="dropdown-item">
+                    <b>What is a CMMC RPO?</b>
+                    <small>Accreditation and role guidelines</small>
+                  </a>
+                  <a href="#page-21" class="dropdown-item">
+                    <b>Level 2 Compliance Checklist</b>
+                    <small>Excel and PDF download</small>
+                  </a>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a href="#page-N1" class="nav-link">About</a>
+              </li>
+            </ul>
+          </nav>
+
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <a href="#page-2" class="btn btn-primary">Talk to an Expert &rarr;</a>
+            <button type="button" class="nav-mobile-toggle" onclick="alert('Mobile menu toggled');" aria-label="Toggle navigation">☰</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dynamic Main Content (All 20 Pages render here) -->
+    <main id="app-main-content">
+      <!-- Injected dynamically by app.js based on hash route -->
+    </main>
+
+    <!-- Global Site Footer (Strictly following the Brand Guide & wireframe) -->
+    <footer class="site-footer wp-block-inspect" data-wp-block="wp:template-part {slug:'footer'}">
+      <div class="site-container">
+        <div class="footer-grid">
+          <!-- Column 1: Brand & Credentials -->
+          <div class="footer-col">
+            <a href="#page-1" class="site-logo" style="margin-bottom: 14px;">
+              <span class="logo-icon">SC</span>
+              <span>Secure-Centric</span>
+            </a>
+            <p style="font-size: 0.875rem; color: var(--color-text-on-dark); margin-bottom: 16px; line-height: 1.5;">
+              Cyber AB Registered Provider Organization (RPO) dedicated strictly to defense contractor CMMC and NIST SP 800-171 compliance.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.8125rem;">
+              <span style="color: #fff;">📍 Los Angeles, California</span>
+              <a href="mailto:info@secure-centric.com" style="color: var(--color-cyber-cyan);">info@secure-centric.com</a>
+              <a href="tel:323-410-5941" style="color: var(--color-text-on-dark);">(323) 410-5941</a>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
+              <span class="badge-chip dark" style="font-size: 0.65rem;">Cyber AB RPO #3942</span>
+              <span class="badge-chip dark" style="font-size: 0.65rem;">Inc. 5000 #452</span>
+            </div>
+          </div>
+
+          <!-- Column 2: Core Services (3 Pages) -->
+          <div class="footer-col">
+            <h5>Services</h5>
+            <ul class="footer-links">
+              <li><a href="#page-2">CMMC Compliance Services</a></li>
+              <li><a href="#page-3">CMMC Consulting</a></li>
+              <li><a href="#page-6">NIST SP 800-171 Compliance</a></li>
+              <li><a href="#page-4">Readiness Assessments</a></li>
+              <li><a href="#page-5">Gap & Mock Assessments</a></li>
+              <li><a href="#page-11">Virtual CISO (vCISO)</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Learn & Knowledge Pillars -->
+          <div class="footer-col">
+            <h5>Learn & Pillars</h5>
+            <ul class="footer-links">
+              <li><a href="#page-12">CMMC Complete Guide</a></li>
+              <li><a href="#page-13">CMMC Level 2 Guide</a></li>
+              <li><a href="#page-14">NIST SP 800-171 Explained</a></li>
+              <li><a href="#page-15">Controlled Unclassified Info</a></li>
+              <li><a href="#page-19">The 8-Step CMMC Process</a></li>
+              <li><a href="#page-20">What is a CMMC RPO?</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Checklists & Company -->
+          <div class="footer-col">
+            <h5>Resources & Tools</h5>
+            <ul class="footer-links">
+              <li><a href="#page-21">Level 2 (110 Controls) Checklist</a></li>
+              <li><a href="#page-22">Unmarked CUI Checklist</a></li>
+              <li><a href="#page-23">Level 1 Readiness Checklist</a></li>
+              <li><a href="#page-N1">About Secure-Centric</a></li>
+              <li><a href="#page-N1">Why Defense Suppliers Choose Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 5: Newsletter & Updates -->
+          <div class="footer-col">
+            <h5>DIB Intelligence</h5>
+            <p style="font-size: 0.8125rem; color: var(--color-slate); margin-bottom: 12px;">
+              Get critical rulemaking updates on DFARS 252.204-7021 and CMMC enforcement timelines.
+            </p>
+            <form onsubmit="event.preventDefault(); alert('Subscribed to CMMC Defense Updates!');">
+              <input type="email" class="form-input" placeholder="Your work email" required style="margin-bottom: 8px; height: 38px;" />
+              <button type="submit" class="btn btn-primary" style="width: 100%; padding: 8px 16px; font-size: 0.8125rem;">
+                Subscribe &rarr;
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Footer Bottom Legal Notice -->
+        <div class="footer-bottom">
+          <p class="legal-notice">
+            Secure-Centric is an accredited Cyber AB Registered Provider Organization (RPO). We provide cybersecurity readiness preparation, documentation, and advisory services. We are not a Certified Third-Party Assessment Organization (C3PAO) and do not issue official CMMC certifications.
+          </p>
+          <div style="font-size: 0.75rem; color: var(--color-slate);">
+            &copy; 2026 Secure-Centric LLC. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Bottom Page Metadata Drawer -->
+  <aside class="page-meta-drawer" id="page-meta-drawer" aria-label="SEO Page Metadata">
+    <!-- Populated by app.js -->
+  </aside>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

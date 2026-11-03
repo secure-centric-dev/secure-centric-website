@@ -1,0 +1,203 @@
+/* ==========================================================================
+   SECURE-CENTRIC | GUTENBERG ARCHITECTURE INSPECTOR & DEMO TOOLBAR
+   Provides live verification of Block Theme compatibility
+   ========================================================================== */
+
+/* Top Demo Navigation Bar (Floating Presentation HUD) */
+.demo-presentation-hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-color: #030612;
+  border-bottom: 1px solid var(--color-dark-line);
+  color: var(--color-text-on-dark);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.hud-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hud-brand-pill {
+  background: var(--gradient-signature);
+  color: #fff;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  font-size: 0.6875rem;
+}
+
+.hud-page-select {
+  background-color: var(--color-navy);
+  color: var(--color-white);
+  border: 1px solid var(--color-dark-outline);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: var(--font-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  max-width: 340px;
+}
+.hud-page-select:focus {
+  outline: none;
+  border-color: var(--color-cyber-cyan);
+}
+
+.hud-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-btn {
+  background: transparent;
+  border: 1px solid var(--color-dark-outline);
+  color: var(--color-text-on-dark);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hud-btn:hover,
+.hud-btn.active {
+  background-color: var(--color-electric-blue);
+  border-color: var(--color-electric-blue);
+  color: #fff;
+}
+
+.hud-btn.active-gutenberg {
+  background-color: var(--color-violet);
+  border-color: var(--color-violet);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(123, 92, 255, 0.4);
+}
+
+/* Offset page content for the HUD */
+body.has-demo-hud {
+  padding-top: 48px;
+}
+
+/* ---------- Gutenberg Block Inspector Overlay ---------- */
+body.gutenberg-inspector-active .wp-block-inspect {
+  position: relative;
+  outline: 2px dashed rgba(47, 91, 255, 0.7);
+  outline-offset: -2px;
+}
+
+body.gutenberg-inspector-active .wp-block-inspect::before {
+  content: attr(data-wp-block);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  z-index: 999;
+  background-color: #0B1437;
+  color: #00D4FF;
+  border: 1px solid #1E2A5A;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.gutenberg-inspector-active .wp-pattern-inspect {
+  position: relative;
+  outline: 2px dashed rgba(123, 92, 255, 0.85);
+  outline-offset: -2px;
+}
+
+body.gutenberg-inspector-active .wp-pattern-inspect::after {
+  content: attr(data-wp-pattern);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 999;
+  background-color: #7B5CFF;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Page Meta Drawer */
+.page-meta-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #060B24;
+  border-top: 1px solid var(--color-dark-line);
+  color: var(--color-text-on-dark);
+  padding: 16px 24px;
+  z-index: 9999;
+  font-size: 0.8125rem;
+  transform: translateY(100%);
+  transition: transform 0.25s ease;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.page-meta-drawer.open {
+  transform: translateY(0);
+}
+
+.page-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.page-meta-item dt {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  color: var(--color-slate);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.page-meta-item dd {
+  font-weight: 600;
+  color: var(--color-white);
+  overflow-wrap: break-word;
+}
+
+/* Mobile Frame Simulation */
+body.mobile-preview-mode {
+  background-color: #030612;
+  display: flex;
+  justify-content: center;
+}
+
+body.mobile-preview-mode .site-wrapper {
+  max-width: 390px;
+  margin: 20px auto;
+  border: 12px solid #1E2A5A;
+  border-radius: 40px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  background-color: #fff;
+  min-height: 844px;
+}

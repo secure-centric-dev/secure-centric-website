@@ -1,0 +1,281 @@
+/* ==========================================================================
+   SECURE-CENTRIC | BRAND SYSTEM & GUTENBERG TOKEN VARIABLES
+   Strictly derived from Brand Guide & Redspin Aesthetic Reference
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+:root {
+  /* Brand Core */
+  --color-midnight: #060B24;       /* Darkest backgrounds */
+  --color-navy: #0B1437;           /* Headings, dark cards */
+  --color-electric-blue: #2F5BFF;  /* Primary CTA, links */
+  --color-electric-blue-hover: #1E44E6;
+  --color-electric-blue-pressed: #1735B8;
+  --color-violet: #7B5CFF;         /* Secondary accent */
+  --color-cyber-cyan: #00D4FF;     /* Accents on dark only */
+
+  /* Neutrals and Text */
+  --color-white: #FFFFFF;          /* Cards, surfaces */
+  --color-ice: #F5F7FF;            /* Light sections */
+  --color-soft-blue: #EEF2FF;      /* Panels, soft buttons */
+  --color-soft-blue-line: #DCE4FF; /* Panel borders */
+  --color-border: #E2E8F5;         /* Card borders, inputs */
+  --color-slate: #8A93B2;          /* Placeholders, muted */
+  --color-body-text: #4A5578;      /* Paragraphs on light */
+  --color-text-on-dark: #B8C1E0;   /* Paragraphs on dark */
+  --color-dark-line: #1E2A5A;      /* Dividers on dark */
+  --color-dark-outline: #3A4A85;   /* Outline buttons on dark */
+  --color-light-on-blue: #E6ECFF;  /* Text on blue blocks */
+
+  /* Status Colors */
+  --color-success: #12B886;        /* Confirmations */
+  --color-warning: #FFB020;        /* Cautions */
+  --color-error: #F0445A;          /* Form errors */
+
+  /* Categorical Data Colors */
+  --color-cat-1: #2F5BFF;
+  --color-cat-2: #00A6C7;
+  --color-cat-3: #7B5CFF;
+  --color-cat-4: #FF7A2F;
+  --color-cat-5: #12B886;
+  --color-cat-6: #E5489A;
+  --color-cat-7: #FFB020;
+  --color-cat-8: #8A93B2;
+
+  /* Signature Gradient (use sparingly: hero highlights, featured card borders, one hero CTA) */
+  --gradient-signature: linear-gradient(135deg, #2F5BFF 0%, #7B5CFF 55%, #00D4FF 100%);
+  --gradient-dark-radial: radial-gradient(circle at 80% 20%, rgba(47, 91, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 40%, transparent 70%);
+  --gradient-glow: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 212, 255, 0.08), transparent 40%);
+
+  /* Typography */
+  --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Menlo, Monaco, monospace;
+
+  /* WordPress Gutenberg theme.json mappings */
+  --wp--preset--color--midnight: var(--color-midnight);
+  --wp--preset--color--navy: var(--color-navy);
+  --wp--preset--color--electric-blue: var(--color-electric-blue);
+  --wp--preset--color--violet: var(--color-violet);
+  --wp--preset--color--cyber-cyan: var(--color-cyber-cyan);
+  --wp--preset--color--white: var(--color-white);
+  --wp--preset--color--ice: var(--color-ice);
+  --wp--preset--color--soft-blue: var(--color-soft-blue);
+  --wp--preset--color--soft-blue-line: var(--color-soft-blue-line);
+  --wp--preset--color--border: var(--color-border);
+  --wp--preset--color--slate: var(--color-slate);
+  --wp--preset--color--body-text: var(--color-body-text);
+  --wp--preset--color--text-on-dark: var(--color-text-on-dark);
+  --wp--preset--color--dark-line: var(--color-dark-line);
+  --wp--preset--color--dark-outline: var(--color-dark-outline);
+  --wp--preset--color--light-on-blue: var(--color-light-on-blue);
+
+  /* Elevation & Shadows */
+  --shadow-sm: 0 1px 3px rgba(11, 20, 55, 0.05);
+  --shadow-md: 0 4px 14px rgba(11, 20, 55, 0.08);
+  --shadow-lg: 0 12px 28px rgba(11, 20, 55, 0.12);
+  --shadow-glow-cyan: 0 0 24px rgba(0, 212, 255, 0.25);
+  --shadow-glow-blue: 0 8px 24px rgba(47, 91, 255, 0.35);
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  /* Container width */
+  --container-max: 1240px;
+  --container-wide: 1440px;
+  --container-padding: 24px;
+}
+
+/* Base Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--color-body-text);
+  background-color: var(--color-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Typography Presets */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-navy);
+  font-family: var(--font-primary);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3vw, 2.375rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--color-electric-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-violet);
+}
+
+/* Section Eyebrow (Strict Brand Spec: JetBrains Mono uppercase) */
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-electric-blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.section-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background-color: currentColor;
+}
+
+.section-eyebrow.dark {
+  color: var(--color-cyber-cyan);
+}
+
+.section-eyebrow.violet {
+  color: var(--color-violet);
+}
+
+/* Container Utility Classes */
+.site-container {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+  width: 100%;
+}
+
+.site-container-wide {
+  max-width: var(--container-wide);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+  width: 100%;
+}
+
+/* Section Background Rules (Strict Brand Palette) */
+.section-midnight {
+  background-color: var(--color-midnight);
+  color: var(--color-text-on-dark);
+}
+.section-midnight h1,
+.section-midnight h2,
+.section-midnight h3,
+.section-midnight h4 {
+  color: var(--color-white);
+}
+
+.section-ice {
+  background-color: var(--color-ice);
+  color: var(--color-body-text);
+}
+.section-ice h1,
+.section-ice h2,
+.section-ice h3,
+.section-ice h4 {
+  color: var(--color-navy);
+}
+
+.section-white {
+  background-color: var(--color-white);
+  color: var(--color-body-text);
+}
+.section-white h1,
+.section-white h2,
+.section-white h3,
+.section-white h4 {
+  color: var(--color-navy);
+}
+
+.section-soft-blue {
+  background-color: var(--color-soft-blue);
+  color: var(--color-body-text);
+  border-top: 1px solid var(--color-soft-blue-line);
+  border-bottom: 1px solid var(--color-soft-blue-line);
+}
+.section-soft-blue h1,
+.section-soft-blue h2,
+.section-soft-blue h3,
+.section-soft-blue h4 {
+  color: var(--color-navy);
+}
+
+.section-electric-blue {
+  background-color: var(--color-electric-blue);
+  color: var(--color-light-on-blue);
+}
+.section-electric-blue h1,
+.section-electric-blue h2,
+.section-electric-blue h3,
+.section-electric-blue h4 {
+  color: var(--color-white);
+}
+
+/* Padding utilities */
+.py-section {
+  padding-top: clamp(48px, 6vw, 96px);
+  padding-bottom: clamp(48px, 6vw, 96px);
+}
+
+.py-section-sm {
+  padding-top: clamp(32px, 4vw, 56px);
+  padding-bottom: clamp(32px, 4vw, 56px);
+}
