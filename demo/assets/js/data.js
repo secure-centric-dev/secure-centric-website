@@ -73,9 +73,41 @@ window.SITE_PAGES_DATA = [
         wpPattern: "secure-centric/testimonials-carousel",
         t: "What defense contractors say about working with us",
         items: [
-          { name: "Alex Liu", role: "IT Manager", company: "Tower Semiconductor", quote: "Secure-Centric gave us absolute clarity on what was inside our CUI boundary and what wasn't. Their on-site visit cut months off our preparation time and our SPRS score jumped 40 points in 90 days." },
-          { name: "Patrick Shaw", role: "Cyber Security Analyst", company: "Safran Federal Systems", quote: "Unlike generic IT consultants who just threw templates at us, Secure-Centric wrote the SSP with our team and defended every decision during pre-assessment." },
-          { name: "Rafael Omar Lemus", role: "IT Director", company: "Goodwin & Associates", quote: "Their team understands defense contracting reality. We avoided having to rip-and-replace our ERP by properly implementing an isolated enclave solution." }
+          { 
+            name: "Alex Liu", 
+            role: "IT Manager", 
+            company: "Tower Semiconductor", 
+            badge: "DFARS 7012 / CMMC L2",
+            quote: "Secure-Centric gave us absolute clarity on what was inside our CUI boundary and what wasn't. Their on-site visit cut months off our preparation time and our SPRS score jumped 40 points in 90 days." 
+          },
+          { 
+            name: "Patrick Shaw", 
+            role: "Cyber Security Analyst", 
+            company: "Safran Federal Systems", 
+            badge: "Aerospace Defense Prime",
+            quote: "Unlike generic IT consultants who just threw templates at us, Secure-Centric wrote the SSP with our team and defended every decision during pre-assessment." 
+          },
+          { 
+            name: "Rafael Omar Lemus", 
+            role: "IT Director", 
+            company: "Goodwin & Associates", 
+            badge: "CUI Enclave Implementation",
+            quote: "Their team understands defense contracting reality. We avoided having to rip-and-replace our ERP by properly implementing an isolated enclave solution." 
+          },
+          { 
+            name: "Regina Amosi", 
+            role: "CISO", 
+            company: "Tower Semiconductor", 
+            badge: "Executive DFARS Posture",
+            quote: "Secure-Centric's on-site scoping and gap assessment gave executive leadership and our prime contractor total confidence in our DFARS 7012 posture." 
+          },
+          { 
+            name: "Albert Leon", 
+            role: "CIO", 
+            company: "HRD Aero Systems", 
+            badge: "Avionics Defense MRO",
+            quote: "Working with accredited Cyber AB Registered Practitioners who focus solely on defense standards made all the difference in achieving our Level 2 milestone on schedule." 
+          }
         ]
       },
       {

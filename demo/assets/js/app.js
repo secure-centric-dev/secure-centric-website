@@ -705,28 +705,56 @@
    * Render Block HTML: Testimonials
    */
   function renderQuotes(block) {
+    const items = block.items || [];
+    const renderCard = (q, i) => {
+      const initials = q.name.split(' ').map(n => n[0]).join('').substring(0, 3);
+      return `
+        <div class="testimonial-card" data-index="${i}">
+          <div class="testimonial-card-top">
+            <div class="testimonial-stars" aria-label="5 out of 5 stars">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <span class="testimonial-badge">${esc(q.badge || 'Verified Client')}</span>
+          </div>
+          <p class="testimonial-quote">"${esc(q.quote)}"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">${esc(initials)}</div>
+            <div class="testimonial-meta">
+              <b>${esc(q.name)}</b>
+              <span>${esc(q.role)}, ${esc(q.company)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    const cardsHtml = items.map(renderCard).join('');
+
     return `
       <section class="section-ice py-section wp-block-inspect wp-pattern-inspect" 
-               data-wp-block="wp:columns {columns:3}" 
+               data-wp-block="wp:group {align:'full', backgroundColor:'ice'}" 
                data-wp-pattern="secure-centric/testimonials-carousel">
         <div class="site-container">
-          <div style="text-align: center; max-width: 680px; margin: 0 auto 48px;">
-            <span class="section-eyebrow" style="justify-content: center;">// CLIENT REVIEWS</span>
-            <h2>${esc(block.t)}</h2>
+          <div class="testimonials-header-row">
+            <div>
+              <span class="section-eyebrow">// CLIENT REVIEWS</span>
+              <h2>${esc(block.t)}</h2>
+            </div>
+            <div class="testimonials-control-hint">
+              <span class="pulse-indicator"></span>
+              <span>5 Defense Client Reviews &bull; Moving Right &rarr; Left &bull; Hover or Tap to Pause</span>
+            </div>
           </div>
-          <div class="testimonials-grid">
-            ${block.items.map(q => `
-              <div class="testimonial-card">
-                <p class="testimonial-quote">"${esc(q.quote)}"</p>
-                <div class="testimonial-author">
-                  <div class="testimonial-avatar">${q.name.split(' ').map(n=>n[0]).join('')}</div>
-                  <div class="testimonial-meta">
-                    <b>${esc(q.name)}</b>
-                    <span>${esc(q.role)}, ${esc(q.company)}</span>
-                  </div>
-                </div>
-              </div>
-            `).join('')}
+        </div>
+
+        <div class="testimonials-carousel-container" 
+             onmouseenter="this.querySelector('.testimonials-carousel-track')?.classList.add('is-paused')" 
+             onmouseleave="this.querySelector('.testimonials-carousel-track')?.classList.remove('is-paused')"
+             onclick="this.querySelector('.testimonials-carousel-track')?.classList.toggle('is-paused')">
+          <div class="testimonials-carousel-track" role="region" aria-label="Client Testimonials Carousel">
+            ${cardsHtml}
+            ${cardsHtml}
+            ${cardsHtml}
           </div>
         </div>
       </section>
