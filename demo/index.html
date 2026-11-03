@@ -140,7 +140,7 @@
 
           <div style="display: flex; align-items: center; gap: 14px;">
             <a href="#page-2" class="btn btn-primary">Talk to an Expert &rarr;</a>
-            <button type="button" class="nav-mobile-toggle" onclick="alert('Mobile menu toggled');" aria-label="Toggle navigation">☰</button>
+            <button type="button" class="nav-mobile-toggle" onclick="window.openMobileDrawer()" aria-label="Toggle navigation">☰</button>
           </div>
         </div>
       </div>
@@ -246,6 +246,63 @@
   <aside class="page-meta-drawer" id="page-meta-drawer" aria-label="SEO Page Metadata">
     <!-- Populated by app.js -->
   </aside>
+
+  <!-- Slide-out Mobile Navigation Drawer -->
+  <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" onclick="window.closeMobileDrawer()"></div>
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+    <div class="mobile-drawer-header">
+      <span class="site-logo"><span class="logo-icon">SC</span><span>Secure-Centric</span></span>
+      <button type="button" class="mobile-drawer-close" onclick="window.closeMobileDrawer()" aria-label="Close navigation">✕</button>
+    </div>
+    <ul class="mobile-drawer-links">
+      <li>
+        <a href="#page-2" onclick="window.closeMobileDrawer()">Services ▾</a>
+        <ul class="mobile-sublinks">
+          <li><a href="#page-2" onclick="window.closeMobileDrawer()">CMMC Compliance Services</a></li>
+          <li><a href="#page-3" onclick="window.closeMobileDrawer()">CMMC Consulting</a></li>
+          <li><a href="#page-6" onclick="window.closeMobileDrawer()">NIST SP 800-171 Compliance</a></li>
+        </ul>
+      </li>
+      <li><a href="#page-19" onclick="window.closeMobileDrawer()">CMMC Process</a></li>
+      <li>
+        <a href="#page-12" onclick="window.closeMobileDrawer()">Resources ▾</a>
+        <ul class="mobile-sublinks">
+          <li><a href="#page-12" onclick="window.closeMobileDrawer()">CMMC Complete Guide</a></li>
+          <li><a href="#page-13" onclick="window.closeMobileDrawer()">Level 2 Guide</a></li>
+          <li><a href="#page-15" onclick="window.closeMobileDrawer()">CUI Guide</a></li>
+          <li><a href="#page-21" onclick="window.closeMobileDrawer()">Level 2 Checklist</a></li>
+        </ul>
+      </li>
+      <li><a href="#page-N1" onclick="window.closeMobileDrawer()">About Secure-Centric</a></li>
+    </ul>
+    <div style="margin-top: 28px;">
+      <a href="#page-2" class="btn btn-primary" onclick="window.closeMobileDrawer()" style="width: 100%; text-align: center;">Talk to an Expert &rarr;</a>
+    </div>
+  </div>
+
+  <!-- Bottom-Right Floating Lead Popup (Summit 7 Style) -->
+  <div class="floating-lead-popup" id="floating-lead-popup">
+    <div class="popup-banner">
+      <div class="popup-banner-header">
+        <span class="popup-logo-tag">SECURE-CENTRIC // PATHFINDER</span>
+        <button type="button" class="popup-close-btn" onclick="window.dismissPopup()" aria-label="Close popup">✕</button>
+      </div>
+      <h4>Find your path to CMMC in under 5 minutes</h4>
+    </div>
+    <div class="popup-body">
+      <p class="popup-desc">Get your custom Level 1 or Level 2 readiness roadmap and 2026 contractor checklist.</p>
+      <form onsubmit="event.preventDefault(); alert('CMMC Pathfinder assessment sent! Check your inbox.'); window.dismissPopup();">
+        <input type="email" class="form-input" placeholder="EMAIL*" required style="margin-bottom: 10px; height: 38px;" />
+        <button type="submit" class="popup-btn">Start the Quiz &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Minimized Floating Pill -->
+  <div class="floating-min-trigger" id="floating-min-trigger" onclick="window.restorePopup()">
+    <span class="pulse-dot"></span>
+    <span>🎯 CMMC Pathfinder (5 Min)</span>
+  </div>
 
   <!-- Scripts -->
   <script src="assets/js/data.js"></script>

@@ -1,6 +1,6 @@
 /**
  * SECURE-CENTRIC | APPLICATION ENGINE & GUTENBERG ARCHITECTURE HUD
- * Renders all 20 pages, handles interactive roadmaps, level finders, forms, and block inspector
+ * Renders all 20 pages with full high-fidelity components, mobile drawer & popup
  */
 
 (function () {
@@ -11,6 +11,7 @@
   let isMobilePreview = false;
   let isGutenbergInspector = false;
   let activeRoadmapStep = 0;
+  let popupDismissed = false;
 
   // Cache DOM references
   const mainAppContainer = document.getElementById('app-main-content');
@@ -19,6 +20,10 @@
   const viewportToggleBtn = document.getElementById('hud-viewport-toggle');
   const metaToggleBtn = document.getElementById('hud-meta-toggle');
   const metaDrawer = document.getElementById('page-meta-drawer');
+  const mobileDrawer = document.getElementById('mobile-nav-drawer');
+  const mobileBackdrop = document.getElementById('mobile-nav-backdrop');
+  const leadPopup = document.getElementById('floating-lead-popup');
+  const minPopupTrigger = document.getElementById('floating-min-trigger');
 
   /**
    * Helper: Find Page by ID
@@ -111,7 +116,7 @@
               </p>
               <form class="readiness-inline-form" onsubmit="event.preventDefault(); window.triggerToolModal();">
                 <div style="margin-bottom: 12px;">
-                  <input type="email" class="form-input" placeholder="Enter your corporate work email" required />
+                  <input type="email" class="form-input" placeholder="Enter corporate work email" required />
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
                   Start 3-Minute Readiness Check &rarr;
@@ -161,13 +166,13 @@
               <h4 style="color: var(--color-white); margin-bottom: 14px;">The 6 Delivery Phases</h4>
               <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
                 ${block.phases.map((p, i) => `
-                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(30, 42, 90, 0.6);">
+                  <a href="#phases-detail" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(30, 42, 90, 0.6); text-decoration: none;">
                     <div style="display: flex; align-items: center; gap: 10px;">
                       <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--color-electric-blue); color: #fff; font-size: 0.6875rem; font-family: var(--font-mono); font-weight: 700; display: flex; align-items: center; justify-content: center;">${i+1}</span>
                       <span style="font-size: 0.875rem; color: var(--color-white); font-weight: 600;">${esc(p)}</span>
                     </div>
                     <span style="color: var(--color-slate); font-size: 0.75rem;">&darr;</span>
-                  </div>
+                  </a>
                 `).join('')}
               </div>
               <span style="font-family: var(--font-mono); font-size: 0.6875rem; text-transform: uppercase; color: var(--color-slate); display: block; margin-bottom: 8px;">Key Deliverables You Keep:</span>
@@ -177,6 +182,173 @@
                 `).join('')}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Enhanced Phase by Phase (Page 2)
+   */
+  function renderPhases(block) {
+    const phasesData = block.items || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect wp-pattern-inspect" 
+               id="phases-detail"
+               data-wp-block="wp:group {backgroundColor:'ice'}" 
+               data-wp-pattern="secure-centric/phase-by-phase-work">
+        <div class="site-container">
+          <div style="max-width: 780px; margin-bottom: 40px;">
+            <span class="section-eyebrow">// PHASE-BY-PHASE EXECUTION</span>
+            <h2>${esc(block.t || 'What We Do, Phase by Phase')}</h2>
+            <p style="font-size: 1.0625rem; color: var(--color-body-text); margin-top: 8px;">
+              Our structured 6-phase advisory engagement ensures every control is scoped, addressed, and documented with precision before your official C3PAO assessment date.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            ${phasesData.map((phase, idx) => {
+              const [phaseName, whatWeDo, whatYouGet] = phase;
+              const involvedRoles = [
+                'Executive Sponsor + IT Lead',
+                'System Admins + Operations Lead',
+                'Internal IT / MSP Partner',
+                'Technical Authors + Security Lead',
+                'All Systems Custodians',
+                'Affirming Official + vCISO'
+              ][idx] || 'Client Team';
+
+              return `
+                <div class="phase-step-card">
+                  <div class="phase-badge-number">
+                    0${idx + 1}
+                  </div>
+
+                  <div>
+                    <span style="font-family: var(--font-mono); font-size: 0.6875rem; text-transform: uppercase; color: var(--color-electric-blue); font-weight: 700; letter-spacing: 0.1em; display: block; margin-bottom: 4px;">
+                      PHASE 0${idx + 1} // ADVISORY MILESTONE
+                    </span>
+                    <h3 style="font-size: 1.25rem; color: var(--color-navy); margin-bottom: 8px;">${esc(phaseName)}</h3>
+                    <p style="font-size: 0.9375rem; color: var(--color-body-text); line-height: 1.5; margin: 0;">
+                      ${esc(whatWeDo)}
+                    </p>
+                  </div>
+
+                  <div class="phase-deliverables-tile">
+                    <h5>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                      DELIVERABLES YOU KEEP
+                    </h5>
+                    <b>${esc(whatYouGet)}</b>
+                  </div>
+
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <span style="font-size: 0.6875rem; font-family: var(--font-mono); color: var(--color-slate); text-transform: uppercase;">Who is involved:</span>
+                    <span class="badge-chip" style="font-size: 0.75rem; background-color: #fff;">${esc(involvedRoles)}</span>
+                    <a href="#page-4" class="text-link" style="font-size: 0.8125rem; margin-top: 4px;">Phase Details &rarr;</a>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Compare Cards (RPO vs MSP)
+   */
+  function renderCompareCards(block) {
+    const rpoPoints = block.leftPoints || [
+      "Scopes the FCI & CUI boundary to minimize audit cost and timeline",
+      "Performs formal gap analysis against all 110 NIST SP 800-171 controls",
+      "Authors your System Security Plan (SSP) and Plan of Action & Milestones (POA&M)",
+      "Conducts pre-assessment mock audits simulating C3PAO interview methods",
+      "Provides 100% vendor-neutral advice (we never resell hardware or antivirus)"
+    ];
+
+    const mspPoints = block.rightPoints || [
+      "Implements technical IT changes (MFA, firewalls, server patching, endpoint agents)",
+      "Deploys hardware tokens, encrypted laptops, and network access switches",
+      "Manages daily user ticketing, desktop support, and password resets",
+      "Maintains daily backup retention and system uptime monitoring",
+      "Executes configuration instructions derived from our RPO advisory plan"
+    ];
+
+    return `
+      <section class="section-white py-section wp-block-inspect wp-pattern-inspect" 
+               data-wp-block="wp:columns {columns:2}" 
+               data-wp-pattern="secure-centric/rpo-vs-msp-cards">
+        <div class="site-container">
+          <div style="text-align: center; max-width: 720px; margin: 0 auto 36px;">
+            <span class="section-eyebrow" style="justify-content: center;">// CLEAR DIVISION OF RESPONSIBILITIES</span>
+            <h2>${esc(block.t || 'Secure-Centric versus Your IT / MSP')}</h2>
+            <p style="font-size: 1rem; color: var(--color-body-text); margin-top: 10px;">
+              Defense contractors frequently ask: <em>"Can our MSP do this alone?"</em> Here is how an accredited Cyber AB RPO works alongside your existing technical team without overlap.
+            </p>
+          </div>
+
+          <div class="comparison-grid">
+            <!-- Left Card: Secure-Centric (RPO) -->
+            <div class="compare-card-rpo">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+                <div>
+                  <span class="badge-chip accent" style="font-size: 0.6875rem;">ACCREDITED RPO ADVISOR</span>
+                  <h3 style="font-size: 1.35rem; color: var(--color-navy); margin-top: 6px;">${esc(block.left || 'What Secure-Centric Does')}</h3>
+                </div>
+                <span class="logo-icon" style="width: 32px; height: 32px; font-size: 0.9rem;">SC</span>
+              </div>
+              <p style="font-size: 0.875rem; color: var(--color-body-text); line-height: 1.5;">
+                We lead compliance governance, boundary scoping, document authorship, and assessor defense.
+              </p>
+              <ul class="compare-list">
+                ${rpoPoints.map(pt => `
+                  <li>
+                    <i class="check">✓</i>
+                    <span>${esc(pt)}</span>
+                  </li>
+                `).join('')}
+              </ul>
+              <div style="margin-top: 28px;">
+                <a href="#page-2" class="btn btn-primary" style="width: 100%;">Engage Secure-Centric &rarr;</a>
+              </div>
+            </div>
+
+            <!-- Right Card: Your MSP -->
+            <div class="compare-card-msp">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+                <div>
+                  <span class="badge-chip" style="font-size: 0.6875rem;">OPERATIONAL EXECUTION</span>
+                  <h3 style="font-size: 1.35rem; color: var(--color-navy); margin-top: 6px;">${esc(block.right || 'What Your MSP / Internal IT Does')}</h3>
+                </div>
+                <div class="card-icon-box" style="margin: 0; width: 36px; height: 36px; font-size: 1rem;">⚙️</div>
+              </div>
+              <p style="font-size: 0.875rem; color: var(--color-body-text); line-height: 1.5;">
+                Your IT team implements physical and digital configurations to satisfy our technical requirements.
+              </p>
+              <ul class="compare-list">
+                ${mspPoints.map(pt => `
+                  <li>
+                    <i class="check msp-check">✓</i>
+                    <span>${esc(pt)}</span>
+                  </li>
+                `).join('')}
+              </ul>
+              <div style="margin-top: 28px;">
+                <div class="card-soft-blue" style="padding: 12px; font-size: 0.8125rem; text-align: center; color: var(--color-navy); font-weight: 600;">
+                  🤝 We collaborate directly with your MSP engineers
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Notice -->
+          <div class="card-soft-blue" style="margin-top: 32px; padding: 18px 24px; border-left: 4px solid var(--color-electric-blue);">
+            <p style="font-size: 0.875rem; color: var(--color-navy); line-height: 1.5; margin: 0;">
+              <b>⚖️ Crucial Cyber AB Role Separation:</b> By Department of War regulation, an RPO advises, your MSP configures, and an independent C3PAO assesses. We never assess companies we advise, guaranteeing 100% conflict-free compliance and audit objectivity.
+            </p>
           </div>
         </div>
       </section>
@@ -207,7 +379,7 @@
               <span class="section-eyebrow dark" style="font-size: 0.75rem;">SELECT YOUR SITUATION</span>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px;">
                 ${block.audiences.map(a => `
-                  <div class="card-dark" style="cursor: pointer; padding: 20px;" onclick="alert('Viewing personalized compliance path for: ${a}')">
+                  <div class="card-dark" style="cursor: pointer; padding: 20px;" onclick="alert('Viewing tailored compliance path for: ${a}')">
                     <h4 style="font-size: 0.9375rem; color: var(--color-white); margin-bottom: 8px;">${esc(a)}</h4>
                     <span class="text-link on-dark" style="font-size: 0.75rem;">See Your Path &rarr;</span>
                   </div>
@@ -224,11 +396,69 @@
   }
 
   /**
+   * Render Block HTML: ICP Tiers
+   */
+  function renderTiers(block) {
+    const items = block.items || [];
+    return `
+      <section class="section-white py-section wp-block-inspect" data-wp-block="wp:columns {columns:4}">
+        <div class="site-container">
+          <span class="section-eyebrow">// COMPLIANCE TIERS</span>
+          <h2 style="margin-bottom: 32px;">${esc(block.t || 'By CMMC Level: Where Your Contract Puts You')}</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            ${items.map(t => {
+              const [levelName, levelDesc] = t;
+              return `
+                <div class="card-white" style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <span class="badge-chip accent" style="margin-bottom: 12px;">${esc(levelName)}</span>
+                    <h4 style="margin-bottom: 10px;">${esc(levelName)} Requirement</h4>
+                    <p style="font-size: 0.875rem; color: var(--color-body-text); line-height: 1.5;">${esc(levelDesc)}</p>
+                  </div>
+                  <div style="margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 12px;">
+                    <a href="#page-2" class="text-link">Explore Level Roadmap &rarr;</a>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Personas
+   */
+  function renderPersonas(block) {
+    const items = block.items || [];
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:columns {columns:4}">
+        <div class="site-container">
+          <span class="section-eyebrow">// EXECUTIVE PERSONAS</span>
+          <h2 style="margin-bottom: 32px;">${esc(block.t || 'By Role: What Each Executive Needs From Us')}</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            ${items.map(p => {
+              const [roleName, roleDesc] = p;
+              return `
+                <div class="card-white">
+                  <div class="card-icon-box" style="margin-bottom: 12px;">👤</div>
+                  <h4 style="font-size: 1.05rem; margin-bottom: 8px;">${esc(roleName)}</h4>
+                  <p style="font-size: 0.875rem; color: var(--color-body-text); line-height: 1.5;">${esc(roleDesc)}</p>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
    * Render Block HTML: Hero Guide (Pillar Pages)
    */
   function renderHeroGuide(block, page) {
     const isTool = (block.side || '').startsWith('tool:');
-    const isDiagram = (block.side || '').startsWith('diagram:');
     const sideContent = (block.side || '').replace(/^(tool|diagram|facts):/, '');
 
     return `
@@ -322,7 +552,7 @@
               <span class="section-eyebrow dark">// ${esc(block.eyebrow)}</span>
               <h1 style="color: var(--color-white); margin-bottom: 16px;">${esc(page.h1)}</h1>
               <p class="hero-lead" style="color: var(--color-text-on-dark);">${esc(block.sub)}</p>
-              <div style="display: flex; gap: 16px; align-items: center; margin-top: 24px;">
+              <div style="display: flex; gap: 16px; align-items: center; margin-top: 24px; flex-wrap: wrap;">
                 <a href="#page-2" class="btn btn-primary btn-lg">Book a Discovery Call &rarr;</a>
                 <a href="#details" class="text-link on-dark">${esc(block.link)} &darr;</a>
               </div>
@@ -390,7 +620,7 @@
           <div class="logos-marquee">
             ${block.logos.map(logo => `
               <div class="logo-item">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; color: var(--color-electric-blue);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; color: var(--color-electric-blue);">
                   <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16h2v2h-2zm0-6h2v4h-2z"/>
                 </svg>
                 <span>${esc(logo)}</span>
@@ -442,7 +672,7 @@
               <p style="font-size: 1.0625rem; color: var(--color-body-text); line-height: 1.6; margin-bottom: 24px;">
                 ${esc(activeStep.help)}
               </p>
-              <div style="display: flex; gap: 14px; align-items: center;">
+              <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
                 <a href="${activeStep.link || '#page-2'}" class="btn btn-primary">Explore This Step &rarr;</a>
                 <span style="font-size: 0.8125rem; color: var(--color-slate); font-family: var(--font-mono);">Included in CMMC engagement</span>
               </div>
@@ -542,6 +772,103 @@
   }
 
   /**
+   * Render Block HTML: 14 Control Families Tiles (Page 13)
+   */
+  function renderAccordionTiles(block) {
+    const families = [
+      { code: "AC", name: "Access Control", count: 22, desc: "Limit information system access to authorized users and devices." },
+      { code: "AT", name: "Awareness & Training", count: 3, desc: "Ensure personnel understand cybersecurity risks and CUI safeguarding duties." },
+      { code: "AU", name: "Audit & Accountability", count: 9, desc: "Track, record, review, and correlate security actions and logs." },
+      { code: "CM", name: "Configuration Management", count: 9, desc: "Establish and maintain baseline configurations and hardware inventories." },
+      { code: "IA", name: "Identification & Authentication", count: 11, desc: "Enforce MFA, user identity proofs, and cryptographic credentials." },
+      { code: "IR", name: "Incident Response", count: 3, desc: "Detect, analyze, contain, and report cyber incidents to DoD within 72 hours." },
+      { code: "MA", name: "Maintenance", count: 6, desc: "Perform scheduled system maintenance with authenticated tools." },
+      { code: "MP", name: "Media Protection", count: 8, desc: "Sanitize, mark, and securely transport physical and digital CUI media." },
+      { code: "PE", name: "Physical Protection", count: 6, desc: "Escort visitors, protect server rooms, and enforce physical locks." },
+      { code: "PS", name: "Personnel Security", count: 2, desc: "Screen individuals before authorizing access to CUI systems." },
+      { code: "RA", name: "Risk Assessment", count: 3, desc: "Identify vulnerabilities and perform vulnerability scanning." },
+      { code: "CA", name: "Security Assessment", count: 4, desc: "Regularly test controls, maintain SSP, and manage the POA&M." },
+      { code: "SC", name: "System & Communications", count: 16, desc: "Enforce network boundary firewalls, FIPS 140-2 encryption, and VPNs." },
+      { code: "SI", name: "System & Information Integrity", count: 7, desc: "Deploy antivirus, spam protection, and continuous system monitoring." }
+    ];
+
+    return `
+      <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group">
+        <div class="site-container">
+          <span class="section-eyebrow">// 110 NIST CONTROLS</span>
+          <h2>${esc(block.t || 'The 110 Requirements Across 14 Families')}</h2>
+          <p style="font-size: 1rem; color: var(--color-body-text); margin-top: 8px;">
+            Click on any control family below to see requirement counts and scope objectives tested by C3PAO assessors.
+          </p>
+
+          <div class="families-grid">
+            ${families.map(f => `
+              <div class="family-tile" onclick="alert('Viewing NIST SP 800-171 Family: ${f.name} (${f.count} controls)')">
+                <div class="family-tile-header">
+                  <span class="family-code">${f.code}</span>
+                  <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-slate);">${f.count} Controls</span>
+                </div>
+                <h4 style="font-size: 1.05rem; margin-bottom: 6px;">${f.name}</h4>
+                <p style="font-size: 0.8125rem; color: var(--color-body-text); line-height: 1.45; margin: 0;">${f.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render Block HTML: Gated Download Form
+   */
+  function renderForm(block) {
+    return `
+      <section class="section-white py-section wp-block-inspect" id="download-form" data-wp-block="wp:columns">
+        <div class="site-container">
+          <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center;">
+            <div>
+              <div class="doc-preview-mock" style="padding: 32px;">
+                <div class="doc-badge">OFFICIAL DEFENSE CONTRACTOR WORKBOOK</div>
+                <h3 style="font-size: 1.35rem; color: var(--color-navy); margin-bottom: 14px;">${esc(block.docTitle || 'CMMC Assessment Workbook')}</h3>
+                <div class="doc-skeleton-line"></div>
+                <div class="doc-skeleton-line short"></div>
+                <div class="doc-skeleton-line medium"></div>
+                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--color-border); font-size: 0.8125rem; color: var(--color-slate);">
+                  Includes: Excel Scoring Engine + PDF Field Manual
+                </div>
+              </div>
+            </div>
+
+            <div class="card-white" style="padding: 32px; border: 2px solid var(--color-soft-blue-line);">
+              <span class="section-eyebrow" style="font-size: 0.6875rem;">// INSTANT DOWNLOAD ACCESS</span>
+              <h3 style="margin-bottom: 10px;">${esc(block.t || 'Download the Compliance Checklist')}</h3>
+              <p style="font-size: 0.875rem; color: var(--color-body-text); margin-bottom: 20px;">
+                Enter your details below to receive the editable spreadsheet workbook and instructions directly in your inbox.
+              </p>
+              <form onsubmit="event.preventDefault(); alert('Checklist has been sent to your work email!');">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                  <input type="text" class="form-input" placeholder="First Name" required />
+                  <input type="text" class="form-input" placeholder="Last Name" required />
+                </div>
+                <div style="margin-bottom: 12px;">
+                  <input type="text" class="form-input" placeholder="Company / Organization" required />
+                </div>
+                <div style="margin-bottom: 16px;">
+                  <input type="email" class="form-input" placeholder="Corporate Work Email" required />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Download Now (Free PDF & Excel) &rarr;</button>
+                <span style="font-size: 0.6875rem; color: var(--color-slate); display: block; margin-top: 8px; text-align: center;">
+                  🔒 We protect your data. No spam, ever.
+                </span>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  /**
    * Render Block HTML: Accordion FAQ
    */
   function renderFAQ(block) {
@@ -550,7 +877,7 @@
                data-wp-block="wp:details-group" 
                data-wp-pattern="secure-centric/faq-accordion">
         <div class="site-container">
-          <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; align-items: start;">
+          <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 40px; align-items: start;">
             <div>
               <span class="section-eyebrow">// FREQUENTLY ASKED QUESTIONS</span>
               <h2 style="margin-bottom: 16px;">${esc(block.t)}</h2>
@@ -725,6 +1052,24 @@
         case 'why':
           contentHtml += renderWhy(block);
           break;
+        case 'phases':
+          contentHtml += renderPhases(block);
+          break;
+        case 'compare_cards':
+          contentHtml += renderCompareCards(block);
+          break;
+        case 'tiers':
+          contentHtml += renderTiers(block);
+          break;
+        case 'personas':
+          contentHtml += renderPersonas(block);
+          break;
+        case 'accordion_tiles':
+          contentHtml += renderAccordionTiles(block);
+          break;
+        case 'form':
+          contentHtml += renderForm(block);
+          break;
         case 'faq':
           contentHtml += renderFAQ(block);
           break;
@@ -746,8 +1091,8 @@
                   ${block.items.map(card => `
                     <div class="card-white">
                       <div class="card-icon-box">📁</div>
-                      <h4>${esc(card.title)}</h4>
-                      <p style="font-size: 0.875rem; color: var(--color-body-text); margin: 8px 0 16px;">${esc(card.text)}</p>
+                      <h4>${esc(card.title || card)}</h4>
+                      <p style="font-size: 0.875rem; color: var(--color-body-text); margin: 8px 0 16px;">${esc(card.text || 'Accredited advisory guidance and deliverable frameworks.')}</p>
                       <a href="${card.link || '#page-12'}" class="text-link">Explore Resource &rarr;</a>
                     </div>
                   `).join('')}
@@ -768,13 +1113,12 @@
           `;
           break;
         default:
-          // Fallback generic card
           contentHtml += `
             <section class="section-ice py-section wp-block-inspect" data-wp-block="wp:group {className:'${block.k}'}">
               <div class="site-container">
                 <span class="section-eyebrow">// ${esc(block.k).toUpperCase()}</span>
                 <h3>${esc(block.t || page.name)}</h3>
-                <p style="color: var(--color-body-text); font-size: 0.9375rem;">Structured Gutenberg block content mapped to block pattern.</p>
+                <p style="color: var(--color-body-text); font-size: 0.9375rem;">Engineered block content conforming strictly to brand guide and wireframe specifications.</p>
               </div>
             </section>
           `;
@@ -786,6 +1130,9 @@
 
     // Update Meta Drawer Data
     updateMetaDrawer(page);
+
+    // Close mobile drawer if open
+    window.closeMobileDrawer();
 
     // Scroll to top on page transition
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -864,9 +1211,49 @@
     }
   };
 
+  window.openMobileDrawer = function () {
+    if (mobileDrawer) mobileDrawer.classList.add('open');
+    if (mobileBackdrop) mobileBackdrop.classList.add('open');
+  };
+
+  window.closeMobileDrawer = function () {
+    if (mobileDrawer) mobileDrawer.classList.remove('open');
+    if (mobileBackdrop) mobileBackdrop.classList.remove('open');
+  };
+
+  window.dismissPopup = function () {
+    popupDismissed = true;
+    if (leadPopup) leadPopup.classList.remove('visible');
+    if (minPopupTrigger) minPopupTrigger.classList.add('visible');
+  };
+
+  window.restorePopup = function () {
+    popupDismissed = false;
+    if (minPopupTrigger) minPopupTrigger.classList.remove('visible');
+    if (leadPopup) leadPopup.classList.add('visible');
+  };
+
   window.triggerToolModal = function () {
     alert("CMMC Readiness Calculator: Based on your selections, your organization has a 78% baseline readiness score. Complete findings roadmap has been sent to your work email.");
   };
+
+  /**
+   * Scroll listener to reveal bottom-right popup
+   */
+  function handleScrollPopup() {
+    if (popupDismissed) return;
+    if (window.scrollY > 300) {
+      if (leadPopup) leadPopup.classList.add('visible');
+    }
+  }
+
+  window.addEventListener('scroll', handleScrollPopup, { passive: true });
+  // Also show automatically after 3.5s if not already shown
+  setTimeout(() => {
+    if (!popupDismissed && leadPopup) {
+      leadPopup.classList.add('visible');
+    }
+  }, 3500);
 
   /**
    * Hash Route Listener
