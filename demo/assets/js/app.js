@@ -1336,6 +1336,41 @@
    * Render Block HTML: Custom Tables
    */
   function renderTable(block) {
+    const rawCols = Array.isArray(block.cols) ? block.cols : (Array.isArray(block.headers) ? block.headers : ['Category / Feature', 'Details', 'Compliance Impact']);
+    const cols = rawCols.filter(c => typeof c === 'string');
+
+    let rows = [];
+    if (Array.isArray(block.rows)) {
+      rows = block.rows.map(r => Array.isArray(r) ? r : (typeof r === 'object' && r !== null ? Object.values(r) : [String(r)]));
+    } else {
+      const titleLower = (block.t || '').toLowerCase();
+      if (titleLower.includes('findings') || titleLower.includes('gap')) {
+        rows = [
+          ['AC.L2-3.1.1 (Access Control & Boundary Protection)', 'Non-Compliant', 'High (-5 SPRS)', 'Enforce centralized MFA & remove shared admin credentials', 'Lead SecOps Engineer'],
+          ['IA.L2-3.5.3 (Multifactor Authentication)', 'Partially Met', 'High (-5 SPRS)', 'Deploy FIPS 140-2 validated hardware tokens across all privileged sessions', 'IT Director'],
+          ['SC.L2-3.13.11 (FIPS-Validated Cryptography)', 'Non-Compliant', 'Medium (-3 SPRS)', 'Enable BitLocker with certified FIPS 140-2 cryptographic modules', 'Systems Administrator'],
+          ['AU.L2-3.3.1 (Audit Logging & SIEM Review)', 'Compliant', 'Low (0 SPRS)', 'Weekly automated audit log analysis and tamper-proof log forwarding verified', 'Security Analyst']
+        ];
+      } else if (titleLower.includes('levels') || titleLower.includes('comparison')) {
+        rows = [
+          ['Target Information Safeguarded', 'Federal Contract Information (FCI)', 'Controlled Unclassified Information (CUI)', 'High-Value Assets & Critical CUI'],
+          ['Security Controls Baseline', '15 FAR 52.204-21 Basic Safeguards', '110 NIST SP 800-171 Requirements', '110 NIST SP 800-171 + Select 800-172 Controls'],
+          ['Assessment & Audit Mechanism', 'Annual Self-Assessment in SPRS', 'Triennial Independent C3PAO Audit', 'Triennial Government-Led (DIBCAC) Audit'],
+          ['Executive Affirmation', 'Annual Affirmation by Corporate Official', 'Annual Executive Affirmation in SPRS', 'Annual Executive Affirmation in SPRS'],
+          ['Defense Supply Chain Tier', 'Subcontractors handling FCI only', 'Prime & Subcontractors handling DoD CUI', 'Defense Prime Contractors on critical programs'],
+          ['Typical Implementation Timeline', '1 – 2 months', '6 – 9 months', '9 – 14 months']
+        ];
+      } else {
+        const count = typeof block.rows === 'number' ? block.rows : 4;
+        rows = Array.from({ length: count }, (_, i) => [
+          `Requirement Objective ${i + 1}`,
+          `Implemented safeguard verification ${i + 1}`,
+          'Compliant',
+          'Documented in System Security Plan (SSP)'
+        ]);
+      }
+    }
+
     return `
       <section class="section-white py-section wp-block-inspect wp-pattern-inspect" 
                data-wp-block="wp:table" 
@@ -1346,11 +1381,11 @@
             <table class="custom-table">
               <thead>
                 <tr>
-                  ${block.cols.map(c => `<th>${esc(c)}</th>`).join('')}
+                  ${cols.map(c => `<th>${esc(c)}</th>`).join('')}
                 </tr>
               </thead>
               <tbody>
-                ${block.rows.map(row => `
+                ${rows.map(row => `
                   <tr>
                     ${row.map(cell => `<td>${esc(cell)}</td>`).join('')}
                   </tr>

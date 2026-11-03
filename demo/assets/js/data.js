@@ -6017,7 +6017,7 @@ window.SITE_PAGES_DATA = [
   {
     "id": "page-contact",
     "no": 24,
-    "name": "Talk to an Expert (Contact)",
+    "name": "Discovery Call (Talk to an Expert)",
     "url": "/contact/",
     "type": "Contact & Discovery Call",
     "group": "Core",
