@@ -645,6 +645,20 @@
   function renderJourney(block) {
     const items = block.items || [];
     const activeStep = items[activeRoadmapStep] || items[0];
+    const totalSteps = items.length;
+    const progressPercent = Math.round(((activeRoadmapStep) / (totalSteps - 1)) * 100);
+    const isLast = activeRoadmapStep === totalSteps - 1;
+    const isFirst = activeRoadmapStep === 0;
+
+    // Phase categorization for defense contractor milestone context
+    let phaseName = 'Phase 1: Facility Walkthrough & Scope Discovery';
+    if (activeRoadmapStep >= 2 && activeRoadmapStep <= 3) {
+      phaseName = 'Phase 2: Gap Assessment & Enclave Remediation';
+    } else if (activeRoadmapStep >= 4 && activeRoadmapStep <= 5) {
+      phaseName = 'Phase 3: SSP Authoring & Mock Audit Readiness';
+    } else if (activeRoadmapStep >= 6) {
+      phaseName = 'Phase 4: Official C3PAO Assessment & Affirmation';
+    }
 
     return `
       <section class="py-section roadmap-wrap wp-block-inspect wp-pattern-inspect" 
@@ -660,28 +674,81 @@
             <a href="#page-19" class="text-link">View Detailed 8-Step Process &rarr;</a>
           </div>
 
-          <!-- Interactive Node Navigator -->
-          <div class="roadmap-timeline-nav">
-            ${items.map((step, idx) => `
-              <button class="step-node ${idx === 7 ? 'step-8' : ''} ${idx === activeRoadmapStep ? 'active' : ''}" 
-                      onclick="window.selectRoadmapStep(${idx})">
-                <span class="node-circle">${step.no}</span>
-                <span class="node-label">${esc(step.name)}</span>
-              </button>
-            `).join('')}
+          <!-- Interactive Milestone Flow Stepper -->
+          <div class="roadmap-timeline-nav" role="tablist" aria-label="CMMC Milestone Process">
+            <div class="roadmap-timeline-rail">
+              <div class="roadmap-timeline-fill" style="width: ${progressPercent}%;"></div>
+            </div>
+            ${items.map((step, idx) => {
+              const isCompleted = idx < activeRoadmapStep;
+              const isActive = idx === activeRoadmapStep;
+              const isViolet = idx === 7;
+              let stateClass = '';
+              if (isActive) stateClass = 'active';
+              else if (isCompleted) stateClass = 'completed';
+              return `
+                <button type="button" 
+                        class="step-node ${isViolet ? 'step-8' : ''} ${stateClass}" 
+                        onclick="window.selectRoadmapStep(${idx}, event)"
+                        role="tab"
+                        aria-selected="${isActive}"
+                        title="Milestone ${step.no}: ${step.name}">
+                  <span class="node-circle">
+                    ${isCompleted ? '✓' : step.no}
+                  </span>
+                  <span class="node-label">${esc(step.name)}</span>
+                </button>
+              `;
+            }).join('')}
           </div>
 
-          <!-- Active Step Detail Card -->
-          <div class="step-detail-card" style="margin-top: 32px;">
+          <!-- Active Milestone Flow Detail Card -->
+          <div class="step-detail-card" id="roadmap-detail-card" style="margin-top: 32px;">
+            <div class="milestone-flow-header">
+              <div class="milestone-stepper-pills">
+                <span class="milestone-flow-badge ${isLast ? 'violet' : ''}">
+                  <span class="pulse-dot" style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 5px;"></span>
+                  MILESTONE ${activeStep.no} OF 08 &bull; ${phaseName}
+                </span>
+                <div class="milestone-progress-track" title="${progressPercent}% Completed">
+                  <div class="milestone-progress-bar" style="width: ${progressPercent}%;"></div>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-slate); font-weight: 700;">${progressPercent}% Complete</span>
+              </div>
+
+              <div class="milestone-stepper-nav">
+                <button type="button" 
+                        class="milestone-nav-btn" 
+                        ${isFirst ? 'disabled' : ''} 
+                        onclick="window.selectRoadmapStep(${activeRoadmapStep - 1}, event)">
+                  &larr; Prev Milestone
+                </button>
+                <button type="button" 
+                        class="milestone-nav-btn" 
+                        ${isLast ? 'disabled' : ''} 
+                        onclick="window.selectRoadmapStep(${activeRoadmapStep + 1}, event)">
+                  Next Milestone &rarr;
+                </button>
+              </div>
+            </div>
+
             <div class="step-detail-left">
-              <span class="section-eyebrow violet">STEP ${activeStep.no} OF 08</span>
+              <span class="section-eyebrow ${isLast ? 'violet' : ''}">MILESTONE ${activeStep.no} &bull; ${esc(activeStep.name).toUpperCase()}</span>
               <h3>${esc(activeStep.name)}</h3>
               <p style="font-size: 1.0625rem; color: var(--color-body-text); line-height: 1.6; margin-bottom: 24px;">
                 ${esc(activeStep.help)}
               </p>
               <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
-                <a href="${activeStep.link || '#page-2'}" class="btn btn-primary">Explore This Step &rarr;</a>
-                <span style="font-size: 0.8125rem; color: var(--color-slate); font-family: var(--font-mono);">Included in CMMC engagement</span>
+                ${!isLast ? `
+                  <button type="button" class="btn btn-primary" onclick="window.selectRoadmapStep(${activeRoadmapStep + 1}, event)">
+                    Advance to Milestone ${(items[activeRoadmapStep + 1]).no}: ${esc(items[activeRoadmapStep + 1].name)} &rarr;
+                  </button>
+                ` : `
+                  <a href="#contact" class="btn btn-primary" style="background-color: var(--color-violet); border-color: var(--color-violet);">
+                    Achieve Continuous CMMC Readiness &rarr;
+                  </a>
+                `}
+                <a href="${activeStep.link || '#page-2'}" class="btn btn-secondary-outline">Explore Milestone Scope</a>
               </div>
             </div>
 
@@ -690,7 +757,7 @@
                 <h5>WHO DOES THIS WORK</h5>
                 <b style="color: var(--color-navy); font-size: 0.9375rem;">${esc(activeStep.who)}</b>
               </div>
-              <div class="step-subcard">
+              <div class="step-subcard" style="border-left: 3px solid var(--color-electric-blue);">
                 <h5>PRIMARY DELIVERABLE YOU KEEP</h5>
                 <b style="color: var(--color-electric-blue); font-size: 0.9375rem;">${esc(activeStep.output)}</b>
               </div>
@@ -1430,8 +1497,35 @@
   /**
    * Global interactive handlers attached to window
    */
-  window.selectRoadmapStep = function (idx) {
+  window.selectRoadmapStep = function (idx, e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+    }
+    const page = getPage(currentPageId);
+    if (!page) return;
+    const block = (page.blocks || []).find(b => b.k === 'journey');
+    if (!block || !block.items || idx < 0 || idx >= block.items.length) return;
+
     activeRoadmapStep = idx;
+
+    const roadmapSection = document.getElementById('roadmap-section');
+    if (roadmapSection) {
+      // In-place DOM update prevents scrolling to top and preserves user scroll position
+      const temp = document.createElement('div');
+      temp.innerHTML = renderJourney(block);
+      const newSection = temp.firstElementChild;
+      roadmapSection.replaceWith(newSection);
+
+      // Smoothly keep the active button in view in mobile timeline scroll
+      const activeBtn = newSection.querySelector('.step-node.active');
+      if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      return;
+    }
+
+    // Fallback if section wasn't in DOM
     renderCurrentPage();
   };
 

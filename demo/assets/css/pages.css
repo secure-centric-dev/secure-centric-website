@@ -217,21 +217,33 @@
   justify-content: space-between;
   position: relative;
   margin: 32px 0 20px;
-  padding: 10px 4px;
+  padding: 16px 8px 12px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
 }
 
-.roadmap-timeline-nav::before {
-  content: '';
+/* Background connecting rail & glowing active progress track */
+.roadmap-timeline-rail {
   position: absolute;
-  top: 30px;
-  left: 20px;
-  right: 20px;
-  height: 3px;
+  top: 36px;
+  left: 40px;
+  right: 40px;
+  height: 4px;
   background-color: var(--color-border);
   z-index: 1;
+  border-radius: 9999px;
+}
+
+.roadmap-timeline-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-electric-blue) 0%, var(--color-cyber-cyan) 85%, var(--color-violet) 100%);
+  border-radius: 9999px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 
 .step-node {
@@ -244,9 +256,15 @@
   background: none;
   border: none;
   padding: 6px;
-  min-width: 82px;
+  min-width: 86px;
   text-align: center;
   flex-shrink: 0;
+  outline: none;
+  transition: transform 0.2s ease;
+}
+
+.step-node:hover {
+  transform: translateY(-2px);
 }
 
 .step-node .node-circle {
@@ -263,7 +281,8 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .step-node:hover .node-circle {
@@ -271,24 +290,139 @@
   color: var(--color-electric-blue);
 }
 
+/* Completed Milestones (Previous steps) */
+.step-node.completed .node-circle {
+  background-color: #EBF3FF;
+  border-color: var(--color-electric-blue);
+  color: var(--color-electric-blue);
+  box-shadow: 0 0 0 3px rgba(47, 91, 255, 0.15);
+}
+
+/* Active Milestone */
 .step-node.active .node-circle {
   background-color: var(--color-electric-blue);
   border-color: var(--color-electric-blue);
   color: var(--color-white);
-  box-shadow: 0 0 0 6px rgba(47, 91, 255, 0.2);
+  box-shadow: 0 0 0 6px rgba(47, 91, 255, 0.25), 0 4px 12px rgba(47, 91, 255, 0.3);
+  transform: scale(1.1);
 }
 
 .step-node.step-8.active .node-circle {
   background-color: var(--color-violet);
   border-color: var(--color-violet);
-  box-shadow: 0 0 0 6px rgba(123, 92, 255, 0.2);
+  box-shadow: 0 0 0 6px rgba(123, 92, 255, 0.25), 0 4px 12px rgba(123, 92, 255, 0.3);
 }
 
 .step-node .node-label {
   font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--color-navy);
+  color: var(--color-slate);
   white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.step-node.completed .node-label {
+  color: var(--color-navy);
+}
+
+.step-node.active .node-label {
+  color: var(--color-electric-blue);
+  font-weight: 800;
+}
+
+.step-node.step-8.active .node-label {
+  color: var(--color-violet);
+}
+
+/* Milestone Header & Flow Controls */
+.milestone-flow-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.milestone-stepper-pills {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.milestone-flow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-soft-blue);
+  color: var(--color-electric-blue);
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(47, 91, 255, 0.2);
+}
+
+.milestone-flow-badge.violet {
+  background: rgba(123, 92, 255, 0.1);
+  color: var(--color-violet);
+  border-color: rgba(123, 92, 255, 0.25);
+}
+
+.milestone-progress-track {
+  width: 140px;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.milestone-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-electric-blue), var(--color-cyber-cyan));
+  border-radius: 9999px;
+  transition: width 0.35s ease;
+}
+
+.milestone-stepper-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.milestone-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-navy);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.milestone-nav-btn:hover:not(:disabled) {
+  border-color: var(--color-electric-blue);
+  color: var(--color-electric-blue);
+  background: var(--color-soft-blue);
+}
+
+.milestone-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .step-detail-card {
@@ -298,6 +432,21 @@
   padding: clamp(20px, 3.5vw, 36px);
   box-shadow: var(--shadow-md);
   display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  animation: milestoneFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes milestoneFadeIn {
+  from {
+    opacity: 0.4;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
   grid-template-columns: 1.2fr 1fr;
   gap: 32px;
 }
@@ -632,8 +781,21 @@
   .hero-topic-cards {
     grid-template-columns: 1fr;
   }
-  .roadmap-timeline-nav::before {
-    display: none;
+  .roadmap-timeline-rail {
+    min-width: 680px;
+  }
+  .milestone-flow-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .milestone-stepper-pills {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .milestone-stepper-nav {
+    width: 100%;
+    justify-content: space-between;
   }
   .testimonials-header-row {
     flex-direction: column;
@@ -657,6 +819,19 @@ body.mobile-preview-mode .hero-topic-cards {
   grid-template-columns: 1fr !important;
   gap: 20px !important;
 }
+body.mobile-preview-mode .roadmap-timeline-rail {
+  min-width: 680px !important;
+}
+body.mobile-preview-mode .milestone-flow-header {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+}
+body.mobile-preview-mode .milestone-stepper-pills,
+body.mobile-preview-mode .milestone-stepper-nav {
+  width: 100% !important;
+  justify-content: space-between !important;
+}
 body.mobile-preview-mode .testimonials-header-row {
   flex-direction: column !important;
   align-items: flex-start !important;
@@ -669,9 +844,6 @@ body.mobile-preview-mode .testimonial-card {
   padding: 18px !important;
 }
 body.mobile-preview-mode .pillar-sidebar-toc {
-  display: none !important;
-}
-body.mobile-preview-mode .roadmap-timeline-nav::before {
   display: none !important;
 }
 body.mobile-preview-mode .hero-home-content h1,
