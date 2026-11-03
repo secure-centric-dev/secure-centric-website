@@ -877,8 +877,8 @@
                data-wp-block="wp:details-group" 
                data-wp-pattern="secure-centric/faq-accordion">
         <div class="site-container">
-          <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 40px; align-items: start;">
-            <div>
+          <div class="faq-grid-layout">
+            <div class="faq-intro-col">
               <span class="section-eyebrow">// FREQUENTLY ASKED QUESTIONS</span>
               <h2 style="margin-bottom: 16px;">${esc(block.t)}</h2>
               <p style="color: var(--color-body-text); font-size: 0.9375rem; margin-bottom: 24px;">
@@ -888,17 +888,21 @@
             </div>
 
             <div class="accordion-group">
-              ${block.items.map((faq, i) => `
-                <div class="accordion-item ${i === 0 ? 'active' : ''}">
-                  <div class="accordion-header" onclick="window.toggleAccordion(this)">
-                    <span class="accordion-title">${esc(faq.q)}</span>
-                    <span class="accordion-icon">+</span>
+              ${block.items.map((faq, i) => {
+                const qText = typeof faq === 'object' ? faq.q : faq;
+                const aText = typeof faq === 'object' ? faq.a : 'Please speak with our Lead Registered Practitioner for customized advisory regarding your contract requirements.';
+                return `
+                  <div class="accordion-item ${i === 0 ? 'active' : ''}">
+                    <div class="accordion-header" onclick="window.toggleAccordion(this)">
+                      <span class="accordion-title">${esc(qText)}</span>
+                      <span class="accordion-icon" aria-hidden="true"></span>
+                    </div>
+                    <div class="accordion-content">
+                      ${esc(aText)}
+                    </div>
                   </div>
-                  <div class="accordion-content">
-                    ${esc(faq.a)}
-                  </div>
-                </div>
-              `).join('')}
+                `;
+              }).join('')}
             </div>
           </div>
         </div>

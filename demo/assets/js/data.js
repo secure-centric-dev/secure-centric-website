@@ -1460,10 +1460,22 @@ window.SITE_PAGES_DATA = [
         wpPattern: "secure-centric/contact-faq",
         t: "Frequently Asked Questions About Discovery Calls",
         items: [
-          "Will you sign our bilateral Non-Disclosure Agreement (NDA) before we discuss contracts?",
-          "Can an RPO officially certify our company for CMMC Level 2?",
-          "What information should I have ready for our 30-minute discovery call?",
-          "How quickly can Secure-Centric begin an on-site scoping assessment?"
+          {
+            q: "Will you sign our bilateral Non-Disclosure Agreement (NDA) before we discuss contracts?",
+            a: "Yes, absolutely. We sign your company's NDA or provide our standard defense-grade mutual NDA within 2 business hours before any discovery call or review of contract clauses."
+          },
+          {
+            q: "Can an RPO officially certify our company for CMMC Level 2?",
+            a: "No RPO can certify a defense contractor. Under Cyber AB rules, only accredited C3PAOs can issue official Level 2 certifications. As an RPO, Secure-Centric prepares you to pass your assessment with a 100% C3PAO first-time pass rate guarantee."
+          },
+          {
+            q: "What information should I have ready for our 30-minute discovery call?",
+            a: "Having your prime contract's Section I DFARS clauses (e.g. 252.204-7012, 7019, 7020), your high-level network topology, and whether you handle CUI or FCI will make the call most productive."
+          },
+          {
+            q: "How quickly can Secure-Centric begin an on-site scoping assessment?",
+            a: "Our lead Registered Practitioners typically conduct on-site discovery walkthroughs within 2 to 3 weeks of signed scope engagement."
+          }
         ]
       }
     ]

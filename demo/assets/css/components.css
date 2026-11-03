@@ -658,6 +658,27 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.faq-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.accordion-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.accordion-item {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
 .accordion-item:hover {
   border-color: #B9C6E8;
 }
@@ -668,10 +689,11 @@
 }
 
 .accordion-header {
-  padding: 18px 22px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   cursor: pointer;
   user-select: none;
 }
@@ -680,37 +702,72 @@
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--color-navy);
+  line-height: 1.4;
+  flex: 1;
 }
 
+/* Mathematically centered + and x icon */
 .accordion-icon {
   width: 28px;
   height: 28px;
+  min-width: 28px;
   border-radius: 50%;
   background-color: var(--color-soft-blue);
   color: var(--color-electric-blue);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
+  flex-shrink: 0;
   transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
+.accordion-icon::before,
+.accordion-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s ease, background-color 0.2s ease;
+}
+
+/* Horizontal bar */
+.accordion-icon::before {
+  width: 12px;
+  height: 2px;
+  transform: translate(-50%, -50%);
+}
+
+/* Vertical bar */
+.accordion-icon::after {
+  width: 2px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+}
+
+/* Active State: Rotates 45deg to create a 100% centered X */
 .accordion-item.active .accordion-icon {
   transform: rotate(45deg);
   background-color: var(--color-electric-blue);
   color: var(--color-white);
 }
 
+.accordion-item.active .accordion-icon::before,
+.accordion-item.active .accordion-icon::after {
+  background-color: #FFFFFF;
+}
+
 .accordion-content {
   display: none;
-  padding: 0 22px 20px;
+  padding: 0 20px 18px;
   color: var(--color-body-text);
   font-size: 0.9375rem;
   line-height: 1.6;
   border-top: 1px dashed var(--color-border);
-  margin-top: -4px;
-  padding-top: 16px;
+  margin-top: -2px;
+  padding-top: 14px;
 }
 
 .accordion-item.active .accordion-content {
@@ -1255,7 +1312,7 @@
   .nav-mobile-toggle {
     display: flex;
   }
-  .comparison-grid, .contact-grid-split, .form-row-2 {
+  .comparison-grid, .contact-grid-split, .form-row-2, .faq-grid-layout {
     grid-template-columns: 1fr;
     gap: 24px;
   }
@@ -1380,9 +1437,20 @@ body.mobile-preview-mode .form-row-2,
 body.mobile-preview-mode .phase-step-card,
 body.mobile-preview-mode .compare-table-grid,
 body.mobile-preview-mode .lead-magnet-grid,
-body.mobile-preview-mode .footer-grid {
+body.mobile-preview-mode .footer-grid,
+body.mobile-preview-mode .faq-grid-layout {
   grid-template-columns: 1fr !important;
   gap: 20px !important;
+}
+body.mobile-preview-mode .accordion-title {
+  font-size: 0.9375rem !important;
+}
+body.mobile-preview-mode .accordion-header {
+  padding: 14px 16px !important;
+}
+body.mobile-preview-mode .accordion-content {
+  padding: 0 16px 16px !important;
+  font-size: 0.875rem !important;
 }
 body.mobile-preview-mode .phase-badge-number {
   width: 42px !important;
