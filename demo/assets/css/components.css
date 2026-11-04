@@ -254,6 +254,15 @@ body.mobile-preview-mode .site-header-sticky-wrapper {
   letter-spacing: -0.01em;
 }
 
+.site-logo .site-logo-img {
+  height: 40px;
+  width: auto;
+  max-width: 48px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+
 .site-logo .logo-icon {
   width: 34px;
   height: 34px;

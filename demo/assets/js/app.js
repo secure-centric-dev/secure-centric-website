@@ -847,23 +847,59 @@
               <div class="roadmap-timeline-fill" id="roadmap-timeline-fill" style="width: ${progressPercent}%;"></div>
             </div>
 
-            <!-- Walking Person Figure Track -->
-            <div class="roadmap-walker-track" id="roadmap-walker-track" aria-hidden="true">
-              <div class="roadmap-walker ${activeRoadmapStep === 6 ? 'step-7-active' : ''}" 
-                   id="roadmap-walker" 
-                   style="left: calc((${activeRoadmapStep} / 7) * 100%);">
-                <div class="walker-bubble">
-                  <svg class="walker-figure-svg" viewBox="0 0 32 32" fill="none">
-                    <circle cx="16" cy="7" r="3.5" fill="currentColor"/>
-                    <line x1="16" y1="10.5" x2="16" y2="19.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                    <line class="walker-arm-l" x1="16" y1="12.5" x2="11.5" y2="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                    <line class="walker-arm-r" x1="16" y1="12.5" x2="20.5" y2="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                    <line class="walker-leg-l" x1="16" y1="19.5" x2="12" y2="28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                    <line class="walker-leg-r" x1="16" y1="19.5" x2="20" y2="28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <span class="walker-badge-tag">${activeRoadmapStep === 6 ? 'Target Audit' : 'Current Step'}</span>
-              </div>
+            <!-- Standalone Walking Character (No border, no background, pure illustration) -->
+            <div class="roadmap-walker ${activeRoadmapStep === 6 ? 'step-7-active' : ''}" 
+                 id="roadmap-walker" 
+                 aria-hidden="true">
+              <svg class="walker-figure-svg" viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g class="walker-body-group">
+                  <!-- Back Leg (Left Leg) -->
+                  <g class="walker-leg-back">
+                    <path d="M22 34 L17 46 L21 47 L25 35 Z" fill="#15224E"/>
+                    <path d="M17 46 L13 57 L17 58 L21 47 Z" fill="#0E1738"/>
+                    <path d="M12 56 L8 59 C7 60 8 61.5 10 61.5 L18 61.5 C19 61.5 19 60.5 18 58.5 L17 56 Z" fill="#060B24"/>
+                    <path d="M8 61 L18 61" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
+                  </g>
+
+                  <!-- Torso, Shirt & Tie -->
+                  <g class="walker-torso-wrap">
+                    <path d="M20 18 C20 18 16 23 16 32 C16 34 22 36 26 35 C29 34 32 32 32 23 C32 18 28 17 25 17 Z" fill="#1E2E68" class="walker-jacket"/>
+                    <path d="M22 17 L25 24 L27 17 Z" fill="#FFFFFF"/>
+                    <path d="M24.5 19 L25.5 19 L26 25 L25 28 L24 25 Z" fill="#2F5BFF" class="walker-tie"/>
+                    <path d="M21 17 C21 17 26 23 26 34 L29 33 C31 28 31 22 29 18 Z" fill="#273C85" class="walker-jacket-front"/>
+                    <path d="M20 33 L28 33 L28 35 L20 35 Z" fill="#060B24"/>
+                    <rect x="23" y="33" width="3" height="2" fill="#00D4FF"/>
+                  </g>
+
+                  <!-- Head & Hair -->
+                  <g class="walker-head-wrap">
+                    <path d="M23 14 L26 14 L26 18 L23 18 Z" fill="#F0C5A8"/>
+                    <path d="M22 8 C22 5 25 4 28 6 C30 7 31 10 30 13 C29 15 26 16 23 15 C22 13 22 10 22 8 Z" fill="#F5CCA0"/>
+                    <circle cx="23" cy="11" r="1.2" fill="#E5B88F"/>
+                    <circle cx="28.5" cy="9.5" r="0.8" fill="#0B1437"/>
+                    <path d="M21 8 C21 4 24 2 28 2 C31 2 32 4 32 5 C30 5 28 4 25 5 C23 6 22 8 22 8 Z" fill="#0B1437"/>
+                    <path d="M22 5 C24 3 28 3 31 5 C31 6 30 7 28 6.5 C25 6 23 7 22 8 Z" fill="#1A2756"/>
+                  </g>
+
+                  <!-- Front Leg (Right Leg) -->
+                  <g class="walker-leg-front">
+                    <path d="M25 34 L30 45 L26 46 L22 35 Z" fill="#1E2F6B"/>
+                    <path d="M30 45 L34 56 L30 57 L26 46 Z" fill="#15224E"/>
+                    <path d="M30 56 L34 56 C36 56 39 58 40 60.5 L39 61.5 L30 61.5 C29 61.5 29 59.5 30 56 Z" fill="#060B24"/>
+                    <path d="M30 61 L40 61" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
+                  </g>
+
+                  <!-- Front Arm with Auditor Tablet -->
+                  <g class="walker-arm-front">
+                    <path d="M24 18 C24 18 29 22 32 26 C33 28 31 30 29 29 C27 26 24 22 23 19 Z" fill="#273C85" class="walker-arm-sleeve"/>
+                    <circle cx="31" cy="28" r="2" fill="#F5CCA0"/>
+                    <rect x="29" y="24" width="10" height="13" rx="1.5" transform="rotate(-15 29 24)" fill="#0B1437" stroke="#00D4FF" stroke-width="1.2" class="walker-tablet-frame"/>
+                    <line x1="31" y1="27" x2="37" y2="25" stroke="#00D4FF" stroke-width="1" stroke-linecap="round" class="walker-tablet-glow"/>
+                    <line x1="32" y1="30" x2="38" y2="28" stroke="#00D4FF" stroke-width="1" stroke-linecap="round" class="walker-tablet-glow"/>
+                    <circle cx="37" cy="33" r="0.8" fill="#00D4FF"/>
+                  </g>
+                </g>
+              </svg>
             </div>
 
             ${items.map((step, idx) => {
@@ -2813,6 +2849,9 @@
     // Update Meta Drawer Data
     updateMetaDrawer(page);
 
+    // Align walker exactly above active step
+    setTimeout(() => alignWalkerToActiveStep(true), 40);
+
     // Close mobile drawer if open
     window.closeMobileDrawer();
 
@@ -2856,6 +2895,38 @@
   }
 
   /**
+   * Helper: Align Walking Person exactly centered above the active step's circle on all viewports
+   */
+  function alignWalkerToActiveStep(instant = true) {
+    const roadmapSection = document.getElementById('roadmap-section');
+    if (!roadmapSection) return;
+    const walker = roadmapSection.querySelector('#roadmap-walker');
+    const nav = roadmapSection.querySelector('#roadmap-timeline-nav');
+    if (!walker || !nav) return;
+
+    const nodes = nav.querySelectorAll('.step-node');
+    if (!nodes || !nodes[activeRoadmapStep]) return;
+
+    const targetNode = nodes[activeRoadmapStep];
+    const circle = targetNode.querySelector('.node-circle') || targetNode;
+    const exactCenterX = targetNode.offsetLeft + circle.offsetLeft + (circle.offsetWidth / 2);
+
+    if (instant) {
+      walker.style.transition = 'none';
+    }
+    walker.style.left = `${exactCenterX}px`;
+
+    if (activeRoadmapStep === 6) {
+      walker.classList.add('step-7-active');
+    } else {
+      walker.classList.remove('step-7-active');
+    }
+  }
+
+  // Ensure walker remains exactly aligned on window resize & viewport changes
+  window.addEventListener('resize', () => alignWalkerToActiveStep(true));
+
+  /**
    * Global interactive handlers attached to window
    */
   let isRoadmapWalking = false;
@@ -2891,6 +2962,8 @@
       const newSection = temp.firstElementChild;
       roadmapSection.replaceWith(newSection);
 
+      alignWalkerToActiveStep(true);
+
       // Keep active button in view in mobile timeline scroll
       const activeBtn = newSection.querySelector('.step-node.active');
       if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
@@ -2907,12 +2980,11 @@
     // Rule 1: Forward selection: A person will walk from current selection to that selection slowly but not too slowly and once it reaches, user can see the step content (until then add a overlay and loading) and step gets selected
     const nav = roadmapSection.querySelector('#roadmap-timeline-nav') || roadmapSection.querySelector('.roadmap-timeline-nav');
     const walker = roadmapSection.querySelector('#roadmap-walker');
-    const walkerTrack = roadmapSection.querySelector('#roadmap-walker-track');
     const overlay = roadmapSection.querySelector('#step-loading-overlay');
     const timelineFill = roadmapSection.querySelector('#roadmap-timeline-fill') || roadmapSection.querySelector('.roadmap-timeline-fill');
     const nodes = nav ? nav.querySelectorAll('.step-node') : [];
 
-    if (!walker || !walkerTrack || !overlay || nodes.length <= newIdx) {
+    if (!walker || !overlay || nodes.length <= newIdx) {
       finishStepTransition();
       return;
     }
@@ -2939,11 +3011,10 @@
     const stepDiff = Math.abs(newIdx - oldIdx);
     const durationMs = Math.min(1350, 620 + (stepDiff * 130));
 
-    // Measure target center relative to walker track
-    const trackRect = walkerTrack.getBoundingClientRect();
+    // Target center calculated directly from node and circle
     const targetNode = nodes[newIdx];
-    const targetRect = targetNode.getBoundingClientRect();
-    const targetX = (targetRect.left + targetRect.width / 2) - trackRect.left;
+    const circle = targetNode.querySelector('.node-circle') || targetNode;
+    const targetX = targetNode.offsetLeft + circle.offsetLeft + (circle.offsetWidth / 2);
 
     walker.classList.add('is-walking');
     if (newIdx === 6) {
@@ -2990,6 +3061,7 @@
     if (viewportToggleBtn) {
       viewportToggleBtn.textContent = isMobilePreview ? '📱 Mobile (390px)' : '💻 Desktop (1440px)';
     }
+    setTimeout(() => alignWalkerToActiveStep(true), 60);
   };
 
   window.toggleMetaDrawer = function () {
