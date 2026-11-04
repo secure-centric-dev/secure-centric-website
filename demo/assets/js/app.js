@@ -2607,16 +2607,36 @@
       video.setAttribute('muted', '');
       video.setAttribute('playsinline', '');
       video.setAttribute('webkit-playsinline', '');
-      const p = video.play();
-      if (p !== undefined) {
-        p.catch(() => {
-          const tryPlay = () => {
+
+      // Load via fetch Blob to bypass GitHub Pages HTTP 206 Partial Content / Range header limitations in Chrome
+      const sourceEl = video.querySelector('source');
+      const srcUrl = sourceEl ? sourceEl.getAttribute('src') : video.getAttribute('src');
+
+      if (srcUrl && !video.src.startsWith('blob:')) {
+        fetch(srcUrl)
+          .then(res => {
+            if (!res.ok) throw new Error('Network error loading video');
+            return res.blob();
+          })
+          .then(blob => {
+            const blobUrl = URL.createObjectURL(blob);
+            video.src = blobUrl;
             video.play().catch(() => {});
-            ['click', 'touchstart', 'scroll'].forEach(evt => window.removeEventListener(evt, tryPlay));
-          };
-          ['click', 'touchstart', 'scroll'].forEach(evt => window.addEventListener(evt, tryPlay, { once: true, passive: true }));
-        });
+          })
+          .catch(() => {
+            // Fallback to direct stream
+            video.play().catch(() => {});
+          });
+      } else {
+        video.play().catch(() => {});
       }
+
+      // Also attach interaction listener in case strict browser autoplay blocks initial trigger
+      const onUserInteract = () => {
+        if (video.paused) video.play().catch(() => {});
+        ['click', 'touchstart', 'scroll'].forEach(evt => window.removeEventListener(evt, onUserInteract));
+      };
+      ['click', 'touchstart', 'scroll'].forEach(evt => window.addEventListener(evt, onUserInteract, { once: true, passive: true }));
     });
 
     // Update Meta Drawer Data
