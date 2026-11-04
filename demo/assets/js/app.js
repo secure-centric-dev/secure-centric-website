@@ -2982,7 +2982,7 @@
   // =========================================================================
   let roadmapAutoplayTimer = null;
   let isRoadmapAutoplayPaused = false;
-  const ROADMAP_AUTOPLAY_READ_DELAY = 4800; // 4.8s comfortable reading duration per step
+  const ROADMAP_AUTOPLAY_READ_DELAY = 2400; // 2.4s brisk reading pace per step
 
   function clearRoadmapAutoplay() {
     if (roadmapAutoplayTimer) {
@@ -3132,9 +3132,9 @@
       }
     }
 
-    // Calculate walking distance and duration ("slowly": ~820ms - 1480ms)
+    // Calculate walking distance and duration (brisk, responsive stride: ~550ms - 950ms)
     const stepDiff = Math.abs(newIdx - oldIdx);
-    const durationMs = Math.min(1500, 780 + (stepDiff * 140));
+    const durationMs = Math.min(950, 480 + (stepDiff * 80));
 
     // Target center calculated directly from node and circle
     const targetNode = nodes[newIdx];
