@@ -88,7 +88,7 @@
                data-wp-block="wp:cover {align:'full', backgroundColor:'midnight'}" 
                data-wp-pattern="secure-centric/hero-home">
         <div class="hero-video-bg-container" aria-hidden="true">
-          <video class="hero-video-bg" autoplay muted loop playsinline preload="auto">
+          <video class="hero-video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto">
             <source src="assets/video/cmmc-cyber-concept.mp4" type="video/mp4">
           </video>
           <div class="hero-video-overlay"></div>
@@ -2599,6 +2599,25 @@
     });
 
     mainAppContainer.innerHTML = contentHtml;
+
+    // Ensure hero background video starts playing reliably across all browsers & devices
+    const heroVideos = mainAppContainer.querySelectorAll('.hero-video-bg');
+    heroVideos.forEach(video => {
+      video.muted = true;
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      const p = video.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          const tryPlay = () => {
+            video.play().catch(() => {});
+            ['click', 'touchstart', 'scroll'].forEach(evt => window.removeEventListener(evt, tryPlay));
+          };
+          ['click', 'touchstart', 'scroll'].forEach(evt => window.addEventListener(evt, tryPlay, { once: true, passive: true }));
+        });
+      }
+    });
 
     // Update Meta Drawer Data
     updateMetaDrawer(page);

@@ -27,7 +27,8 @@
   background-size: 100% 100%, 100% 100%, cover, 48px 48px, 48px 48px;
   background-position: center, center, center right, 0 0, 0 0;
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.12;
+  z-index: 1;
 }
 
 /* ---------- Video Background (CMMC Concept Loop) ---------- */
@@ -52,8 +53,8 @@
   height: auto;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  opacity: 0.32;
-  filter: saturate(1.15) brightness(0.82);
+  opacity: 0.65;
+  filter: brightness(1.05) contrast(1.18) saturate(1.25);
 }
 
 .hero-video-overlay {
@@ -61,11 +62,19 @@
   inset: 0;
   background: linear-gradient(
     135deg, 
-    rgba(6, 11, 36, 0.92) 0%, 
-    rgba(11, 20, 55, 0.86) 50%, 
-    rgba(6, 11, 36, 0.94) 100%
+    rgba(6, 11, 36, 0.78) 0%, 
+    rgba(11, 20, 55, 0.55) 50%, 
+    rgba(6, 11, 36, 0.82) 100%
   );
   z-index: 2;
+}
+
+.hero-home-content h1 {
+  text-shadow: 0 2px 14px rgba(6, 11, 36, 0.9);
+}
+
+.hero-home-content .hero-lead {
+  text-shadow: 0 1px 8px rgba(6, 11, 36, 0.8);
 }
 
 .hero-home-grid {
