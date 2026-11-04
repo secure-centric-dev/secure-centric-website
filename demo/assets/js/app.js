@@ -89,7 +89,7 @@
                data-wp-pattern="secure-centric/hero-home">
         <div class="hero-video-bg-container" aria-hidden="true">
           <video class="hero-video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto">
-            <source src="assets/video/cmmc-cyber-concept.mp4" type="video/mp4">
+            <source src="assets/video/cmmc-concept.mp4" type="video/mp4">
           </video>
           <div class="hero-video-overlay"></div>
         </div>
