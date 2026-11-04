@@ -917,16 +917,13 @@
                         aria-selected="${isActive}"
                         title="Milestone ${step.no}: ${step.name}">
                   ${isNodeStep7 ? `
-                    <div class="milestone-flag-wrap ${activeRoadmapStep === 6 ? 'is-visible' : ''}" id="step-7-flag">
-                      <div class="milestone-flag-pole">
-                        <svg class="milestone-flag-svg" viewBox="0 0 24 28" fill="none">
-                          <line x1="4" y1="2" x2="4" y2="28" stroke="#0B1437" stroke-width="2" stroke-linecap="round"/>
-                          <circle cx="4" cy="2" r="1.5" fill="#7B5CFF"/>
-                          <path d="M4 3 C 10 1, 14 6, 22 4 C 20 9, 22 13, 22 13 C 14 15, 10 10, 4 12 Z" fill="#7B5CFF"/>
-                          <path d="M7 6.5 L10 6.5 M7 9 L13 9" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round"/>
-                        </svg>
-                        <span class="flag-tooltip">C3PAO Target</span>
-                      </div>
+                    <div class="milestone-flag-wrap ${activeRoadmapStep === 6 ? 'is-visible' : ''}" id="step-7-flag" aria-label="Target C3PAO Certification Milestone">
+                      <svg class="milestone-flag-svg" viewBox="0 0 28 36" fill="none">
+                        <line x1="5" y1="2" x2="5" y2="34" stroke="#0B1437" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="5" cy="2.5" r="2" fill="#7B5CFF"/>
+                        <path d="M5 4 C 12 1.5, 17 7.5, 26 5 C 23.5 11, 26 16, 26 16 C 17 18.5, 12 12.5, 5 15 Z" fill="#7B5CFF"/>
+                        <path d="M8 8 L13 8 M8 11.5 L16 11.5" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round"/>
+                      </svg>
                     </div>
                   ` : ''}
                   <span class="node-circle">

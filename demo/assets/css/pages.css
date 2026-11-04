@@ -262,7 +262,7 @@
   justify-content: space-between;
   position: relative;
   margin: 32px 0 20px;
-  padding: 58px 12px 14px;
+  padding: 82px 14px 14px;
   overflow-x: auto;
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
@@ -272,7 +272,7 @@
 /* Background connecting rail & glowing active progress track */
 .roadmap-timeline-rail {
   position: absolute;
-  top: 84px;
+  top: 108px;
   left: 44px;
   right: 44px;
   height: 4px;
@@ -364,61 +364,36 @@
   color: var(--color-violet);
 }
 
-/* Flag on Milestone 07 (Assessment / Target Certification) */
+/* Flag on Milestone 07 (Assessment / Target Certification) - Situated beside the person with no text below */
 .milestone-flag-wrap {
   position: absolute;
-  top: -46px;
-  left: 74%;
-  transform: translateX(-50%) scale(0);
-  transform-origin: bottom center;
+  top: -60px;
+  left: calc(50% + 24px);
+  transform: scale(0);
+  transform-origin: bottom left;
   opacity: 0;
   pointer-events: none;
   transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  z-index: 9;
 }
 
 .step-node.step-7.active .milestone-flag-wrap,
 .milestone-flag-wrap.is-visible {
-  transform: translateX(-50%) scale(1);
+  transform: scale(1);
   opacity: 1;
 }
 
-.milestone-flag-pole {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .milestone-flag-svg {
-  width: 24px;
-  height: 28px;
-  filter: drop-shadow(0 2px 5px rgba(123, 92, 255, 0.45));
+  width: 28px;
+  height: 36px;
+  filter: drop-shadow(0 2px 6px rgba(123, 92, 255, 0.45));
   animation: flagWave 2s ease-in-out infinite;
-  transform-origin: 4px 20px;
+  transform-origin: 5px 24px;
 }
 
 @keyframes flagWave {
   0%, 100% { transform: rotate(0deg) skewY(0deg); }
-  50% { transform: rotate(5deg) skewY(-3deg); }
-}
-
-.flag-tooltip {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--color-violet);
-  background: var(--color-white);
-  padding: 1px 5px;
-  border-radius: 4px;
-  border: 1px solid rgba(123, 92, 255, 0.35);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  white-space: nowrap;
-  letter-spacing: 0.03em;
-  margin-top: 1px;
+  50% { transform: rotate(4deg) skewY(-2deg); }
 }
 
 .section-eyebrow.violet {
@@ -1177,8 +1152,8 @@ body.mobile-preview-mode .hero-lead {
 }
 body.mobile-preview-mode .roadmap-timeline-nav {
   overflow-x: auto !important;
-  padding-top: 58px !important;
-  padding-bottom: 12px !important;
+  padding-top: 82px !important;
+  padding-bottom: 14px !important;
 }
 
 
