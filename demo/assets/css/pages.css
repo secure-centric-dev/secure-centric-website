@@ -400,14 +400,17 @@
   color: var(--color-violet) !important;
 }
 
-/* Standalone Walking Person Character (No border, no background, pure illustration) */
+/* ==========================================================================
+   WORDPRESS CUSTOM BLOCK READY: CMMC 8-Step Roadmap (wp:secure-centric/cmmc-journey)
+   Professional Cybersecurity Assessor Figure & Lifelike Biomechanical Walk Cycle
+   ========================================================================== */
 .roadmap-walker-track {
   display: none;
 }
 
 .roadmap-walker {
   position: absolute;
-  top: 14px;
+  top: 10px;
   left: 0;
   transform: translateX(-50%);
   display: flex;
@@ -423,76 +426,157 @@
 }
 
 .walker-figure-svg {
-  width: 44px;
-  height: 58px;
+  width: 48px;
+  height: 64px;
   overflow: visible;
   display: block;
   filter: drop-shadow(0 4px 10px rgba(11, 20, 55, 0.22));
 }
 
-/* Walking motion animations */
-.roadmap-walker.is-walking .walker-body-group {
-  animation: walkerBob 0.22s ease-in-out infinite alternate;
+/* --- Lifelike Idle State: Subtle Natural Breathing --- */
+.roadmap-walker.is-idle .sc-walker-torso-group {
+  animation: humanIdle 3s ease-in-out infinite alternate;
 }
 
-.roadmap-walker.is-walking .walker-leg-back {
-  transform-origin: 21px 35px;
-  animation: legSwingBack 0.22s ease-in-out infinite alternate;
+.roadmap-walker.is-idle .sc-walker-head {
+  animation: headIdle 3s ease-in-out infinite alternate;
 }
 
-.roadmap-walker.is-walking .walker-leg-front {
-  transform-origin: 24px 35px;
-  animation: legSwingFront 0.22s ease-in-out infinite alternate;
-}
-
-.roadmap-walker.is-walking .walker-arm-front {
-  transform-origin: 24px 19px;
-  animation: armSwingFront 0.22s ease-in-out infinite alternate;
-}
-
-@keyframes walkerBob {
+@keyframes humanIdle {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-4px); }
+  100% { transform: translateY(-1.4px) scaleY(1.01); }
 }
 
-@keyframes legSwingBack {
-  0% { transform: rotate(18deg); }
-  100% { transform: rotate(-20deg); }
+@keyframes headIdle {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-0.9px); }
 }
 
-@keyframes legSwingFront {
-  0% { transform: rotate(-20deg); }
-  100% { transform: rotate(18deg); }
+/* --- Lifelike Human Walk Cycle Animation (0.64s rhythmic human stride) --- */
+.roadmap-walker.is-walking .sc-walker-root {
+  animation: humanWalkBob 0.64s ease-in-out infinite;
 }
 
-@keyframes armSwingFront {
-  0% { transform: rotate(-12deg); }
-  100% { transform: rotate(14deg); }
+.roadmap-walker.is-walking .sc-walker-torso-group {
+  animation: humanTorsoSway 0.64s ease-in-out infinite;
+}
+
+/* Contra-lateral Hip & Articulated Knee Swings */
+.roadmap-walker.is-walking .sc-leg-left {
+  animation: humanThighL 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 27px 44px;
+}
+
+.roadmap-walker.is-walking .sc-shin-left {
+  animation: humanShinL 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 27px 60px;
+}
+
+.roadmap-walker.is-walking .sc-leg-right {
+  animation: humanThighR 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 33px 44px;
+}
+
+.roadmap-walker.is-walking .sc-shin-right {
+  animation: humanShinR 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 33px 60px;
+}
+
+/* Contra-lateral Shoulder & Arm Swings */
+.roadmap-walker.is-walking .sc-arm-left {
+  animation: humanArmL 0.64s ease-in-out infinite;
+  transform-origin: 24px 23px;
+}
+
+.roadmap-walker.is-walking .sc-arm-right {
+  animation: humanArmR 0.64s ease-in-out infinite;
+  transform-origin: 36px 23px;
+}
+
+/* Rhythmic Biomechanical Keyframes */
+@keyframes humanWalkBob {
+  0% { transform: translateY(0) rotate(1.5deg); }
+  25% { transform: translateY(-2.5px) rotate(0.8deg); }
+  50% { transform: translateY(0) rotate(1.5deg); }
+  75% { transform: translateY(-2.5px) rotate(2.2deg); }
+  100% { transform: translateY(0) rotate(1.5deg); }
+}
+
+@keyframes humanTorsoSway {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(1.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes humanThighL {
+  0% { transform: rotate(-22deg); }
+  25% { transform: rotate(-6deg); }
+  50% { transform: rotate(20deg); }
+  75% { transform: rotate(4deg); }
+  100% { transform: rotate(-22deg); }
+}
+
+@keyframes humanShinL {
+  0% { transform: rotate(4deg); }
+  25% { transform: rotate(24deg); }
+  50% { transform: rotate(6deg); }
+  75% { transform: rotate(0deg); }
+  100% { transform: rotate(4deg); }
+}
+
+@keyframes humanThighR {
+  0% { transform: rotate(20deg); }
+  25% { transform: rotate(4deg); }
+  50% { transform: rotate(-22deg); }
+  75% { transform: rotate(-6deg); }
+  100% { transform: rotate(20deg); }
+}
+
+@keyframes humanShinR {
+  0% { transform: rotate(6deg); }
+  25% { transform: rotate(0deg); }
+  50% { transform: rotate(4deg); }
+  75% { transform: rotate(24deg); }
+  100% { transform: rotate(6deg); }
+}
+
+@keyframes humanArmL {
+  0% { transform: rotate(20deg); }
+  50% { transform: rotate(-18deg); }
+  100% { transform: rotate(20deg); }
+}
+
+@keyframes humanArmR {
+  0% { transform: rotate(-16deg); }
+  50% { transform: rotate(18deg); }
+  100% { transform: rotate(-16deg); }
 }
 
 /* Step 7 (07 Assessment) Target Color Accent */
 .roadmap-walker.step-7-active .walker-figure-svg {
-  filter: drop-shadow(0 4px 12px rgba(123, 92, 255, 0.45));
+  filter: drop-shadow(0 4px 14px rgba(123, 92, 255, 0.45));
 }
 
-.roadmap-walker.step-7-active .walker-jacket {
-  fill: #5A3CD8 !important;
+.roadmap-walker.step-7-active .sc-suit-jacket {
+  fill: #5534DA !important;
 }
 
-.roadmap-walker.step-7-active .walker-jacket-front {
-  fill: #7B5CFF !important;
+.roadmap-walker.step-7-active .sc-suit-lapel {
+  fill: #6B49ED !important;
 }
 
-.roadmap-walker.step-7-active .walker-tie {
-  fill: #9D84FF !important;
+.roadmap-walker.step-7-active .sc-suit-tie {
+  fill: #8F72FF !important;
 }
 
-.roadmap-walker.step-7-active .walker-tablet-frame {
+.roadmap-walker.step-7-active .sc-folio-border {
   stroke: #7B5CFF !important;
 }
 
-.roadmap-walker.step-7-active .walker-tablet-glow {
-  stroke: #A890FF !important;
+.roadmap-walker.step-7-active .sc-badge-pip {
+  fill: #00D4FF !important;
 }
 
 /* Step Detail Card Loading Overlay */

@@ -847,56 +847,78 @@
               <div class="roadmap-timeline-fill" id="roadmap-timeline-fill" style="width: ${progressPercent}%;"></div>
             </div>
 
-            <!-- Standalone Walking Character (No border, no background, pure illustration) -->
-            <div class="roadmap-walker ${activeRoadmapStep === 6 ? 'step-7-active' : ''}" 
+            <!-- Standalone Walking Character (WordPress Custom Block Ready: wp:secure-centric/cmmc-journey) -->
+            <div class="roadmap-walker is-idle ${activeRoadmapStep === 6 ? 'step-7-active' : ''}" 
                  id="roadmap-walker" 
                  aria-hidden="true">
-              <svg class="walker-figure-svg" viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g class="walker-body-group">
-                  <!-- Back Leg (Left Leg) -->
-                  <g class="walker-leg-back">
-                    <path d="M22 34 L17 46 L21 47 L25 35 Z" fill="#15224E"/>
-                    <path d="M17 46 L13 57 L17 58 L21 47 Z" fill="#0E1738"/>
-                    <path d="M12 56 L8 59 C7 60 8 61.5 10 61.5 L18 61.5 C19 61.5 19 60.5 18 58.5 L17 56 Z" fill="#060B24"/>
-                    <path d="M8 61 L18 61" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
+              <svg class="walker-figure-svg" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g class="sc-walker-root">
+                  <!-- Back Arm (Left) -->
+                  <g class="sc-arm-left">
+                    <path d="M24 23 L20 34 L23 35 L27 24 Z" fill="#18275C"/>
+                    <path d="M20 34 L18 44 L21 45 L23 35 Z" fill="#101D47"/>
+                    <circle cx="19" cy="45" r="2" fill="#E8BFA0"/>
                   </g>
 
-                  <!-- Torso, Shirt & Tie -->
-                  <g class="walker-torso-wrap">
-                    <path d="M20 18 C20 18 16 23 16 32 C16 34 22 36 26 35 C29 34 32 32 32 23 C32 18 28 17 25 17 Z" fill="#1E2E68" class="walker-jacket"/>
-                    <path d="M22 17 L25 24 L27 17 Z" fill="#FFFFFF"/>
-                    <path d="M24.5 19 L25.5 19 L26 25 L25 28 L24 25 Z" fill="#2F5BFF" class="walker-tie"/>
-                    <path d="M21 17 C21 17 26 23 26 34 L29 33 C31 28 31 22 29 18 Z" fill="#273C85" class="walker-jacket-front"/>
-                    <path d="M20 33 L28 33 L28 35 L20 35 Z" fill="#060B24"/>
-                    <rect x="23" y="33" width="3" height="2" fill="#00D4FF"/>
+                  <!-- Left Leg (Back Leg) -->
+                  <g class="sc-leg-left">
+                    <path d="M24 44 L21 59 L27 60 L29 45 Z" fill="#14214E"/>
+                    <g class="sc-shin-left">
+                      <path d="M21 59 L19 73 L25 74 L27 60 Z" fill="#0C1637"/>
+                      <path d="M19 72 L14 76 C13 77 14 78 16 78 L25 78 C26 78 26 77 25 75 L24 72 Z" fill="#060B24"/>
+                      <path d="M14 77.5 L25 77.5" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
+                    </g>
                   </g>
 
-                  <!-- Head & Hair -->
-                  <g class="walker-head-wrap">
-                    <path d="M23 14 L26 14 L26 18 L23 18 Z" fill="#F0C5A8"/>
-                    <path d="M22 8 C22 5 25 4 28 6 C30 7 31 10 30 13 C29 15 26 16 23 15 C22 13 22 10 22 8 Z" fill="#F5CCA0"/>
-                    <circle cx="23" cy="11" r="1.2" fill="#E5B88F"/>
-                    <circle cx="28.5" cy="9.5" r="0.8" fill="#0B1437"/>
-                    <path d="M21 8 C21 4 24 2 28 2 C31 2 32 4 32 5 C30 5 28 4 25 5 C23 6 22 8 22 8 Z" fill="#0B1437"/>
-                    <path d="M22 5 C24 3 28 3 31 5 C31 6 30 7 28 6.5 C25 6 23 7 22 8 Z" fill="#1A2756"/>
+                  <!-- Torso & Head Group -->
+                  <g class="sc-walker-torso-group">
+                    <!-- Tailored Suit Jacket -->
+                    <path d="M22 22 C22 22 21 33 21 42 L39 42 C39 33 38 22 38 22 Z" fill="#18275C" class="sc-suit-jacket"/>
+                    <!-- White Dress Shirt V-neck -->
+                    <path d="M27 21 L30 30 L33 21 Z" fill="#FFFFFF"/>
+                    <!-- Electric Blue Silk Tie -->
+                    <path d="M29 23 L31 23 L32 32 L30 36 L28 32 Z" fill="#2F5BFF" class="sc-suit-tie"/>
+                    <!-- Dual Lapels -->
+                    <path d="M23 21 L27 34 L29 42 L24 42 Z" fill="#203378" class="sc-suit-lapel"/>
+                    <path d="M37 21 L33 34 L31 42 L36 42 Z" fill="#273E91" class="sc-suit-lapel"/>
+                    <!-- Belt & Cyan Buckle -->
+                    <path d="M22 41 L38 41 L38 43.5 L22 43.5 Z" fill="#060B24"/>
+                    <rect x="28.5" y="41.5" width="3" height="2" fill="#00D4FF"/>
+                    <!-- Cyber AB RP Security Credential Badge -->
+                    <rect x="33" y="27" width="3" height="4.5" rx="0.5" fill="#FFFFFF" stroke="#0B1437" stroke-width="0.5"/>
+                    <circle cx="34.5" cy="28.5" r="0.6" fill="#00D4FF" class="sc-badge-pip"/>
+
+                    <!-- Head & Styled Business Hair -->
+                    <g class="sc-walker-head">
+                      <path d="M28 17 L32 17 L32 22 L28 22 Z" fill="#E8BFA0"/>
+                      <path d="M26 9 C26 5 29 4 33 5 C36 6 37 9 36 13 C35 16 32 18 28 17 C26 15 26 12 26 9 Z" fill="#F3CBAB"/>
+                      <circle cx="27" cy="12.5" r="1.3" fill="#DFA884"/>
+                      <circle cx="33.5" cy="10.5" r="0.9" fill="#0B1437"/>
+                      <path d="M25 9 C25 4 29 2 34 3 C37 3 38 5 38 6 C35 5 33 5 30 6 C27 7 26 9 25 9 Z" fill="#0B1437"/>
+                      <path d="M26 6 C28 4 33 4 37 6 C37 7 35 8 33 7.5 C30 7 27 8 26 9 Z" fill="#1B295A"/>
+                    </g>
                   </g>
 
-                  <!-- Front Leg (Right Leg) -->
-                  <g class="walker-leg-front">
-                    <path d="M25 34 L30 45 L26 46 L22 35 Z" fill="#1E2F6B"/>
-                    <path d="M30 45 L34 56 L30 57 L26 46 Z" fill="#15224E"/>
-                    <path d="M30 56 L34 56 C36 56 39 58 40 60.5 L39 61.5 L30 61.5 C29 61.5 29 59.5 30 56 Z" fill="#060B24"/>
-                    <path d="M30 61 L40 61" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
+                  <!-- Right Leg (Front Leg) -->
+                  <g class="sc-leg-right">
+                    <path d="M30 44 L34 58 L40 59 L36 45 Z" fill="#1C2E6C"/>
+                    <g class="sc-shin-right">
+                      <path d="M34 58 L37 72 L43 73 L40 59 Z" fill="#14214E"/>
+                      <path d="M37 71 L42 71 C44 71 47 73 48 76 L47 77 L38 77 C37 77 37 75 37 71 Z" fill="#060B24"/>
+                      <path d="M38 76.5 L48 76.5" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
+                    </g>
                   </g>
 
-                  <!-- Front Arm with Auditor Tablet -->
-                  <g class="walker-arm-front">
-                    <path d="M24 18 C24 18 29 22 32 26 C33 28 31 30 29 29 C27 26 24 22 23 19 Z" fill="#273C85" class="walker-arm-sleeve"/>
-                    <circle cx="31" cy="28" r="2" fill="#F5CCA0"/>
-                    <rect x="29" y="24" width="10" height="13" rx="1.5" transform="rotate(-15 29 24)" fill="#0B1437" stroke="#00D4FF" stroke-width="1.2" class="walker-tablet-frame"/>
-                    <line x1="31" y1="27" x2="37" y2="25" stroke="#00D4FF" stroke-width="1" stroke-linecap="round" class="walker-tablet-glow"/>
-                    <line x1="32" y1="30" x2="38" y2="28" stroke="#00D4FF" stroke-width="1" stroke-linecap="round" class="walker-tablet-glow"/>
-                    <circle cx="37" cy="33" r="0.8" fill="#00D4FF"/>
+                  <!-- Front Arm (Right) with Executive Compliance Folio -->
+                  <g class="sc-arm-right">
+                    <path d="M35 22 L39 33 L35 34 L31 23 Z" fill="#203378" class="sc-suit-lapel"/>
+                    <path d="M39 33 L43 43 L40 44 L36 34 Z" fill="#273E91" class="sc-suit-lapel"/>
+                    <circle cx="42" cy="44" r="2" fill="#F3CBAB"/>
+                    <!-- Executive Folio / Tablet -->
+                    <rect x="39" y="38" width="13" height="17" rx="2" transform="rotate(-10 39 38)" fill="#0B1437" stroke="#2F5BFF" stroke-width="1.2" class="sc-folio-border"/>
+                    <rect x="44" y="42" width="5" height="2" transform="rotate(-10 44 42)" fill="#00D4FF"/>
+                    <line x1="42" y1="47" x2="49" y2="45.5" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+                    <line x1="43" y1="50" x2="48" y2="49" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
                   </g>
                 </g>
               </svg>
@@ -2913,6 +2935,11 @@
     }
     walker.style.left = `${exactCenterX}px`;
 
+    if (!isRoadmapWalking) {
+      walker.classList.remove('is-walking');
+      walker.classList.add('is-idle');
+    }
+
     if (activeRoadmapStep === 6) {
       walker.classList.add('step-7-active');
     } else {
@@ -2960,6 +2987,12 @@
       roadmapSection.replaceWith(newSection);
 
       alignWalkerToActiveStep(true);
+
+      const newWalker = newSection.querySelector('#roadmap-walker');
+      if (newWalker) {
+        newWalker.classList.remove('is-walking');
+        newWalker.classList.add('is-idle');
+      }
 
       // Keep active button in view in mobile timeline scroll
       const activeBtn = newSection.querySelector('.step-node.active');
@@ -3013,6 +3046,7 @@
     const circle = targetNode.querySelector('.node-circle') || targetNode;
     const targetX = targetNode.offsetLeft + circle.offsetLeft + (circle.offsetWidth / 2);
 
+    walker.classList.remove('is-idle');
     walker.classList.add('is-walking');
     if (newIdx === 6) {
       walker.classList.add('step-7-active');
