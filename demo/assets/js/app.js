@@ -2884,6 +2884,14 @@
     // Align walker exactly above active step
     setTimeout(() => alignWalkerToActiveStep(true), 40);
 
+    // Initialize or clear Roadmap Autoplay loop
+    const hasJourney = page.blocks && page.blocks.some(b => b.k === 'journey');
+    if (hasJourney) {
+      setTimeout(() => initRoadmapAutoplay(), 150);
+    } else {
+      clearRoadmapAutoplay();
+    }
+
     // Close mobile drawer if open
     window.closeMobileDrawer();
 
@@ -2968,10 +2976,80 @@
    */
   let isRoadmapWalking = false;
 
+  // =========================================================================
+  // ROADMAP STEPPER AUTOPLAY & CONTINUOUS LOOP ENGINE
+  // Slowly autoplays through all 8 steps in sequence with pause-on-hover & auto-loop
+  // =========================================================================
+  let roadmapAutoplayTimer = null;
+  let isRoadmapAutoplayPaused = false;
+  const ROADMAP_AUTOPLAY_READ_DELAY = 4800; // 4.8s comfortable reading duration per step
+
+  function clearRoadmapAutoplay() {
+    if (roadmapAutoplayTimer) {
+      clearTimeout(roadmapAutoplayTimer);
+      roadmapAutoplayTimer = null;
+    }
+  }
+
+  function scheduleNextAutoplayStep() {
+    clearRoadmapAutoplay();
+    const roadmapSection = document.getElementById('roadmap-section');
+    if (!roadmapSection) return;
+
+    roadmapAutoplayTimer = setTimeout(() => {
+      advanceRoadmapAutoplay();
+    }, ROADMAP_AUTOPLAY_READ_DELAY);
+  }
+
+  function advanceRoadmapAutoplay() {
+    const roadmapSection = document.getElementById('roadmap-section');
+    if (!roadmapSection) return;
+
+    // If user is currently hovering over roadmap or character is mid-walk, defer check
+    if (isRoadmapAutoplayPaused || isRoadmapWalking) {
+      scheduleNextAutoplayStep();
+      return;
+    }
+
+    const page = getPage(currentPageId);
+    if (!page) return;
+    const block = (page.blocks || []).find(b => b.k === 'journey');
+    const totalSteps = (block && block.items && block.items.length) ? block.items.length : 8;
+
+    // Advance to next step; if at end (Step 8 / idx 7), loop back to step 0
+    let nextStep = activeRoadmapStep + 1;
+    if (nextStep >= totalSteps) {
+      nextStep = 0;
+    }
+
+    window.selectRoadmapStep(nextStep);
+  }
+
+  function bindRoadmapAutoplayHoverEvents(sectionEl) {
+    if (!sectionEl) return;
+    sectionEl.addEventListener('mouseenter', () => {
+      isRoadmapAutoplayPaused = true;
+    });
+    sectionEl.addEventListener('mouseleave', () => {
+      isRoadmapAutoplayPaused = false;
+    });
+  }
+
+  function initRoadmapAutoplay() {
+    clearRoadmapAutoplay();
+    const roadmapSection = document.getElementById('roadmap-section');
+    if (!roadmapSection) return;
+
+    bindRoadmapAutoplayHoverEvents(roadmapSection);
+    scheduleNextAutoplayStep();
+  }
+
   window.selectRoadmapStep = function (idx, e) {
     if (e) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      // If user clicked manually, reset autoplay timer so they get full reading duration
+      clearRoadmapAutoplay();
     }
     if (isRoadmapWalking) return; // Prevent multiple clicks while walking
     const page = getPage(currentPageId);
@@ -3012,6 +3090,10 @@
       if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
         activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
+
+      // Re-bind hover pause & schedule next autoplay cycle
+      bindRoadmapAutoplayHoverEvents(newSection);
+      scheduleNextAutoplayStep();
     }
 
     // Rule 4: On selecting previous or step before current selected step, do not do any animation, directly show person over the selected step and show it as selected
@@ -3050,9 +3132,9 @@
       }
     }
 
-    // Calculate walking distance and duration ("slowly but not too slowly": ~700ms - 1300ms)
+    // Calculate walking distance and duration ("slowly": ~820ms - 1480ms)
     const stepDiff = Math.abs(newIdx - oldIdx);
-    const durationMs = Math.min(1350, 620 + (stepDiff * 130));
+    const durationMs = Math.min(1500, 780 + (stepDiff * 140));
 
     // Target center calculated directly from node and circle
     const targetNode = nodes[newIdx];
