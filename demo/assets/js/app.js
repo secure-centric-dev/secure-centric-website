@@ -599,9 +599,134 @@
    * Render Block HTML: Hero Center (Checklists & About)
    */
   function renderHeroCenter(block, page) {
+    const isResourcePage = (page.group === 'Checklists') ||
+      (page.type && page.type.toLowerCase().includes('resource')) ||
+      (page.url && page.url.includes('/resources/')) ||
+      page.id === 'page-21' || page.id === 'page-22' || page.id === 'page-23';
+
     const subtitle = block.sub || page.meta || (page.name.toLowerCase().includes('about')
       ? 'Safeguarding Controlled Unclassified Information (CUI) protects the warfighters and defense systems that keep our nation safe. Secure-Centric stands beside defense contractors on site from initial scoping through official C3PAO certification.'
       : 'Authoritative, assessor-ready template engineered for defense contractors and DoD subcontractors preparing for formal Level 1 and Level 2 CMMC audits.');
+
+    // If resource page: 2-column hero with header/text/bullets on left and full contact form on right
+    if (isResourcePage) {
+      return `
+        <section class="resource-hero-wrap wp-block-inspect wp-pattern-inspect" 
+                 data-wp-block="wp:group {align:'full', backgroundColor:'midnight'}" 
+                 data-wp-pattern="secure-centric/resource-split-hero">
+          <div class="site-container">
+            <div class="resource-hero-grid">
+              <!-- Left Column: Header, lead, bullet points, credibility -->
+              <div class="resource-hero-left">
+                <span class="section-eyebrow dark" style="margin-bottom: 14px;">// COMPLIANCE RESOURCE &bull; INSTANT ACCESS</span>
+                <h1>${esc(page.h1)}</h1>
+                <p class="hero-lead">${esc(subtitle)}</p>
+
+                <div class="resource-hero-bullets">
+                  <div class="resource-bullet-item">
+                    <span class="bullet-check">✓</span>
+                    <div><b>Assessor-Defensible Format:</b> Fully aligned with NIST SP 800-171 Rev 2 &amp; 32 CFR Part 170 CMMC Level 2 objectives.</div>
+                  </div>
+                  <div class="resource-bullet-item">
+                    <span class="bullet-check">✓</span>
+                    <div><b>Pre-Built Evidence Mapping:</b> Detailed assessment methods, evidence artifact references, and responsible owner assignments.</div>
+                  </div>
+                  <div class="resource-bullet-item">
+                    <span class="bullet-check">✓</span>
+                    <div><b>Cyber AB RPO Reviewed:</b> Maintained by certified Registered Practitioners who guide defense subcontractors through live C3PAO audits.</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.8125rem; color: var(--color-cyber-cyan); font-family: var(--font-mono);">
+                  <span>🔒 100% Confidential</span>
+                  <span>&bull;</span>
+                  <span>Never Shared</span>
+                  <span>&bull;</span>
+                  <span>Direct Download</span>
+                </div>
+              </div>
+
+              <!-- Right Column: Contact Form (Identical to Contact Page) -->
+              <div class="resource-hero-right">
+                <div class="resource-hero-card-form" id="contact-form-container">
+                  <h3 style="margin-bottom: 6px; font-size: 1.35rem; color: var(--color-navy);">Request Your Compliance Pack</h3>
+                  <p style="font-size: 0.8125rem; color: var(--color-slate); margin-bottom: 18px;">
+                    Complete the form below to receive the official compliance checklist and speak with a Cyber AB Registered Practitioner.
+                  </p>
+
+                  <form id="resource-contact-form" onsubmit="window.handleContactSubmit(event)">
+                    <div class="form-row-2">
+                      <div class="form-group">
+                        <label class="form-label" for="contact-name">First &amp; Last Name*</label>
+                        <input type="text" id="contact-name" class="form-input" placeholder="e.g. John Miller" required />
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="contact-email">Work Email (Corporate Domain)*</label>
+                        <input type="email" id="contact-email" class="form-input" placeholder="john@defensecontractor.com" required />
+                      </div>
+                    </div>
+
+                    <div class="form-row-2">
+                      <div class="form-group">
+                        <label class="form-label" for="contact-phone">Phone Number*</label>
+                        <input type="tel" id="contact-phone" class="form-input" placeholder="(555) 000-0000" required />
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="contact-company">Company / Organization*</label>
+                        <input type="text" id="contact-company" class="form-input" placeholder="e.g. Precision Aerospace LLC" required />
+                      </div>
+                    </div>
+
+                    <div class="form-row-2">
+                      <div class="form-group">
+                        <label class="form-label" for="contact-role">Supply Chain Role*</label>
+                        <select id="contact-role" class="form-select" required>
+                          <option value="">Select your role...</option>
+                          <option value="Prime Contractor">Prime Contractor</option>
+                          <option value="Subcontractor Tier 1">Subcontractor (Tier 1)</option>
+                          <option value="Subcontractor Tier 2+">Subcontractor (Tier 2 or Lower)</option>
+                          <option value="Commercial Item Supplier">Commercial Item Supplier</option>
+                          <option value="Managed Service Provider">MSP / IT Provider</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="contact-level">Target CMMC Level*</label>
+                        <select id="contact-level" class="form-select" required>
+                          <option value="Level 2">CMMC Level 2 (110 Controls &bull; CUI)</option>
+                          <option value="Level 1">CMMC Level 1 (15 Controls &bull; FCI)</option>
+                          <option value="Not Sure">Not Sure — Need Boundary Scoping</option>
+                          <option value="NIST 800-171">NIST SP 800-171 / DFARS 7012 Only</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="contact-sprs">Current SPRS Score (Optional)</label>
+                      <input type="text" id="contact-sprs" class="form-input" placeholder="e.g. -35, +60, or 'Never Calculated'" />
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="contact-message">How can our Registered Practitioners help you?*</label>
+                      <textarea id="contact-message" class="form-textarea" rows="2" placeholder="Tell us about your upcoming contract renewals, DoD deadlines, or primary challenges with NIST SP 800-171." required></textarea>
+                    </div>
+
+                    <div style="margin-top: 16px;">
+                      <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">
+                        Download Checklist &amp; Book Call &rarr;
+                      </button>
+                    </div>
+
+                    <div style="margin-top: 10px; font-size: 0.72rem; color: var(--color-slate); text-align: center; line-height: 1.4;">
+                      🔒 Communications held under strict confidentiality. We do not sell or share contractor data.
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
 
     const buttonText = page.name.toLowerCase().includes('about') ? 'Book a Discovery Call &rarr;' : 'Download Checklist (PDF/Excel) &darr;';
     const buttonLink = page.name.toLowerCase().includes('about') ? '#contact' : '#download-form';
@@ -688,6 +813,7 @@
     const activeStep = items[activeRoadmapStep] || items[0];
     const totalSteps = items.length;
     const progressPercent = Math.round(((activeRoadmapStep) / (totalSteps - 1)) * 100);
+    const isStep7 = activeRoadmapStep === 6;
     const isLast = activeRoadmapStep === totalSteps - 1;
     const isFirst = activeRoadmapStep === 0;
 
@@ -716,24 +842,57 @@
           </div>
 
           <!-- Interactive Milestone Flow Stepper -->
-          <div class="roadmap-timeline-nav" role="tablist" aria-label="CMMC Milestone Process">
+          <div class="roadmap-timeline-nav" role="tablist" aria-label="CMMC Milestone Process" id="roadmap-timeline-nav">
             <div class="roadmap-timeline-rail">
-              <div class="roadmap-timeline-fill" style="width: ${progressPercent}%;"></div>
+              <div class="roadmap-timeline-fill" id="roadmap-timeline-fill" style="width: ${progressPercent}%;"></div>
             </div>
+
+            <!-- Walking Person Figure Track -->
+            <div class="roadmap-walker-track" id="roadmap-walker-track" aria-hidden="true">
+              <div class="roadmap-walker ${activeRoadmapStep === 6 ? 'step-7-active' : ''}" 
+                   id="roadmap-walker" 
+                   style="left: calc((${activeRoadmapStep} / 7) * 100%);">
+                <div class="walker-bubble">
+                  <svg class="walker-figure-svg" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="7" r="3.5" fill="currentColor"/>
+                    <line x1="16" y1="10.5" x2="16" y2="19.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <line class="walker-arm-l" x1="16" y1="12.5" x2="11.5" y2="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                    <line class="walker-arm-r" x1="16" y1="12.5" x2="20.5" y2="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                    <line class="walker-leg-l" x1="16" y1="19.5" x2="12" y2="28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <line class="walker-leg-r" x1="16" y1="19.5" x2="20" y2="28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="walker-badge-tag">${activeRoadmapStep === 6 ? 'Target Audit' : 'Current Step'}</span>
+              </div>
+            </div>
+
             ${items.map((step, idx) => {
               const isCompleted = idx < activeRoadmapStep;
               const isActive = idx === activeRoadmapStep;
-              const isViolet = idx === 7;
+              const isNodeStep7 = idx === 6;
               let stateClass = '';
               if (isActive) stateClass = 'active';
               else if (isCompleted) stateClass = 'completed';
               return `
                 <button type="button" 
-                        class="step-node ${isViolet ? 'step-8' : ''} ${stateClass}" 
+                        class="step-node ${isNodeStep7 ? 'step-7' : ''} ${stateClass}" 
                         onclick="window.selectRoadmapStep(${idx}, event)"
                         role="tab"
                         aria-selected="${isActive}"
                         title="Milestone ${step.no}: ${step.name}">
+                  ${isNodeStep7 ? `
+                    <div class="milestone-flag-wrap ${activeRoadmapStep === 6 ? 'is-visible' : ''}" id="step-7-flag">
+                      <div class="milestone-flag-pole">
+                        <svg class="milestone-flag-svg" viewBox="0 0 24 28" fill="none">
+                          <line x1="4" y1="2" x2="4" y2="28" stroke="#0B1437" stroke-width="2" stroke-linecap="round"/>
+                          <circle cx="4" cy="2" r="1.5" fill="#7B5CFF"/>
+                          <path d="M4 3 C 10 1, 14 6, 22 4 C 20 9, 22 13, 22 13 C 14 15, 10 10, 4 12 Z" fill="#7B5CFF"/>
+                          <path d="M7 6.5 L10 6.5 M7 9 L13 9" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round"/>
+                        </svg>
+                        <span class="flag-tooltip">C3PAO Target</span>
+                      </div>
+                    </div>
+                  ` : ''}
                   <span class="node-circle">
                     ${isCompleted ? '✓' : step.no}
                   </span>
@@ -745,16 +904,20 @@
 
           <!-- Active Milestone Flow Detail Card -->
           <div class="step-detail-card" id="roadmap-detail-card" style="margin-top: 32px;">
+            <!-- Loading Overlay during walking animation -->
+            <div class="step-card-loading-overlay" id="step-loading-overlay">
+              <div class="step-loading-box">
+                <div class="step-spinner"></div>
+                <div class="step-loading-text">Traveling to Milestone...</div>
+              </div>
+            </div>
+
             <div class="milestone-flow-header">
               <div class="milestone-stepper-pills">
-                <span class="milestone-flow-badge ${isLast ? 'violet' : ''}">
+                <span class="milestone-flow-badge ${isStep7 ? 'violet' : ''}">
                   <span class="pulse-dot" style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 5px;"></span>
                   MILESTONE ${activeStep.no} OF 08 &bull; ${phaseName}
                 </span>
-                <div class="milestone-progress-track" title="${progressPercent}% Completed">
-                  <div class="milestone-progress-bar" style="width: ${progressPercent}%;"></div>
-                </div>
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-slate); font-weight: 700;">${progressPercent}% Complete</span>
               </div>
 
               <div class="milestone-stepper-nav">
@@ -774,18 +937,22 @@
             </div>
 
             <div class="step-detail-left">
-              <span class="section-eyebrow ${isLast ? 'violet' : ''}">MILESTONE ${activeStep.no} &bull; ${esc(activeStep.name).toUpperCase()}</span>
+              <span class="section-eyebrow ${isStep7 ? 'violet' : ''}">MILESTONE ${activeStep.no} &bull; ${esc(activeStep.name).toUpperCase()}</span>
               <h3>${esc(activeStep.name)}</h3>
               <p style="font-size: 1.0625rem; color: var(--color-body-text); line-height: 1.6; margin-bottom: 24px;">
                 ${esc(activeStep.help)}
               </p>
               <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
-                ${!isLast ? `
+                ${isStep7 ? `
+                  <a href="#page-19" class="btn btn-primary" style="background-color: var(--color-violet); border-color: var(--color-violet);">
+                    Official C3PAO Assessment Support &rarr;
+                  </a>
+                ` : !isLast ? `
                   <button type="button" class="btn btn-primary" onclick="window.selectRoadmapStep(${activeRoadmapStep + 1}, event)">
                     Advance to Milestone ${(items[activeRoadmapStep + 1]).no}: ${esc(items[activeRoadmapStep + 1].name)} &rarr;
                   </button>
                 ` : `
-                  <a href="#contact" class="btn btn-primary" style="background-color: var(--color-violet); border-color: var(--color-violet);">
+                  <a href="#contact" class="btn btn-primary">
                     Achieve Continuous CMMC Readiness &rarr;
                   </a>
                 `}
@@ -798,9 +965,9 @@
                 <h5>WHO DOES THIS WORK</h5>
                 <b style="color: var(--color-navy); font-size: 0.9375rem;">${esc(activeStep.who)}</b>
               </div>
-              <div class="step-subcard" style="border-left: 3px solid var(--color-electric-blue);">
+              <div class="step-subcard" style="border-left: 3px solid ${isStep7 ? 'var(--color-violet)' : 'var(--color-electric-blue)'};">
                 <h5>PRIMARY DELIVERABLE YOU KEEP</h5>
-                <b style="color: var(--color-electric-blue); font-size: 0.9375rem;">${esc(activeStep.output)}</b>
+                <b style="color: ${isStep7 ? 'var(--color-violet)' : 'var(--color-electric-blue)'}; font-size: 0.9375rem;">${esc(activeStep.output)}</b>
               </div>
             </div>
           </div>
@@ -2691,36 +2858,114 @@
   /**
    * Global interactive handlers attached to window
    */
+  let isRoadmapWalking = false;
+
   window.selectRoadmapStep = function (idx, e) {
     if (e) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
     }
+    if (isRoadmapWalking) return; // Prevent multiple clicks while walking
     const page = getPage(currentPageId);
     if (!page) return;
     const block = (page.blocks || []).find(b => b.k === 'journey');
     if (!block || !block.items || idx < 0 || idx >= block.items.length) return;
 
-    activeRoadmapStep = idx;
+    const oldIdx = activeRoadmapStep;
+    const newIdx = idx;
+
+    if (newIdx === oldIdx) return;
 
     const roadmapSection = document.getElementById('roadmap-section');
-    if (roadmapSection) {
-      // In-place DOM update prevents scrolling to top and preserves user scroll position
+    if (!roadmapSection) {
+      activeRoadmapStep = newIdx;
+      renderCurrentPage();
+      return;
+    }
+
+    // Helper: update whole section DOM smoothly
+    function finishStepTransition() {
+      activeRoadmapStep = newIdx;
       const temp = document.createElement('div');
       temp.innerHTML = renderJourney(block);
       const newSection = temp.firstElementChild;
       roadmapSection.replaceWith(newSection);
 
-      // Smoothly keep the active button in view in mobile timeline scroll
+      // Keep active button in view in mobile timeline scroll
       const activeBtn = newSection.querySelector('.step-node.active');
       if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
         activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
+    }
+
+    // Rule 4: On selecting previous or step before current selected step, do not do any animation, directly show person over the selected step and show it as selected
+    if (newIdx < oldIdx) {
+      finishStepTransition();
       return;
     }
 
-    // Fallback if section wasn't in DOM
-    renderCurrentPage();
+    // Rule 1: Forward selection: A person will walk from current selection to that selection slowly but not too slowly and once it reaches, user can see the step content (until then add a overlay and loading) and step gets selected
+    const nav = roadmapSection.querySelector('#roadmap-timeline-nav') || roadmapSection.querySelector('.roadmap-timeline-nav');
+    const walker = roadmapSection.querySelector('#roadmap-walker');
+    const walkerTrack = roadmapSection.querySelector('#roadmap-walker-track');
+    const overlay = roadmapSection.querySelector('#step-loading-overlay');
+    const timelineFill = roadmapSection.querySelector('#roadmap-timeline-fill') || roadmapSection.querySelector('.roadmap-timeline-fill');
+    const nodes = nav ? nav.querySelectorAll('.step-node') : [];
+
+    if (!walker || !walkerTrack || !overlay || nodes.length <= newIdx) {
+      finishStepTransition();
+      return;
+    }
+
+    isRoadmapWalking = true;
+
+    // Show loading overlay on step card
+    overlay.classList.add('active');
+    const loadingText = overlay.querySelector('.step-loading-text');
+    const destName = (block.items[newIdx] && block.items[newIdx].name) ? block.items[newIdx].name : ('Milestone ' + (newIdx + 1));
+    if (loadingText) {
+      loadingText.textContent = 'Advancing to ' + destName + '...';
+    }
+
+    // Rule 3: When person clicks step 7 (index 6), show flag over the section along with person coming to that step
+    if (newIdx === 6) {
+      const flag = roadmapSection.querySelector('#step-7-flag') || roadmapSection.querySelector('.milestone-flag-wrap');
+      if (flag) {
+        flag.classList.add('is-visible');
+      }
+    }
+
+    // Calculate walking distance and duration ("slowly but not too slowly": ~700ms - 1300ms)
+    const stepDiff = Math.abs(newIdx - oldIdx);
+    const durationMs = Math.min(1350, 620 + (stepDiff * 130));
+
+    // Measure target center relative to walker track
+    const trackRect = walkerTrack.getBoundingClientRect();
+    const targetNode = nodes[newIdx];
+    const targetRect = targetNode.getBoundingClientRect();
+    const targetX = (targetRect.left + targetRect.width / 2) - trackRect.left;
+
+    walker.classList.add('is-walking');
+    if (newIdx === 6) {
+      walker.classList.add('step-7-active');
+    } else {
+      walker.classList.remove('step-7-active');
+    }
+
+    walker.style.transition = `left ${durationMs}ms cubic-bezier(0.35, 0, 0.25, 1)`;
+    walker.style.left = `${targetX}px`;
+
+    // Advance the timeline fill in sync with the walking person
+    if (timelineFill) {
+      const newProgress = Math.round((newIdx / (block.items.length - 1)) * 100);
+      timelineFill.style.transition = `width ${durationMs}ms cubic-bezier(0.35, 0, 0.25, 1)`;
+      timelineFill.style.width = `${newProgress}%`;
+    }
+
+    setTimeout(() => {
+      isRoadmapWalking = false;
+      finishStepTransition();
+    }, durationMs + 60);
   };
 
   window.toggleAccordion = function (headerEl) {
@@ -2781,9 +3026,11 @@
 
   window.handleContactSubmit = function (e) {
     e.preventDefault();
-    const container = document.getElementById('contact-form-container');
+    const form = e.target;
+    const container = form ? (form.closest('.contact-form-card') || form.closest('.resource-hero-card-form') || document.getElementById('contact-form-container')) : document.getElementById('contact-form-container');
     if (!container) return;
-    const name = document.getElementById('contact-name')?.value || 'Contractor';
+    const nameInput = form ? form.querySelector('#contact-name') : document.getElementById('contact-name');
+    const name = nameInput?.value || 'Contractor';
     container.innerHTML = `
       <div style="text-align: center; padding: 40px 20px;">
         <div style="width: 60px; height: 60px; background: rgba(0, 212, 255, 0.15); border: 2px solid var(--color-cyber-cyan); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.75rem; color: var(--color-cyber-cyan);">
