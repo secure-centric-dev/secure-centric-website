@@ -2978,11 +2978,10 @@
 
   // =========================================================================
   // ROADMAP STEPPER AUTOPLAY & CONTINUOUS LOOP ENGINE
-  // Slowly autoplays through all 8 steps in sequence with pause-on-hover & auto-loop
+  // Automatically advances through all 8 steps at a measured, comfortable pace
   // =========================================================================
   let roadmapAutoplayTimer = null;
-  let isRoadmapAutoplayPaused = false;
-  const ROADMAP_AUTOPLAY_READ_DELAY = 2400; // 2.4s brisk reading pace per step
+  const ROADMAP_AUTOPLAY_READ_DELAY = 3800; // 3.8s measured, comfortable reading pace per step
 
   function clearRoadmapAutoplay() {
     if (roadmapAutoplayTimer) {
@@ -3005,8 +3004,8 @@
     const roadmapSection = document.getElementById('roadmap-section');
     if (!roadmapSection) return;
 
-    // If user is currently hovering over roadmap or character is mid-walk, defer check
-    if (isRoadmapAutoplayPaused || isRoadmapWalking) {
+    // If character is mid-walk, defer check
+    if (isRoadmapWalking) {
       scheduleNextAutoplayStep();
       return;
     }
@@ -3025,22 +3024,11 @@
     window.selectRoadmapStep(nextStep);
   }
 
-  function bindRoadmapAutoplayHoverEvents(sectionEl) {
-    if (!sectionEl) return;
-    sectionEl.addEventListener('mouseenter', () => {
-      isRoadmapAutoplayPaused = true;
-    });
-    sectionEl.addEventListener('mouseleave', () => {
-      isRoadmapAutoplayPaused = false;
-    });
-  }
-
   function initRoadmapAutoplay() {
     clearRoadmapAutoplay();
     const roadmapSection = document.getElementById('roadmap-section');
     if (!roadmapSection) return;
 
-    bindRoadmapAutoplayHoverEvents(roadmapSection);
     scheduleNextAutoplayStep();
   }
 
@@ -3091,8 +3079,7 @@
         activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
-      // Re-bind hover pause & schedule next autoplay cycle
-      bindRoadmapAutoplayHoverEvents(newSection);
+      // Continue the uninterrupted autoplay loop
       scheduleNextAutoplayStep();
     }
 
@@ -3132,9 +3119,9 @@
       }
     }
 
-    // Calculate walking distance and duration (brisk, responsive stride: ~550ms - 950ms)
+    // Calculate walking distance and duration (steady, measured stride: ~750ms - 1250ms)
     const stepDiff = Math.abs(newIdx - oldIdx);
-    const durationMs = Math.min(950, 480 + (stepDiff * 80));
+    const durationMs = Math.min(1250, 640 + (stepDiff * 110));
 
     // Target center calculated directly from node and circle
     const targetNode = nodes[newIdx];
