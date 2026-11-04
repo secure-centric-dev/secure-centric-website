@@ -410,7 +410,7 @@
 
 .roadmap-walker {
   position: absolute;
-  top: 6px;
+  top: -2px;
   left: 0;
   transform: translateX(-50%);
   display: flex;
@@ -426,14 +426,14 @@
 }
 
 .walker-figure-svg {
-  width: 44px;
-  height: 68px;
+  width: 48px;
+  height: 76px;
   overflow: visible;
   display: block;
-  filter: drop-shadow(0 4px 10px rgba(11, 20, 55, 0.22));
+  filter: none !important;
 }
 
-/* --- Lifelike Idle State: Subtle Natural Breathing --- */
+/* --- Lifelike Idle State: Subtle Natural Breathing (No Distortion) --- */
 .roadmap-walker.is-idle .sc-ref-torso-group {
   animation: humanIdle 3s ease-in-out infinite alternate;
 }
@@ -444,12 +444,12 @@
 
 @keyframes humanIdle {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-1.5px) scaleY(1.008); }
+  100% { transform: translateY(-1.2px); }
 }
 
 @keyframes humanArmIdle {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-1px); }
+  100% { transform: translateY(-0.8px); }
 }
 
 /* --- Lifelike Human Walk Cycle Animation (0.64s rhythmic human stride) --- */
@@ -527,7 +527,7 @@
 
 /* Step 7 (07 Assessment) Target Violet Accent */
 .roadmap-walker.step-7-active .walker-figure-svg {
-  filter: drop-shadow(0 4px 14px rgba(123, 92, 255, 0.45));
+  filter: none !important;
 }
 
 .roadmap-walker.step-7-active .sc-suit-jacket {
