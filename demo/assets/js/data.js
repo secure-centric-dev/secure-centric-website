@@ -341,7 +341,7 @@ window.SITE_PAGES_DATA = [
             "role": "CISO",
             "company": "Tower Semiconductor",
             "linkedin": true,
-            "quote": "Shared publicly on LinkedIn: 'Secure-Centric's readiness mock assessment gave our executive board complete confidence. Their Registered Practitioners know exactly how assessors grade every objective.'"
+            "quote": "I would like to thank Secure-Centric and Desmond Thompson, who guided us through the preparation stages for the certification, even before the external assessment."
           },
           {
             "no": "05",
@@ -349,7 +349,7 @@ window.SITE_PAGES_DATA = [
             "role": "CIO",
             "company": "HRD Aero Systems",
             "linkedin": true,
-            "quote": "Shared publicly on LinkedIn: 'From scoping out shop-floor test equipment to submitting our SPRS score defense, Secure-Centric made what felt like an impossible 110-control standard manageable.'"
+            "quote": "From scoping out shop-floor test equipment to submitting our SPRS score defense, Secure-Centric made what felt like an impossible 110-control standard manageable."
           }
         ],
         "wpBlock": "core/stories",

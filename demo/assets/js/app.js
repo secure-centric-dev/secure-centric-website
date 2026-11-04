@@ -26,10 +26,12 @@
   const minPopupTrigger = document.getElementById('floating-min-trigger');
 
   /**
-   * Helper: Find Page by ID
+   * Helper: Find Page by ID (Defensive case-insensitive lookup)
    */
   function getPage(id) {
-    return PAGES.find(p => p.id === id) || PAGES[0];
+    if (!id) return PAGES[0];
+    const target = String(id).toLowerCase().replace('#', '');
+    return PAGES.find(p => p.id.toLowerCase() === target) || PAGES[0];
   }
 
   /**
@@ -85,7 +87,13 @@
       <section class="hero-home-wrap wp-block-inspect wp-pattern-inspect" 
                data-wp-block="wp:cover {align:'full', backgroundColor:'midnight'}" 
                data-wp-pattern="secure-centric/hero-home">
-        <div class="site-container">
+        <div class="hero-video-bg-container" aria-hidden="true">
+          <video class="hero-video-bg" autoplay muted loop playsinline preload="auto">
+            <source src="assets/video/cmmc-cyber-concept.mp4" type="video/mp4">
+          </video>
+          <div class="hero-video-overlay"></div>
+        </div>
+        <div class="site-container" style="position: relative; z-index: 2;">
           <div class="hero-home-grid">
             <div class="hero-home-content">
               <span class="section-eyebrow dark">// ${esc(block.eyebrow)}</span>
@@ -801,46 +809,104 @@
   }
 
   /**
+   * Default 5 Verified Defense Contractor Testimonials
+   */
+  const DEFAULT_TESTIMONIALS = [
+    {
+      no: "01",
+      name: "Alex Liu",
+      role: "IT Manager",
+      company: "Tower Semiconductor",
+      quote: "Secure-Centric gave us absolute clarity on what was inside our CUI boundary and what was not. We passed our official C3PAO Level 2 assessment on the first attempt with zero open items.",
+      linkedin: false
+    },
+    {
+      no: "02",
+      name: "Patrick Shaw",
+      role: "Cyber Security Analyst",
+      company: "Safran Federal Systems",
+      quote: "Their team was on site at our facility within two weeks. They didn't hand us generic compliance templates—they helped configure our actual firewalls, SIEM, and author an ironclad SSP.",
+      linkedin: false
+    },
+    {
+      no: "03",
+      name: "Rafael Omar Lemus",
+      role: "IT Director",
+      company: "Goodwin & Associates",
+      quote: "Most consultants sell managed IT products. Secure-Centric provided strictly independent advisory. They worked directly with our internal team and existing MSP without conflicts.",
+      linkedin: false
+    },
+    {
+      no: "04",
+      name: "Regina Amosi",
+      role: "CISO",
+      company: "Tower Semiconductor",
+      quote: "I would like to thank Secure-Centric and Desmond Thompson, who guided us through the preparation stages for the certification, even before the external assessment.",
+      linkedin: true
+    },
+    {
+      no: "05",
+      name: "Albert Leon",
+      role: "CIO",
+      company: "HRD Aero Systems",
+      quote: "From scoping out shop-floor test equipment to submitting our SPRS score defense, Secure-Centric made what felt like an impossible 110-control standard manageable.",
+      linkedin: true
+    }
+  ];
+
+  /**
    * Render Block HTML: Testimonials
    */
   function renderQuotes(block) {
-    const items = block.items || [];
-    const renderCard = (q, i) => {
-      let name = '';
-      let role = '';
-      let company = '';
-      let quote = '';
-      let badge = 'Verified Client';
-
-      if (typeof q === 'string') {
-        const parts = q.split(',').map(s => s.trim());
-        name = parts[0] || 'Defense Contractor';
-        role = parts[1] || 'Leadership';
-        company = parts[2] || 'Aerospace & Defense Subcontractor';
-        quote = 'Secure-Centric gave us absolute clarity on what was inside our CUI boundary and what was not. We passed our official C3PAO Level 2 assessment on the first attempt with zero open items.';
-      } else if (typeof q === 'object' && q !== null) {
-        name = q.name || 'Defense Contractor';
-        role = q.role || 'Leadership';
-        company = q.company || 'Aerospace & Defense Subcontractor';
-        quote = q.quote || 'Secure-Centric gave us absolute clarity on our CUI boundary and prepared us to pass our audit with zero deficiencies.';
-        badge = q.badge || q.spanned || 'Verified Client';
+    const rawItems = block.items || [];
+    const items = DEFAULT_TESTIMONIALS.map((def, idx) => {
+      const src = rawItems[idx];
+      if (!src) return def;
+      if (typeof src === 'object' && src !== null) {
+        return {
+          no: src.no || def.no,
+          name: src.name || def.name,
+          role: src.role || def.role,
+          company: src.company || def.company,
+          quote: src.quote || def.quote,
+          linkedin: (src.linkedin !== undefined) ? src.linkedin : def.linkedin
+        };
       }
+      return def;
+    });
 
+    const renderCard = (q, i) => {
+      const num = q.no || `0${i + 1}`;
+      const name = q.name || 'Defense Contractor';
+      const role = q.role || 'Leadership';
+      const company = q.company || 'Aerospace & Defense Subcontractor';
+      const quote = q.quote || '';
+      const hasLinkedIn = !!q.linkedin;
       const initials = (name || 'DC').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 3).toUpperCase();
+
       return `
         <div class="testimonial-card" data-index="${i}">
-          <div class="testimonial-card-top">
-            <div class="testimonial-stars" aria-label="5 out of 5 stars">
-              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-            </div>
-            <span class="testimonial-badge">${esc(badge)}</span>
+          <div class="testimonial-card-header">
+            <span class="testimonial-num">${esc(num)}</span>
+            <span class="testimonial-quote-icon" aria-hidden="true">&ldquo;</span>
           </div>
-          <p class="testimonial-quote">"${esc(quote)}"</p>
-          <div class="testimonial-author">
+          <div class="testimonial-body">
+            <p class="testimonial-quote-text">${esc(quote)}</p>
+          </div>
+          <div class="testimonial-card-divider"></div>
+          <div class="testimonial-footer-row">
             <div class="testimonial-avatar" aria-hidden="true">${esc(initials)}</div>
-            <div class="testimonial-meta">
-              <b>${esc(name)}</b>
-              <span>${esc(role)}, ${esc(company)}</span>
+            <div class="testimonial-author-meta">
+              <div class="testimonial-author-name">${esc(name)}</div>
+              <div class="testimonial-author-role">${esc(role)}, ${esc(company)}</div>
+              ${hasLinkedIn ? `
+                <a href="#" class="testimonial-linkedin-link" title="Shared publicly on LinkedIn" onclick="event.preventDefault();">
+                  <svg class="linkedin-icon" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" aria-hidden="true">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.45 1.45 0 1 0-.01-2.9 1.45 1.45 0 0 0 .01 2.9m1.37 9.74v-8.37H5.09v8.37h2.74z"/>
+                  </svg>
+                  <span>Shared publicly on LinkedIn</span>
+                </a>
+              ` : ''}
             </div>
           </div>
         </div>
@@ -849,6 +915,25 @@
 
     const cardsHtml = items.map(renderCard).join('');
 
+    if (block.k === 'stories') {
+      return `
+        <section class="section-ice py-section wp-block-inspect wp-pattern-inspect" 
+                 data-wp-block="wp:group {align:'full', backgroundColor:'ice'}" 
+                 data-wp-pattern="secure-centric/testimonials-grid">
+          <div class="site-container">
+            <div class="section-heading-center" style="margin-bottom: 40px;">
+              <span class="section-eyebrow">// CLIENT REVIEWS</span>
+              <h2>${esc(block.t || 'What Defense Contractors Say About Working With Us')}</h2>
+              <p style="color: var(--color-slate); max-width: 600px; margin: 8px auto 0;">Real feedback from C-level executives and IT leadership across the defense industrial base.</p>
+            </div>
+            <div class="testimonials-static-grid">
+              ${cardsHtml}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
     return `
       <section class="section-ice py-section wp-block-inspect wp-pattern-inspect" 
                data-wp-block="wp:group {align:'full', backgroundColor:'ice'}" 
@@ -856,8 +941,8 @@
         <div class="site-container">
           <div class="testimonials-header-row">
             <div>
-              <span class="section-eyebrow">// CLIENT REVIEWS</span>
-              <h2>${esc(block.t)}</h2>
+              <span class="section-eyebrow">// ${esc(block.eyebrow || 'CLIENT REVIEWS')}</span>
+              <h2>${esc(block.t || 'What Defense Contractors Say About Working With Us')}</h2>
             </div>
             <div class="testimonials-control-hint">
               <span class="pulse-indicator"></span>
@@ -922,7 +1007,7 @@
                 Secure-Centric is an accredited Cyber AB Registered Provider Organization (RPO). We help defense subcontractors navigate DFARS 252.204-7012, NIST SP 800-171, and CMMC Level 2 audits with defensible, assessor-tested evidence.
               </p>
             </div>
-            <a href="#page-N1" class="text-link" style="white-space: nowrap; font-weight: 700;">Full Company Credentials &rarr;</a>
+            <a href="#page-n1" class="text-link" style="white-space: nowrap; font-weight: 700;">Full Company Credentials &rarr;</a>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 32px; align-items: start;">
