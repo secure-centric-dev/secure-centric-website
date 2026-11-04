@@ -246,21 +246,26 @@ body.mobile-preview-mode .site-header-sticky-wrapper {
 .site-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   text-decoration: none;
   color: var(--color-white);
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   letter-spacing: -0.01em;
 }
 
 .site-logo .site-logo-img {
-  height: 40px;
+  height: 48px;
   width: auto;
-  max-width: 48px;
+  max-width: 58px;
   object-fit: contain;
   display: block;
   flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.site-logo:hover .site-logo-img {
+  transform: scale(1.04);
 }
 
 .site-logo .logo-icon {
@@ -1427,7 +1432,11 @@ body.mobile-preview-mode .site-header-sticky-wrapper {
     height: 60px;
   }
   .site-logo {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+  }
+  .site-logo .site-logo-img {
+    height: 40px;
+    max-width: 50px;
   }
   .site-logo .logo-icon {
     width: 28px;
@@ -1449,7 +1458,11 @@ body.mobile-preview-mode .site-header .header-inner {
   height: 60px !important;
 }
 body.mobile-preview-mode .site-logo {
-  font-size: 1.1rem !important;
+  font-size: 1.15rem !important;
+}
+body.mobile-preview-mode .site-logo .site-logo-img {
+  height: 40px !important;
+  max-width: 50px !important;
 }
 body.mobile-preview-mode .site-logo .logo-icon {
   width: 28px !important;

@@ -827,6 +827,29 @@
       phaseName = 'Phase 4: Official C3PAO Assessment & Affirmation';
     }
 
+    // Helper to get tablet screen icon matching the active milestone
+    function getTabletIcon(stepIdx) {
+      switch(stepIdx) {
+        case 0: // 01 Site visit (Location pin)
+          return `<path d="M99 89 q-7.5 -8 -7.5 -12.5 a7.5 7.5 0 0 1 15 0 q0 4.5 -7.5 12.5 z" fill="#2F5BFF" class="sc-tablet-icon"/><circle cx="99" cy="76.5" r="2.8" fill="#FFFFFF"/>`;
+        case 1: // 02 Scoping (Target boundary / Scoping grid)
+          return `<rect x="92.5" y="70" width="13" height="13" rx="1.5" fill="none" stroke="#2F5BFF" stroke-width="1.8" stroke-dasharray="2.5 1.5" class="sc-tablet-icon"/><rect x="96" y="73.5" width="6" height="6" rx="1" fill="#19C3F0"/>`;
+        case 2: // 03 Gap assessment (Check & Cross)
+          return `<path d="M92.44 74 l2.08 2.24 l3.68 -4.32" fill="none" stroke="#19C3F0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="99.5" y="72.6" width="7" height="2.4" rx="1.2" fill="#2F5BFF" class="sc-tablet-icon"/><path d="M92.8 81.2 l4.4 4.4 M97.2 81.2 l-4.4 4.4" stroke="#FF6B4A" stroke-width="2.2" stroke-linecap="round"/><rect x="99.5" y="82.2" width="7" height="2.4" rx="1.2" fill="#2F5BFF" class="sc-tablet-icon"/>`;
+        case 3: // 04 Remediation (Spanner / Wrench)
+          return `<path d="M93.5 86.5 L101.5 77.5" stroke="#2F5BFF" stroke-width="3.4" stroke-linecap="round" class="sc-tablet-icon"/><circle cx="103" cy="74.5" r="4.6" fill="#2F5BFF" class="sc-tablet-icon"/><path d="M103 70 l3 3.2 l-2 2 l-3.2 -3 z" fill="#FFFFFF"/>`;
+        case 4: // 05 Documentation (Policy / Procedure Sheet)
+          return `<path d="M92.5 69.5 h9 l4.5 4.5 v14.5 h-13.5 z" fill="none" stroke="#2F5BFF" stroke-width="1.8" stroke-linejoin="round" class="sc-tablet-icon"/><path d="M101.5 69.5 v4.5 h4.5" fill="none" stroke="#2F5BFF" stroke-width="1.6" class="sc-tablet-icon"/><rect x="95" y="77" width="8.5" height="1.8" rx=".9" fill="#19C3F0"/><rect x="95" y="80.6" width="8.5" height="1.8" rx=".9" fill="#19C3F0"/><rect x="95" y="84.2" width="5.5" height="1.8" rx=".9" fill="#19C3F0"/>`;
+        case 5: // 06 Readiness review (Audit Checklist)
+          return `<path d="M92.26 72.5 l1.82 1.96 l3.22 -3.78" fill="none" stroke="#19C3F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="98.5" y="70.9" width="8" height="2.2" rx="1.1" fill="#2F5BFF" class="sc-tablet-icon"/><path d="M92.26 79 l1.82 1.96 l3.22 -3.78" fill="none" stroke="#19C3F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="98.5" y="77.4" width="8" height="2.2" rx="1.1" fill="#2F5BFF" class="sc-tablet-icon"/><path d="M92.26 85.5 l1.82 1.96 l3.22 -3.78" fill="none" stroke="#19C3F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="98.5" y="83.9" width="8" height="2.2" rx="1.1" fill="#2F5BFF" class="sc-tablet-icon"/>`;
+        case 6: // 07 Assessment (Target C3PAO Certification Badge & Ribbon)
+          return `<circle cx="99" cy="74.5" r="5" fill="#7B5CFF" class="sc-tablet-icon"/><path d="M96.8 74.5 l1.6 1.6 l3.6 -3.6" fill="none" stroke="#FFFFFF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M96.5 78.5 L95 86 L99 83.5 L103 86 L101.5 78.5" fill="#7B5CFF" class="sc-tablet-icon"/>`;
+        case 7: // 08 Maintain (Continuous Monitoring / Sync Arrows)
+        default:
+          return `<path d="M95 78 A5 5 0 1 1 103 81" fill="none" stroke="#2F5BFF" stroke-width="2" stroke-linecap="round" class="sc-tablet-icon"/><polygon points="103,77 106,81 101,82" fill="#2F5BFF" class="sc-tablet-icon"/><path d="M103 80 A5 5 0 1 1 95 77" fill="none" stroke="#19C3F0" stroke-width="2" stroke-linecap="round"/><polygon points="95,81 92,77 97,76" fill="#19C3F0"/>`;
+      }
+    }
+
     return `
       <section class="py-section roadmap-wrap wp-block-inspect wp-pattern-inspect" 
                data-wp-block="wp:group {backgroundColor:'ice'}" 
@@ -851,74 +874,64 @@
             <div class="roadmap-walker is-idle ${activeRoadmapStep === 6 ? 'step-7-active' : ''}" 
                  id="roadmap-walker" 
                  aria-hidden="true">
-              <svg class="walker-figure-svg" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="walker-figure-svg" viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g class="sc-walker-root">
+                  <!-- Ground Shadow -->
+                  <ellipse cx="72" cy="206" rx="36" ry="4.5" fill="#14204B" opacity=".12"/>
+
                   <!-- Back Arm (Left) -->
-                  <g class="sc-arm-left">
-                    <path d="M24 23 L20 34 L23 35 L27 24 Z" fill="#18275C"/>
-                    <path d="M20 34 L18 44 L21 45 L23 35 Z" fill="#101D47"/>
-                    <circle cx="19" cy="45" r="2" fill="#E8BFA0"/>
+                  <g class="sc-ref-arm-left">
+                    <path d="M65 58 L57 85 L52 104" fill="none" stroke="#0F1A3E" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="51.5" cy="107" r="5" fill="#C98B63"/>
                   </g>
 
-                  <!-- Left Leg (Back Leg) -->
-                  <g class="sc-leg-left">
-                    <path d="M24 44 L21 59 L27 60 L29 45 Z" fill="#14214E"/>
-                    <g class="sc-shin-left">
-                      <path d="M21 59 L19 73 L25 74 L27 60 Z" fill="#0C1637"/>
-                      <path d="M19 72 L14 76 C13 77 14 78 16 78 L25 78 C26 78 26 77 25 75 L24 72 Z" fill="#060B24"/>
-                      <path d="M14 77.5 L25 77.5" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
+                  <!-- Back Leg (Left) -->
+                  <g class="sc-ref-leg-left">
+                    <path d="M69 111 L59 151 L48 186" fill="none" stroke="#111A40" stroke-width="14" stroke-linejoin="round"/>
+                    <path d="M41 184 h13 q8 0 9 6.5 v2.5 h-22 z" fill="#0A0F24" transform="rotate(22 52 189)"/>
+                  </g>
+
+                  <!-- Front Leg (Right) -->
+                  <g class="sc-ref-leg-right">
+                    <path d="M78 110 L90 152 L97 192" fill="none" stroke="#1A2552" stroke-width="15" stroke-linejoin="round"/>
+                    <path d="M89 191 h15 q8 0 8 6 v2.5 h-23 z" fill="#0A0F24"/>
+                  </g>
+
+                  <!-- Torso, Suit Jacket, Head & Credentials -->
+                  <g class="sc-ref-torso-group">
+                    <!-- Tailored Navy Suit Jacket -->
+                    <path d="M58 58 Q60 47 72 47 Q85 47 87 55 L91 112 Q74 119 57 113 Z" fill="#14204B" class="sc-suit-jacket"/>
+                    <!-- White Inner Shirt V-Collar -->
+                    <path d="M78 47 L86 52 L84 70 Z" fill="#FFFFFF"/>
+                    <!-- Inner Suit Fold / Lapel Depth -->
+                    <path d="M78 50 L85 60 L80 84 L76 62 Z" fill="#0C1533"/>
+                    <!-- Neck -->
+                    <rect x="69" y="40" width="9" height="10" rx="2" fill="#C98B63"/>
+                    <!-- Cyan Security Lanyard Ribbon -->
+                    <path d="M76.5 47.5 L83 66.5" stroke="#19C3F0" stroke-width="1.8" stroke-linecap="round" class="sc-lanyard"/>
+                    <!-- Cyber AB Assessor ID Credential Badge -->
+                    <rect x="79.5" y="66" width="8" height="11" rx="1.4" fill="#FFFFFF"/>
+                    <rect x="79.5" y="66" width="8" height="3.4" rx="1.4" fill="#2F5BFF" class="sc-badge-header"/>
+                    <rect x="81.3" y="71.6" width="4.4" height="1.4" rx=".7" fill="#14204B" opacity=".5"/>
+                    <rect x="81.3" y="74" width="3" height="1.4" rx=".7" fill="#14204B" opacity=".35"/>
+                    <!-- Head & Professional Hair Profile -->
+                    <circle cx="75" cy="29" r="14" fill="#E3A880"/>
+                    <path d="M88.5 27 q3.5 2.5 0.5 6" fill="#E3A880"/>
+                    <path d="M61 30 Q60 13 76 13 Q90 14 89 25 Q82 20 76 23 Q70 25 70 33 Q66 37 62 36 Q61 33 61 30 Z" fill="#1D1A2B"/>
+                    <ellipse cx="70.5" cy="31" rx="2.4" ry="3.4" fill="#C98B63"/>
+                  </g>
+
+                  <!-- Front Arm (Right) holding CMMC Milestone Tablet -->
+                  <g class="sc-ref-arm-right">
+                    <path d="M75 58 L73 89 L89 95" fill="none" stroke="#1E2C63" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" class="sc-suit-arm"/>
+                    <!-- Tablet Folio with Step-Specific Icon -->
+                    <g class="sc-ref-tablet" transform="rotate(8 99 79)">
+                      <rect x="85.5" y="61.5" width="27" height="35" rx="4" fill="#2F5BFF" class="sc-tablet-border"/>
+                      <rect x="88.5" y="65" width="21" height="28" rx="2" fill="#FFFFFF"/>
+                      ${getTabletIcon(activeRoadmapStep)}
                     </g>
-                  </g>
-
-                  <!-- Torso & Head Group -->
-                  <g class="sc-walker-torso-group">
-                    <!-- Tailored Suit Jacket -->
-                    <path d="M22 22 C22 22 21 33 21 42 L39 42 C39 33 38 22 38 22 Z" fill="#18275C" class="sc-suit-jacket"/>
-                    <!-- White Dress Shirt V-neck -->
-                    <path d="M27 21 L30 30 L33 21 Z" fill="#FFFFFF"/>
-                    <!-- Electric Blue Silk Tie -->
-                    <path d="M29 23 L31 23 L32 32 L30 36 L28 32 Z" fill="#2F5BFF" class="sc-suit-tie"/>
-                    <!-- Dual Lapels -->
-                    <path d="M23 21 L27 34 L29 42 L24 42 Z" fill="#203378" class="sc-suit-lapel"/>
-                    <path d="M37 21 L33 34 L31 42 L36 42 Z" fill="#273E91" class="sc-suit-lapel"/>
-                    <!-- Belt & Cyan Buckle -->
-                    <path d="M22 41 L38 41 L38 43.5 L22 43.5 Z" fill="#060B24"/>
-                    <rect x="28.5" y="41.5" width="3" height="2" fill="#00D4FF"/>
-                    <!-- Cyber AB RP Security Credential Badge -->
-                    <rect x="33" y="27" width="3" height="4.5" rx="0.5" fill="#FFFFFF" stroke="#0B1437" stroke-width="0.5"/>
-                    <circle cx="34.5" cy="28.5" r="0.6" fill="#00D4FF" class="sc-badge-pip"/>
-
-                    <!-- Head & Styled Business Hair -->
-                    <g class="sc-walker-head">
-                      <path d="M28 17 L32 17 L32 22 L28 22 Z" fill="#E8BFA0"/>
-                      <path d="M26 9 C26 5 29 4 33 5 C36 6 37 9 36 13 C35 16 32 18 28 17 C26 15 26 12 26 9 Z" fill="#F3CBAB"/>
-                      <circle cx="27" cy="12.5" r="1.3" fill="#DFA884"/>
-                      <circle cx="33.5" cy="10.5" r="0.9" fill="#0B1437"/>
-                      <path d="M25 9 C25 4 29 2 34 3 C37 3 38 5 38 6 C35 5 33 5 30 6 C27 7 26 9 25 9 Z" fill="#0B1437"/>
-                      <path d="M26 6 C28 4 33 4 37 6 C37 7 35 8 33 7.5 C30 7 27 8 26 9 Z" fill="#1B295A"/>
-                    </g>
-                  </g>
-
-                  <!-- Right Leg (Front Leg) -->
-                  <g class="sc-leg-right">
-                    <path d="M30 44 L34 58 L40 59 L36 45 Z" fill="#1C2E6C"/>
-                    <g class="sc-shin-right">
-                      <path d="M34 58 L37 72 L43 73 L40 59 Z" fill="#14214E"/>
-                      <path d="M37 71 L42 71 C44 71 47 73 48 76 L47 77 L38 77 C37 77 37 75 37 71 Z" fill="#060B24"/>
-                      <path d="M38 76.5 L48 76.5" stroke="#2F5BFF" stroke-width="1.2" stroke-linecap="round"/>
-                    </g>
-                  </g>
-
-                  <!-- Front Arm (Right) with Executive Compliance Folio -->
-                  <g class="sc-arm-right">
-                    <path d="M35 22 L39 33 L35 34 L31 23 Z" fill="#203378" class="sc-suit-lapel"/>
-                    <path d="M39 33 L43 43 L40 44 L36 34 Z" fill="#273E91" class="sc-suit-lapel"/>
-                    <circle cx="42" cy="44" r="2" fill="#F3CBAB"/>
-                    <!-- Executive Folio / Tablet -->
-                    <rect x="39" y="38" width="13" height="17" rx="2" transform="rotate(-10 39 38)" fill="#0B1437" stroke="#2F5BFF" stroke-width="1.2" class="sc-folio-border"/>
-                    <rect x="44" y="42" width="5" height="2" transform="rotate(-10 44 42)" fill="#00D4FF"/>
-                    <line x1="42" y1="47" x2="49" y2="45.5" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
-                    <line x1="43" y1="50" x2="48" y2="49" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+                    <!-- Hand holding tablet -->
+                    <circle cx="91" cy="95.5" r="5" fill="#E3A880"/>
                   </g>
                 </g>
               </svg>

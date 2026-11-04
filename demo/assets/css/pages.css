@@ -410,7 +410,7 @@
 
 .roadmap-walker {
   position: absolute;
-  top: 10px;
+  top: 6px;
   left: 0;
   transform: translateX(-50%);
   display: flex;
@@ -426,30 +426,30 @@
 }
 
 .walker-figure-svg {
-  width: 48px;
-  height: 64px;
+  width: 44px;
+  height: 68px;
   overflow: visible;
   display: block;
   filter: drop-shadow(0 4px 10px rgba(11, 20, 55, 0.22));
 }
 
 /* --- Lifelike Idle State: Subtle Natural Breathing --- */
-.roadmap-walker.is-idle .sc-walker-torso-group {
+.roadmap-walker.is-idle .sc-ref-torso-group {
   animation: humanIdle 3s ease-in-out infinite alternate;
 }
 
-.roadmap-walker.is-idle .sc-walker-head {
-  animation: headIdle 3s ease-in-out infinite alternate;
+.roadmap-walker.is-idle .sc-ref-arm-right {
+  animation: humanArmIdle 3s ease-in-out infinite alternate;
 }
 
 @keyframes humanIdle {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-1.4px) scaleY(1.01); }
+  100% { transform: translateY(-1.5px) scaleY(1.008); }
 }
 
-@keyframes headIdle {
+@keyframes humanArmIdle {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-0.9px); }
+  100% { transform: translateY(-1px); }
 }
 
 /* --- Lifelike Human Walk Cycle Animation (0.64s rhythmic human stride) --- */
@@ -457,49 +457,40 @@
   animation: humanWalkBob 0.64s ease-in-out infinite;
 }
 
-.roadmap-walker.is-walking .sc-walker-torso-group {
+.roadmap-walker.is-walking .sc-ref-torso-group {
   animation: humanTorsoSway 0.64s ease-in-out infinite;
+  transform-origin: 74px 110px;
 }
 
-/* Contra-lateral Hip & Articulated Knee Swings */
-.roadmap-walker.is-walking .sc-leg-left {
+/* Contra-lateral Hip & Leg Swings */
+.roadmap-walker.is-walking .sc-ref-leg-left {
   animation: humanThighL 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  transform-origin: 27px 44px;
+  transform-origin: 69px 111px;
 }
 
-.roadmap-walker.is-walking .sc-shin-left {
-  animation: humanShinL 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  transform-origin: 27px 60px;
-}
-
-.roadmap-walker.is-walking .sc-leg-right {
+.roadmap-walker.is-walking .sc-ref-leg-right {
   animation: humanThighR 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  transform-origin: 33px 44px;
-}
-
-.roadmap-walker.is-walking .sc-shin-right {
-  animation: humanShinR 0.64s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  transform-origin: 33px 60px;
+  transform-origin: 78px 110px;
 }
 
 /* Contra-lateral Shoulder & Arm Swings */
-.roadmap-walker.is-walking .sc-arm-left {
+.roadmap-walker.is-walking .sc-ref-arm-left {
   animation: humanArmL 0.64s ease-in-out infinite;
-  transform-origin: 24px 23px;
+  transform-origin: 65px 58px;
 }
 
-.roadmap-walker.is-walking .sc-arm-right {
+.roadmap-walker.is-walking .sc-ref-arm-right {
   animation: humanArmR 0.64s ease-in-out infinite;
-  transform-origin: 36px 23px;
+  transform-origin: 75px 58px;
 }
 
 /* Rhythmic Biomechanical Keyframes */
 @keyframes humanWalkBob {
-  0% { transform: translateY(0) rotate(1.5deg); }
-  25% { transform: translateY(-2.5px) rotate(0.8deg); }
-  50% { transform: translateY(0) rotate(1.5deg); }
-  75% { transform: translateY(-2.5px) rotate(2.2deg); }
-  100% { transform: translateY(0) rotate(1.5deg); }
+  0% { transform: translateY(0) rotate(1deg); }
+  25% { transform: translateY(-2.8px) rotate(0.4deg); }
+  50% { transform: translateY(0) rotate(1deg); }
+  75% { transform: translateY(-2.8px) rotate(1.6deg); }
+  100% { transform: translateY(0) rotate(1deg); }
 }
 
 @keyframes humanTorsoSway {
@@ -511,50 +502,30 @@
 }
 
 @keyframes humanThighL {
-  0% { transform: rotate(-22deg); }
-  25% { transform: rotate(-6deg); }
-  50% { transform: rotate(20deg); }
-  75% { transform: rotate(4deg); }
-  100% { transform: rotate(-22deg); }
-}
-
-@keyframes humanShinL {
-  0% { transform: rotate(4deg); }
-  25% { transform: rotate(24deg); }
-  50% { transform: rotate(6deg); }
-  75% { transform: rotate(0deg); }
-  100% { transform: rotate(4deg); }
+  0% { transform: rotate(-18deg); }
+  50% { transform: rotate(18deg); }
+  100% { transform: rotate(-18deg); }
 }
 
 @keyframes humanThighR {
-  0% { transform: rotate(20deg); }
-  25% { transform: rotate(4deg); }
-  50% { transform: rotate(-22deg); }
-  75% { transform: rotate(-6deg); }
-  100% { transform: rotate(20deg); }
-}
-
-@keyframes humanShinR {
-  0% { transform: rotate(6deg); }
-  25% { transform: rotate(0deg); }
-  50% { transform: rotate(4deg); }
-  75% { transform: rotate(24deg); }
-  100% { transform: rotate(6deg); }
+  0% { transform: rotate(18deg); }
+  50% { transform: rotate(-18deg); }
+  100% { transform: rotate(18deg); }
 }
 
 @keyframes humanArmL {
-  0% { transform: rotate(20deg); }
-  50% { transform: rotate(-18deg); }
-  100% { transform: rotate(20deg); }
+  0% { transform: rotate(18deg); }
+  50% { transform: rotate(-16deg); }
+  100% { transform: rotate(18deg); }
 }
 
 @keyframes humanArmR {
-  0% { transform: rotate(-16deg); }
-  50% { transform: rotate(18deg); }
-  100% { transform: rotate(-16deg); }
+  0% { transform: rotate(-14deg); }
+  50% { transform: rotate(16deg); }
+  100% { transform: rotate(-14deg); }
 }
 
-/* Step 7 (07 Assessment) Target Color Accent */
+/* Step 7 (07 Assessment) Target Violet Accent */
 .roadmap-walker.step-7-active .walker-figure-svg {
   filter: drop-shadow(0 4px 14px rgba(123, 92, 255, 0.45));
 }
@@ -563,20 +534,13 @@
   fill: #5534DA !important;
 }
 
-.roadmap-walker.step-7-active .sc-suit-lapel {
-  fill: #6B49ED !important;
+.roadmap-walker.step-7-active .sc-suit-arm {
+  stroke: #6644EE !important;
 }
 
-.roadmap-walker.step-7-active .sc-suit-tie {
-  fill: #8F72FF !important;
-}
-
-.roadmap-walker.step-7-active .sc-folio-border {
-  stroke: #7B5CFF !important;
-}
-
-.roadmap-walker.step-7-active .sc-badge-pip {
-  fill: #00D4FF !important;
+.roadmap-walker.step-7-active .sc-badge-header,
+.roadmap-walker.step-7-active .sc-tablet-border {
+  fill: #7B5CFF !important;
 }
 
 /* Step Detail Card Loading Overlay */
