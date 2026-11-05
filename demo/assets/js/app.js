@@ -972,14 +972,6 @@
 
           <!-- Active Milestone Flow Detail Card -->
           <div class="step-detail-card" id="roadmap-detail-card" style="margin-top: 32px;">
-            <!-- Loading Overlay during walking animation -->
-            <div class="step-card-loading-overlay" id="step-loading-overlay">
-              <div class="step-loading-box">
-                <div class="step-spinner"></div>
-                <div class="step-loading-text">Traveling to Milestone...</div>
-              </div>
-            </div>
-
             <div class="milestone-flow-header">
               <div class="milestone-stepper-pills">
                 <span class="milestone-flow-badge ${isStep7 ? 'violet' : ''}">
@@ -1173,7 +1165,8 @@
     return `
       <section class="section-ice py-section wp-block-inspect wp-pattern-inspect" 
                data-wp-block="wp:group {align:'full', backgroundColor:'ice'}" 
-               data-wp-pattern="secure-centric/testimonials-carousel">
+               data-wp-pattern="secure-centric/testimonials-carousel"
+               id="testimonials-section">
         <div class="site-container">
           <div class="testimonials-header-row">
             <div>
@@ -2892,6 +2885,12 @@
       clearRoadmapAutoplay();
     }
 
+    // Initialize Testimonials Carousel (starts only after user reaches section fully)
+    const hasReviews = page.blocks && page.blocks.some(b => b.k === 'reviews');
+    if (hasReviews) {
+      setTimeout(() => initTestimonialsCarousel(), 150);
+    }
+
     // Close mobile drawer if open
     window.closeMobileDrawer();
 
@@ -2969,7 +2968,11 @@
   }
 
   // Ensure walker remains exactly aligned on window resize & viewport changes
-  window.addEventListener('resize', () => alignWalkerToActiveStep(true));
+  window.addEventListener('resize', () => {
+    alignWalkerToActiveStep(true);
+    handleRoadmapFocusChange();
+    handleTestimonialsScrollCheck();
+  });
 
   /**
    * Global interactive handlers attached to window
@@ -2979,8 +2982,13 @@
   // =========================================================================
   // ROADMAP STEPPER AUTOPLAY & CONTINUOUS LOOP ENGINE
   // Automatically advances through all 8 steps at a measured, comfortable pace
+  // STRICT RULE: Autoplay ONLY runs when section is in full focus.
+  // Stops as soon as section is not in full focus, resumes when back in view.
+  // NEVER scrolls the page/window on autoplay.
   // =========================================================================
   let roadmapAutoplayTimer = null;
+  let isRoadmapCurrentlyFocused = false;
+  let roadmapFocusObserver = null;
   const ROADMAP_AUTOPLAY_READ_DELAY = 3800; // 3.8s measured, comfortable reading pace per step
 
   function clearRoadmapAutoplay() {
@@ -2990,10 +2998,51 @@
     }
   }
 
+  function isRoadmapSectionInFullFocus() {
+    const roadmapSection = document.getElementById('roadmap-section');
+    if (!roadmapSection) return false;
+    const rect = roadmapSection.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+
+    // Viewport center must fall within the section
+    const viewportCenter = vh / 2;
+    const isCenterInside = (rect.top <= viewportCenter) && (rect.bottom >= viewportCenter);
+
+    // Section must occupy a substantial portion of viewport
+    const visibleTop = Math.max(0, rect.top);
+    const visibleBottom = Math.min(vh, rect.bottom);
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    const hasSufficientHeight = visibleHeight >= Math.min(rect.height * 0.5, vh * 0.5);
+
+    return isCenterInside && hasSufficientHeight;
+  }
+
+  function handleRoadmapFocusChange() {
+    const inFocus = isRoadmapSectionInFullFocus();
+    if (inFocus) {
+      if (!isRoadmapCurrentlyFocused) {
+        isRoadmapCurrentlyFocused = true;
+        scheduleNextAutoplayStep();
+      }
+    } else {
+      if (isRoadmapCurrentlyFocused) {
+        isRoadmapCurrentlyFocused = false;
+        clearRoadmapAutoplay();
+      }
+    }
+  }
+
   function scheduleNextAutoplayStep() {
     clearRoadmapAutoplay();
     const roadmapSection = document.getElementById('roadmap-section');
     if (!roadmapSection) return;
+
+    // Do not schedule if section is not currently in full focus
+    if (!isRoadmapSectionInFullFocus()) {
+      isRoadmapCurrentlyFocused = false;
+      return;
+    }
+    isRoadmapCurrentlyFocused = true;
 
     roadmapAutoplayTimer = setTimeout(() => {
       advanceRoadmapAutoplay();
@@ -3003,6 +3052,13 @@
   function advanceRoadmapAutoplay() {
     const roadmapSection = document.getElementById('roadmap-section');
     if (!roadmapSection) return;
+
+    // Check if still in full focus; if user scrolled away, stop immediately
+    if (!isRoadmapSectionInFullFocus()) {
+      isRoadmapCurrentlyFocused = false;
+      clearRoadmapAutoplay();
+      return;
+    }
 
     // If character is mid-walk, defer check
     if (isRoadmapWalking) {
@@ -3024,13 +3080,141 @@
     window.selectRoadmapStep(nextStep);
   }
 
+  function observeRoadmapVisibility() {
+    const roadmapSection = document.getElementById('roadmap-section');
+    if (!roadmapSection || typeof IntersectionObserver === 'undefined') return;
+    if (roadmapFocusObserver) {
+      roadmapFocusObserver.disconnect();
+    }
+    roadmapFocusObserver = new IntersectionObserver(() => {
+      handleRoadmapFocusChange();
+    }, {
+      threshold: [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    });
+    roadmapFocusObserver.observe(roadmapSection);
+  }
+
   function initRoadmapAutoplay() {
     clearRoadmapAutoplay();
     const roadmapSection = document.getElementById('roadmap-section');
     if (!roadmapSection) return;
 
-    scheduleNextAutoplayStep();
+    observeRoadmapVisibility();
+
+    // Check whether roadmap is in full focus initially
+    isRoadmapCurrentlyFocused = isRoadmapSectionInFullFocus();
+    if (isRoadmapCurrentlyFocused) {
+      scheduleNextAutoplayStep();
+    }
   }
+
+  // =========================================================================
+  // TESTIMONIALS CAROUSEL CONTROLLER
+  // Starts only after user reaches the section fully. Holds static for a few
+  // seconds (3.5s) to allow reading, then begins continuous smooth scrolling.
+  // Pauses when scrolled out of view.
+  // =========================================================================
+  let testimonialsStartTimer = null;
+  let isTestimonialsStarted = false;
+  let isTestimonialsInView = false;
+  let testimonialsObserver = null;
+  const TESTIMONIALS_HOLD_DELAY = 3500; // 3.5s hold time before carousel starts
+
+  function isTestimonialsSectionFullyReached() {
+    const section = document.getElementById('testimonials-section');
+    if (!section) return false;
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+
+    const visibleTop = Math.max(0, rect.top);
+    const visibleBottom = Math.min(vh, rect.bottom);
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    const sectionHeight = rect.height || 500;
+    const visibleRatio = visibleHeight / Math.min(sectionHeight, vh);
+
+    const isFullyContained = (rect.top >= -40 && rect.bottom <= vh + 60);
+    const isSubstantiallyVisible = (rect.top <= vh * 0.25 && visibleRatio >= 0.80);
+
+    return isFullyContained || isSubstantiallyVisible;
+  }
+
+  function handleTestimonialsScrollCheck() {
+    const section = document.getElementById('testimonials-section');
+    if (!section) return;
+    const track = section.querySelector('.testimonials-carousel-track');
+    if (!track) return;
+
+    const isFullyReached = isTestimonialsSectionFullyReached();
+
+    if (isFullyReached) {
+      if (!isTestimonialsInView) {
+        isTestimonialsInView = true;
+        // User just reached the section fully
+        if (!isTestimonialsStarted) {
+          // Keep it static for a few seconds (3.5s), then start carousel
+          if (!testimonialsStartTimer) {
+            testimonialsStartTimer = setTimeout(() => {
+              isTestimonialsStarted = true;
+              track.classList.add('is-running');
+              testimonialsStartTimer = null;
+            }, TESTIMONIALS_HOLD_DELAY);
+          }
+        } else {
+          // Already started previously, resume running
+          track.classList.add('is-running');
+        }
+      }
+    } else {
+      // Not in full view -> if user scrolled away, pause carousel
+      if (isTestimonialsInView) {
+        isTestimonialsInView = false;
+        if (testimonialsStartTimer) {
+          clearTimeout(testimonialsStartTimer);
+          testimonialsStartTimer = null;
+        }
+        track.classList.remove('is-running');
+      }
+    }
+  }
+
+  function initTestimonialsCarousel() {
+    if (testimonialsStartTimer) {
+      clearTimeout(testimonialsStartTimer);
+      testimonialsStartTimer = null;
+    }
+    isTestimonialsStarted = false;
+    isTestimonialsInView = false;
+
+    const section = document.getElementById('testimonials-section');
+    if (!section) return;
+
+    const track = section.querySelector('.testimonials-carousel-track');
+    if (track) {
+      track.classList.remove('is-running');
+    }
+
+    if (testimonialsObserver) {
+      testimonialsObserver.disconnect();
+    }
+
+    if (typeof IntersectionObserver !== 'undefined') {
+      testimonialsObserver = new IntersectionObserver(() => {
+        handleTestimonialsScrollCheck();
+      }, {
+        threshold: [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+      });
+      testimonialsObserver.observe(section);
+    }
+
+    // Check immediately in case section is already in full view
+    handleTestimonialsScrollCheck();
+  }
+
+  // Window scroll listener for both Roadmap and Testimonials focus detection
+  window.addEventListener('scroll', () => {
+    handleRoadmapFocusChange();
+    handleTestimonialsScrollCheck();
+  }, { passive: true });
 
   window.selectRoadmapStep = function (idx, e) {
     if (e) {
@@ -3073,45 +3257,42 @@
         newWalker.classList.add('is-idle');
       }
 
-      // Keep active button in view in mobile timeline scroll
+      // Safe local scroll for mobile horizontal rail only; NEVER scroll the browser window/page
+      const timelineNav = newSection.querySelector('#roadmap-timeline-nav') || newSection.querySelector('.roadmap-timeline-nav');
       const activeBtn = newSection.querySelector('.step-node.active');
-      if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
-        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if (timelineNav && activeBtn && timelineNav.scrollWidth > timelineNav.clientWidth) {
+        const targetScrollLeft = activeBtn.offsetLeft - (timelineNav.clientWidth / 2) + (activeBtn.offsetWidth / 2);
+        timelineNav.scrollTo({ left: Math.max(0, targetScrollLeft), behavior: 'smooth' });
       }
 
-      // Continue the uninterrupted autoplay loop
+      // Reconnect observer to the new section DOM node
+      observeRoadmapVisibility();
+
+      // Continue autoplay loop only if section is currently in full focus
       scheduleNextAutoplayStep();
     }
 
-    // Rule 4: On selecting previous or step before current selected step, do not do any animation, directly show person over the selected step and show it as selected
+    // On selecting previous or looping back (step before current), instant update without forward walk
     if (newIdx < oldIdx) {
       finishStepTransition();
       return;
     }
 
-    // Rule 1: Forward selection: A person will walk from current selection to that selection slowly but not too slowly and once it reaches, user can see the step content (until then add a overlay and loading) and step gets selected
+    // Forward selection: Character walks smoothly across rail to the target node
+    // Content is displayed cleanly with zero loading overlay or spinner
     const nav = roadmapSection.querySelector('#roadmap-timeline-nav') || roadmapSection.querySelector('.roadmap-timeline-nav');
     const walker = roadmapSection.querySelector('#roadmap-walker');
-    const overlay = roadmapSection.querySelector('#step-loading-overlay');
     const timelineFill = roadmapSection.querySelector('#roadmap-timeline-fill') || roadmapSection.querySelector('.roadmap-timeline-fill');
     const nodes = nav ? nav.querySelectorAll('.step-node') : [];
 
-    if (!walker || !overlay || nodes.length <= newIdx) {
+    if (!walker || nodes.length <= newIdx) {
       finishStepTransition();
       return;
     }
 
     isRoadmapWalking = true;
 
-    // Show loading overlay on step card
-    overlay.classList.add('active');
-    const loadingText = overlay.querySelector('.step-loading-text');
-    const destName = (block.items[newIdx] && block.items[newIdx].name) ? block.items[newIdx].name : ('Milestone ' + (newIdx + 1));
-    if (loadingText) {
-      loadingText.textContent = 'Advancing to ' + destName + '...';
-    }
-
-    // Rule 3: When person clicks step 7 (index 6), show flag over the section along with person coming to that step
+    // Milestone 7 special flag (Authorized C3PAO Assessment)
     if (newIdx === 6) {
       const flag = roadmapSection.querySelector('#step-7-flag') || roadmapSection.querySelector('.milestone-flag-wrap');
       if (flag) {
@@ -3139,7 +3320,7 @@
     walker.style.transition = `left ${durationMs}ms cubic-bezier(0.35, 0, 0.25, 1)`;
     walker.style.left = `${targetX}px`;
 
-    // Advance the timeline fill in sync with the walking person
+    // Advance the timeline fill in sync with the walking character
     if (timelineFill) {
       const newProgress = Math.round((newIdx / (block.items.length - 1)) * 100);
       timelineFill.style.transition = `width ${durationMs}ms cubic-bezier(0.35, 0, 0.25, 1)`;
