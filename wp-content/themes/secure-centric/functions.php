@@ -15,11 +15,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 function secure_centric_setup() {
     add_theme_support( 'wp-block-styles' );
     add_theme_support( 'editor-styles' );
-    add_editor_style( 'style.css' );
+    add_editor_style( 'assets/css/variables.css' );
+    add_editor_style( 'assets/css/components.css' );
+    add_editor_style( 'assets/css/pages.css' );
     add_theme_support( 'align-wide' );
     add_theme_support( 'responsive-embeds' );
+    add_theme_support( 'post-thumbnails' );
 }
 add_action( 'after_setup_theme', 'secure_centric_setup' );
+
+/**
+ * Register Custom Gutenberg Blocks via block.json
+ */
+function secure_centric_register_custom_blocks() {
+    $blocks = array(
+        'hero',
+        'roadmap-stepper',
+        'testimonials',
+        'why-proof',
+        'comparison-grid',
+        'accordion-faq',
+        'cta-banner',
+        'logo-marquee',
+        'resource-cards',
+        'form-embed',
+    );
+
+    foreach ( $blocks as $block ) {
+        $block_dir = __DIR__ . '/blocks/' . $block;
+        if ( file_exists( $block_dir . '/block.json' ) ) {
+            register_block_type( $block_dir );
+        }
+    }
+}
+add_action( 'init', 'secure_centric_register_custom_blocks' );
 
 /**
  * Register Custom Block Pattern Categories
@@ -45,15 +74,82 @@ function secure_centric_register_pattern_categories() {
 add_action( 'init', 'secure_centric_register_pattern_categories' );
 
 /**
- * Enqueue Google Fonts (Plus Jakarta Sans & JetBrains Mono)
+ * Enqueue Theme Scripts & Styles
  */
-function secure_centric_enqueue_fonts() {
+function secure_centric_enqueue_assets() {
+    // Google Fonts
     wp_enqueue_style(
         'secure-centric-fonts',
         'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
         array(),
         null
     );
+
+    // CSS Theme Assets
+    wp_enqueue_style(
+        'secure-centric-variables',
+        get_template_directory_uri() . '/assets/css/variables.css',
+        array(),
+        '3.9.2'
+    );
+    wp_enqueue_style(
+        'secure-centric-components',
+        get_template_directory_uri() . '/assets/css/components.css',
+        array( 'secure-centric-variables' ),
+        '3.9.2'
+    );
+    wp_enqueue_style(
+        'secure-centric-pages',
+        get_template_directory_uri() . '/assets/css/pages.css',
+        array( 'secure-centric-components' ),
+        '3.9.2'
+    );
+
+    // Frontend Interactive Scripts (Roadmap Stepper, Testimonials Controller, Navigation)
+    wp_enqueue_script(
+        'secure-centric-data',
+        get_template_directory_uri() . '/assets/js/data.js',
+        array(),
+        '3.9.2',
+        true
+    );
+    wp_enqueue_script(
+        'secure-centric-app',
+        get_template_directory_uri() . '/assets/js/app.js',
+        array( 'secure-centric-data' ),
+        '3.9.2',
+        true
+    );
 }
-add_action( 'wp_enqueue_scripts', 'secure_centric_enqueue_fonts' );
-add_action( 'enqueue_block_editor_assets', 'secure_centric_enqueue_fonts' );
+add_action( 'wp_enqueue_scripts', 'secure_centric_enqueue_assets' );
+
+/**
+ * Enqueue Editor Assets for Gutenberg
+ */
+function secure_centric_editor_assets() {
+    wp_enqueue_style(
+        'secure-centric-editor-fonts',
+        'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
+        array(),
+        null
+    );
+    wp_enqueue_style(
+        'secure-centric-editor-styles',
+        get_template_directory_uri() . '/assets/css/variables.css',
+        array(),
+        '3.9.2'
+    );
+    wp_enqueue_style(
+        'secure-centric-editor-components',
+        get_template_directory_uri() . '/assets/css/components.css',
+        array( 'secure-centric-editor-styles' ),
+        '3.9.2'
+    );
+    wp_enqueue_style(
+        'secure-centric-editor-pages',
+        get_template_directory_uri() . '/assets/css/pages.css',
+        array( 'secure-centric-editor-components' ),
+        '3.9.2'
+    );
+}
+add_action( 'enqueue_block_editor_assets', 'secure_centric_editor_assets' );

@@ -1,6 +1,38 @@
 {
   "$schema": "https://schemas.wp.org/trunk/theme.json",
   "version": 3,
+  "customTemplates": [
+    {
+      "name": "front-page",
+      "title": "Front Page (Interactive Stepper & Testimonials)",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "page-service",
+      "title": "Service & Engagement Stage Template",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "page-pillar",
+      "title": "Pillar & Long-Form Guide Template",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "page-about",
+      "title": "About & Credentials Proof Template",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "page-resource",
+      "title": "Gated Resource & Checklist Template",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "page-contact",
+      "title": "Contact & Discovery Booking Template",
+      "postTypes": ["page"]
+    }
+  ],
   "settings": {
     "appearanceTools": true,
     "layout": {
