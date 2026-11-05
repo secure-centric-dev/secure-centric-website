@@ -882,12 +882,12 @@
 .testimonial-linkedin-link {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 0.75rem;
+  gap: 6px;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: #0A66C2;
   text-decoration: none;
-  margin-top: 3px;
+  margin-top: 5px;
   transition: color 0.2s ease;
 }
 
@@ -896,11 +896,10 @@
   text-decoration: underline;
 }
 
-.testimonial-linkedin-link .linkedin-icon {
+.testimonial-linkedin-link .linkedin-badge-icon {
   flex-shrink: 0;
-  width: 13px;
-  height: 13px;
-  fill: currentColor;
+  border-radius: 3px;
+  display: block;
 }
 
 /* Static 3+2 Testimonial Grid for About Page */

@@ -319,6 +319,7 @@ window.SITE_PAGES_DATA = [
             "name": "Alex Liu",
             "role": "IT Manager",
             "company": "Tower Semiconductor",
+            "linkedin": true,
             "quote": "Secure-Centric gave us absolute clarity on what was inside our CUI boundary and what wasn't. We passed our official C3PAO Level 2 assessment on the first attempt with zero open items."
           },
           {
@@ -326,6 +327,7 @@ window.SITE_PAGES_DATA = [
             "name": "Patrick Shaw",
             "role": "Cyber Security Analyst",
             "company": "Safran Federal Systems",
+            "linkedin": true,
             "quote": "Their team was on site at our facility within two weeks. They didn't hand us generic compliance templates—they helped configure our actual firewalls, SIEM, and author an ironclad SSP."
           },
           {
@@ -333,6 +335,7 @@ window.SITE_PAGES_DATA = [
             "name": "Rafael Omar Lemus",
             "role": "IT Director",
             "company": "Goodwin & Associates",
+            "linkedin": true,
             "quote": "Most consultants sell managed IT products. Secure-Centric provided strictly independent advisory. They worked directly with our internal team and existing MSP without conflicts."
           },
           {

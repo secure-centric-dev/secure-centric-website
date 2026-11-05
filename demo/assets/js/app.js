@@ -1046,7 +1046,7 @@
       role: "IT Manager",
       company: "Tower Semiconductor",
       quote: "Secure-Centric gave us absolute clarity on what was inside our CUI boundary and what was not. We passed our official C3PAO Level 2 assessment on the first attempt with zero open items.",
-      linkedin: false
+      linkedin: true
     },
     {
       no: "02",
@@ -1054,7 +1054,7 @@
       role: "Cyber Security Analyst",
       company: "Safran Federal Systems",
       quote: "Their team was on site at our facility within two weeks. They didn't hand us generic compliance templates—they helped configure our actual firewalls, SIEM, and author an ironclad SSP.",
-      linkedin: false
+      linkedin: true
     },
     {
       no: "03",
@@ -1062,7 +1062,7 @@
       role: "IT Director",
       company: "Goodwin & Associates",
       quote: "Most consultants sell managed IT products. Secure-Centric provided strictly independent advisory. They worked directly with our internal team and existing MSP without conflicts.",
-      linkedin: false
+      linkedin: true
     },
     {
       no: "04",
@@ -1109,7 +1109,7 @@
       const role = q.role || 'Leadership';
       const company = q.company || 'Aerospace & Defense Subcontractor';
       const quote = q.quote || '';
-      const hasLinkedIn = !!q.linkedin;
+      const hasLinkedIn = (q.linkedin !== undefined) ? !!q.linkedin : true;
       const initials = (name || 'DC').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 3).toUpperCase();
 
       return `
@@ -1128,9 +1128,12 @@
               <div class="testimonial-author-name">${esc(name)}</div>
               <div class="testimonial-author-role">${esc(role)}, ${esc(company)}</div>
               ${hasLinkedIn ? `
-                <a href="#" class="testimonial-linkedin-link" title="Shared publicly on LinkedIn" onclick="event.preventDefault();">
-                  <svg class="linkedin-icon" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" aria-hidden="true">
-                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.45 1.45 0 1 0-.01-2.9 1.45 1.45 0 0 0 .01 2.9m1.37 9.74v-8.37H5.09v8.37h2.74z"/>
+                <a href="https://www.linkedin.com/company/secure-centric/" target="_blank" rel="noopener noreferrer" class="testimonial-linkedin-link" title="Shared publicly on LinkedIn" onclick="event.stopPropagation();">
+                  <svg class="linkedin-badge-icon" viewBox="0 0 16 16" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect width="16" height="16" rx="3" fill="#0A66C2"/>
+                    <path d="M4.6 6.3H2.5V13H4.6V6.3Z" fill="white"/>
+                    <path d="M3.55 5.4C4.24 5.4 4.8 4.84 4.8 4.15C4.8 3.46 4.24 2.9 3.55 2.9C2.86 2.9 2.3 3.46 2.3 4.15C2.3 4.84 2.86 5.4 3.55 5.4Z" fill="white"/>
+                    <path d="M8.1 6.3H6.1V13H8.1V9.5C8.1 7.6 10.5 7.4 10.5 9.5V13H12.6V8.6C12.6 5.2 8.7 5.3 8.1 6.9V6.3Z" fill="white"/>
                   </svg>
                   <span>Shared publicly on LinkedIn</span>
                 </a>
@@ -1173,10 +1176,6 @@
               <span class="section-eyebrow">// ${esc(block.eyebrow || 'CLIENT REVIEWS')}</span>
               <h2>${esc(block.t || 'What Defense Contractors Say About Working With Us')}</h2>
             </div>
-            <div class="testimonials-control-hint">
-              <span class="pulse-indicator"></span>
-              <span>5 Defense Client Reviews &bull; Moving Left &rarr; Right &bull; Hover or Tap to Pause</span>
-            </div>
           </div>
         </div>
 
@@ -1200,8 +1199,7 @@
   function renderWhy(block) {
     const stats = (block.stats && block.stats.length) ? block.stats : [
       { number: "120+", label: "Defense contractors prepared for CMMC & NIST SP 800-171 audits", date: "As of Q4 2026", color: "blue" },
-      { number: "100%", label: "First-time pass record with Authorized C3PAO and DIBCAC assessors", date: "Level 2 CMMC audits", color: "violet" },
-      { number: "30 Min", label: "Discovery call delivery: immediate scoping & roadmap guidance", date: "Signed bilateral NDA", color: "cyan" }
+      { number: "100%", label: "First-time pass record with Authorized C3PAO and DIBCAC assessors", date: "Level 2 CMMC audits", color: "violet" }
     ];
 
     const reasons = (block.reasons && block.reasons.length) ? block.reasons : [
