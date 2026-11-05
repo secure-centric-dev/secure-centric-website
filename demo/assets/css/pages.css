@@ -735,9 +735,10 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  padding: 6px 0 20px;
-  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  padding: 8px 0 24px;
+  padding-left: max(var(--container-padding, 24px), calc((100vw - var(--container-max, 1240px)) / 2 + var(--container-padding, 24px)));
+  mask-image: linear-gradient(to right, transparent, black 2.5%, black 97.5%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 2.5%, black 97.5%, transparent);
 }
 
 .testimonials-carousel-track {
